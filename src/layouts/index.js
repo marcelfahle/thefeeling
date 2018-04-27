@@ -8,10 +8,7 @@ import { reducer as jPlayers } from 'react-jplayer'
 import { reducer as jPlaylists } from 'react-jplaylist'
 import { ParallaxProvider } from 'react-scroll-parallax'
 
-const store = createStore(
-  combineReducers({ jPlayers, jPlaylists }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+const store = createStore(combineReducers({ jPlayers, jPlaylists }))
 
 injectGlobal`
 	html {
