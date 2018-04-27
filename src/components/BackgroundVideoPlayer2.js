@@ -1,28 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'gatsby-link'
-import { connect } from 'react-redux'
-import JPlayer, { Poster, Video } from 'react-jplayer'
-import JPlaylist, {
-  initializeOptions,
-  Playlist,
-  actions,
-} from 'react-jplaylist'
+import videojs from 'video.js'
+import 'videojs-playlist'
+
 import Header from './Header'
-
-const jPlayerOptions = {
-  id: 'feeling',
-  verticalVolume: true,
-  paused: false,
-  autoplay: true,
-}
-
-const jPlaylistOptions = {
-  hidePlaylist: true,
-  shuffleOnLoop: true,
-}
-
-initializeOptions(jPlayerOptions, jPlaylistOptions)
 
 const BackgroundVideoPlayer = styled.div`
   position: fixed;
@@ -31,6 +13,19 @@ const BackgroundVideoPlayer = styled.div`
   bottom: 0;
   left: 0;
   overflow: hidden;
+  > a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 40;
+    background: black;
+  }
+  .vjs-modal-dialog,
+  .phase-ready,
+  .vjs-control-bar {
+    display: none;
+  }
   video {
     position: absolute;
     top: 0;
@@ -69,15 +64,32 @@ class VideoPlayer extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch, playlist } = this.props
+    const { playlist } = this.props
     const shuffled = this.shuffle(playlist)
     const pl = shuffled.map((e, i) => ({
-      id: i,
-      sources: { m4v: e.videoUrl },
+      sources: [
+        {
+          type: 'video/mp4',
+          src: e.videoUrl,
+        },
+      ],
     }))
+    const videoJsOptions = {
+      autoplay: true,
+      controls: false,
+      preload: 'none',
+      sources: pl,
+    }
 
-    dispatch(actions.setPlaylist('feeling', pl))
-    dispatch(actions.shuffle('feeling', true, true))
+    this.player = videojs(this.videoNode, null, () => console.log('ready'))
+    this.player.playlist(pl)
+    this.player.playlist.autoadvance(0)
+  }
+
+  componentWillUnmount() {
+    if (this.player) {
+      this.player.dispose()
+    }
   }
 
   shuffle = arr =>
@@ -91,17 +103,17 @@ class VideoPlayer extends React.Component {
       <BackgroundVideoPlayer>
         <Header siteTitle="THE FEELING" />
         <Link to="/oeuvre">
-          <JPlaylist id="feeling">
-            <JPlayer className="jp-sleek" playsinline="true" muted="true">
-              <div className="jp-media-container">
-                <Video />
-              </div>
-            </JPlayer>
-          </JPlaylist>
+          <video
+            playsInline="true"
+            muted
+            autoPlay
+            ref={node => (this.videoNode = node)}
+            className="video-js"
+          />
         </Link>
       </BackgroundVideoPlayer>
     )
   }
 }
 
-export default connect()(VideoPlayer)
+export default VideoPlayer
