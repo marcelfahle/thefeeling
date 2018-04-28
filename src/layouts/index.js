@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled, { injectGlobal } from 'styled-components'
+import bg from './bg-home.jpg'
 
 injectGlobal`
 	html {
@@ -11,7 +12,7 @@ injectGlobal`
 		margin: 0;
 		background: white;
 		height: 100%;
-		background: url('/static/bg-home.jpg') no-repeat;
+		background: url('${bg}') no-repeat;
 		background-size: cover;
 		> div {
 			height: 100%;
