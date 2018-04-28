@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BackgroundVideoPlayer from '../components/BackgroundVideoPlayer2'
+import BackgroundVideoPlayer from '../components/BackgroundVideoPlayer'
 
 function IndexPage({ data }) {
   return (

@@ -2,13 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled, { injectGlobal } from 'styled-components'
-import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
-import { reducer as jPlayers } from 'react-jplayer'
-import { reducer as jPlaylists } from 'react-jplaylist'
-import { ParallaxProvider } from 'react-scroll-parallax'
-
-const store = createStore(combineReducers({ jPlayers, jPlaylists }))
 
 injectGlobal`
 	html {
@@ -16,8 +9,10 @@ injectGlobal`
 	}
 	body {
 		margin: 0;
-		background: black;
+		background: white;
 		height: 100%;
+		background: url('/static/bg-home.jpg') no-repeat;
+		background-size: cover;
 		> div {
 			height: 100%;
 		}
@@ -30,24 +25,19 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   text-align: center;
-  background: black;
 `
 
 const Layout = ({ children, data }) => (
-  <Provider store={store}>
-    <ParallaxProvider>
-      <Wrapper>
-        <Helmet
-          title={data.site.siteMetadata.title}
-          meta={[
-            { name: 'description', content: '' },
-            { name: 'keywords', content: '' },
-          ]}
-        />
-        <div>{children()}</div>
-      </Wrapper>
-    </ParallaxProvider>
-  </Provider>
+  <Wrapper>
+    <Helmet
+      title={data.site.siteMetadata.title}
+      meta={[
+        { name: 'description', content: '' },
+        { name: 'keywords', content: '' },
+      ]}
+    />
+    <div>{children()}</div>
+  </Wrapper>
 )
 
 Layout.propTypes = {

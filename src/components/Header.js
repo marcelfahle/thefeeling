@@ -6,16 +6,17 @@ import Logo from './Logo'
 
 const StyledHeader = styled.div`
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: ${props => (props.size == 'big' ? 50 : 2)}%;
+  transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : '0')};
   margin-top: 25px;
   max-width: 500px;
-  width: calc(100% - 50px);
+  width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
+  transition: all 0.8 ease;
   z-index: 50;
 `
 
-export default ({ siteTitle }) => (
-  <StyledHeader>
+export default ({ siteTitle, size = 'big' }) => (
+  <StyledHeader size={size}>
     <div>
       <Link to="/">
         <Logo siteTitle={siteTitle} />
