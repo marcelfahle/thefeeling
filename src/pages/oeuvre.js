@@ -53,7 +53,7 @@ export default class Oeuvre extends React.Component {
   render() {
     const { data } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
-    const offset = getRandomInt(50, 140)
+    let offset = 0
     const isSlower = getRandomInt(0, 1) ? true : false
 
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
@@ -61,28 +61,28 @@ export default class Oeuvre extends React.Component {
     return (
       <PageWrapper>
         <Header size="small" siteTitle="THE FEELING" />
-        <Items>
-          <Parallax ref={ref => (this.parallax = ref)} pages={items.length}>
-            {items.map((e, i) => (
-              <div key={e.title}>
-                <Parallax.Layer
-                  offset={i * (e.node.width / 100)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    maxWidth: '100%',
-                    maxHeight: '100vh',
-                  }}
-                  speed={e.node.speed}
-                  onClick={() => this.parallax.scrollTo(i)}
-                >
-                  <PortfolioItem data={e.node} />
-                </Parallax.Layer>
-              </div>
-            ))}
-          </Parallax>
-        </Items>
+        <Parallax
+          ref={ref => (this.parallax = ref)}
+          pages={items.length * 0.65}
+        >
+          {items.map((e, i) => {
+            return (
+              <Parallax.Layer
+                key={i}
+                offset={i * 0.6}
+                speed={e.node.speed / 30}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                }}
+              >
+                <PortfolioItem data={e.node} />
+              </Parallax.Layer>
+            )
+          })}
+        </Parallax>
       </PageWrapper>
     )
   }

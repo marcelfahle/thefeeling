@@ -14,7 +14,7 @@ const FirstImage = styled.img`
     !props.width || props.width == 100
       ? 'calc(100% - 100px)'
       : props.width + '%'};
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 70px);
   margin-left: ${props =>
     props.pos === 'left'
       ? getRandomInt(2, 8)
