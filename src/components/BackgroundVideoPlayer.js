@@ -20,10 +20,10 @@ const BackgroundVideoPlayer = styled.div`
     height: 100%;
     z-index: 40;
     background: black;
-  }
-  .video-js > div,
-  .video-js > button {
-    display: none;
+    > div > div,
+    > div > button {
+      display: none !important;
+    }
   }
   video {
     position: absolute;
