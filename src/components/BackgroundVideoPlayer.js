@@ -21,9 +21,8 @@ const BackgroundVideoPlayer = styled.div`
     z-index: 40;
     background: black;
   }
-  .vjs-modal-dialog,
-  .phase-ready,
-  .vjs-control-bar {
+  .video-js > div,
+  .video-js > button {
     display: none;
   }
   video {
