@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'gatsby-link'
 import styled from 'styled-components'
 
 const getRandomInt = (min, max) =>
@@ -26,6 +27,12 @@ const FirstImage = styled.img`
 
 export default ({ data }) => (
   <Item>
-    <FirstImage pos={data.pos} width={data.width} src={data.pictures[0].url} />
+    <Link to={`/oeuvre/${data.slug}`}>
+      <FirstImage
+        pos={data.pos}
+        width={data.width}
+        src={data.pictures[0].url}
+      />
+    </Link>
   </Item>
 )

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
@@ -11,38 +12,6 @@ const Items = styled.div`
 
   .parallaxr {
     margin: 0;
-  }
-`
-
-const InfoBox = styled.div`
-  background: ${props => props.bgColor || 'black'};
-  color: ${props => props.textColor || 'white'};
-  width: 250px;
-  height: 100px;
-  margin-left: 2%;
-  text-align: left;
-  padding: 6px 10px;
-  font-size: 28px;
-  line-height: 1.1;
-  p {
-    margin: 0;
-    padding: 0;
-  }
-`
-const CounterBox = styled.div`
-  background: ${props => props.bgColor || 'black'};
-  color: ${props => props.textColor || 'white'};
-  width: 100px;
-  height: 100px;
-  margin-left: auto;
-  margin-right: 2%;
-  text-align: center;
-  padding: 6px 10px;
-  font-size: 40px;
-  line-height: 1.1;
-  p {
-    margin: 0;
-    padding: 0;
   }
 `
 
@@ -98,6 +67,7 @@ export const query = graphql`
           width
           pos
           speed
+          slug
           themeColor {
             hex
           }

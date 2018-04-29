@@ -9,6 +9,7 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-react-next',
+    'gatsby-transformer-remark',
     {
       resolve: 'gatsby-source-datocms',
       options: {

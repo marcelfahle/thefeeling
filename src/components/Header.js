@@ -6,7 +6,7 @@ import Logo from './Logo'
 
 const StyledHeader = styled.div`
   position: absolute;
-  left: ${props => (props.size == 'big' ? 50 : 2)}%;
+  left: ${props => (props.size == 'big' ? 50 : 4.5)}%;
   transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : '0')};
   margin-top: 25px;
   max-width: 500px;
