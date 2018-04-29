@@ -20,10 +20,10 @@ const BackgroundVideoPlayer = styled.div`
     height: 100%;
     z-index: 40;
     background: black;
-    > div > div,
-    > div > button {
-      display: none !important;
-    }
+  }
+  .video-js > div,
+  .video-js > button {
+    display: none !important;
   }
   video {
     position: absolute;
@@ -32,6 +32,9 @@ const BackgroundVideoPlayer = styled.div`
     transform: translateX(-50%);
     width: 100%;
     height: 100%;
+    + * {
+      display: none !important;
+    }
   }
   @media (min-aspect-ratio: 16/9) {
     video {
