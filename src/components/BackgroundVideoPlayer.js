@@ -13,6 +13,7 @@ const BackgroundVideoPlayer = styled.div`
   bottom: 0;
   left: 0;
   overflow: hidden;
+  border: 5px solid red;
   > a {
     position: relative;
     display: block;
