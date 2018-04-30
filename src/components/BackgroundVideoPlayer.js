@@ -6,7 +6,7 @@ import 'videojs-playlist'
 
 import Header from './Header'
 
-const BackgroundVideoPlayer = styled.div`
+const Wrapper = styled.div`
   position: fixed;
   top: 0;
   right: 0;
@@ -103,9 +103,9 @@ class VideoPlayer extends React.Component {
 
   render() {
     return (
-      <BackgroundVideoPlayer>
+      <Wrapper>
         <Header siteTitle="THE FEELING" />
-        <Link to="/oeuvreeeee">
+        <Link to="/oeuvre">
           <video
             playsInline="true"
             muted
@@ -114,7 +114,7 @@ class VideoPlayer extends React.Component {
             className="video-js"
           />
         </Link>
-      </BackgroundVideoPlayer>
+      </Wrapper>
     )
   }
 }
