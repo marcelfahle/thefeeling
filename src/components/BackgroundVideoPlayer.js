@@ -33,7 +33,7 @@ const Wrapper = styled.div`
     transform: translateX(-50%);
     width: 100%;
     height: 100%;
-    + * {
+    ~ {
       display: none !important;
     }
   }
