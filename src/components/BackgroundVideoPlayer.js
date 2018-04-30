@@ -22,8 +22,7 @@ const Wrapper = styled.div`
     z-index: 40;
     background: black;
   }
-  .video-js > div,
-  .video-js > button {
+  .video-js ~ {
     display: none !important;
   }
   video {
@@ -33,9 +32,6 @@ const Wrapper = styled.div`
     transform: translateX(-50%);
     width: 100%;
     height: 100%;
-    ~ {
-      display: none !important;
-    }
   }
   @media (min-aspect-ratio: 16/9) {
     video {
