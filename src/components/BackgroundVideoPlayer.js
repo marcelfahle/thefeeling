@@ -22,9 +22,9 @@ const Wrapper = styled.div`
     height: 100%;
     z-index: 40;
     background: black;
-  }
-  .video-js ~ {
-    display: none !important;
+    .video-js ~ {
+      display: none !important;
+    }
   }
   video {
     position: absolute;
