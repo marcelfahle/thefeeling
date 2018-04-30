@@ -19,9 +19,13 @@ const FirstImage = styled.img`
   margin-left: ${props =>
     props.pos === 'left'
       ? getRandomInt(2, 8)
-      : props.pos === 'right'
-        ? getRandomInt(70, 80)
-        : 50}%;
+      : props.pos === 'left-center'
+        ? getRandomInt(10, 20)
+        : props.pos === 'right-center'
+          ? getRandomInt(60, 70)
+          : props.pos === 'right'
+            ? getRandomInt(70, 80)
+            : 50}%;
   transform: translateX(-50%);
 `
 

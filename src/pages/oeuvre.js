@@ -6,14 +6,6 @@ import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 
 const PageWrapper = styled.div``
-const Items = styled.div`
-  overflow-x: hidden;
-  width: 100%;
-
-  .parallaxr {
-    margin: 0;
-  }
-`
 
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
@@ -30,16 +22,14 @@ export default class Oeuvre extends React.Component {
     return (
       <PageWrapper>
         <Header size="small" siteTitle="THE FEELING" />
-        <Parallax
-          ref={ref => (this.parallax = ref)}
-          pages={items.length * 0.65}
-        >
+        <Parallax ref={ref => (this.parallax = ref)} pages={items.length * 0.7}>
           {items.map((e, i) => {
             return (
               <Parallax.Layer
                 key={i}
-                offset={i * 0.6}
+                offset={i * 0.5}
                 speed={e.node.speed / 30}
+                factor={e.node.scrollPageHeight / 100 || 0.7}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -68,6 +58,7 @@ export const query = graphql`
           pos
           speed
           slug
+          scrollPageHeight
           themeColor {
             hex
           }
