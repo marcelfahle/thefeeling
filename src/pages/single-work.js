@@ -117,8 +117,6 @@ export const query = graphql`
         }
       }
       width
-      pos
-      speed
       themeColor {
         hex
       }
