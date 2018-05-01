@@ -20,10 +20,11 @@ const Logo = styled.svg`
   }
 `
 
-export default ({ siteTitle }) => (
+export default ({ siteTitle, className = 'front' }) => (
   <Logo
     viewBox="0 0 450 71"
     version="1.1"
+    className={className}
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     ariaLabelledby="title"

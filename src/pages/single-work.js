@@ -30,7 +30,7 @@ const InfoBox = styled.div`
   bottom: 35px;
   text-align: left;
   padding: 6px 10px;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 1.1;
   p {
     margin: 0;
@@ -42,17 +42,25 @@ const CounterBox = styled.div`
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
   width: 100px;
-  height: 100px;
   right: 4.5%;
   bottom: 35px;
   text-align: center;
   padding: 6px 10px;
-  font-size: 40px;
+  font-size: 30px;
   line-height: 1.1;
   p {
     margin: 0;
     padding: 0;
   }
+`
+const TextContent = styled.div`
+  background: ${props => props.bgColor || 'black'};
+  color: ${props => props.textColor || 'white'};
+  min-width: 240px;
+  max-width: 800px;
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 18px;
 `
 
 export default class SingleWork extends React.Component {
@@ -65,12 +73,28 @@ export default class SingleWork extends React.Component {
     const {
       data: { work },
       data: {
-        work: { pictures: pics },
+        work: {
+          pictures: pics,
+          descriptionNode: {
+            childMarkdownRemark: { html: desc },
+          },
+        },
       },
     } = this.props
+
+    if (desc != '') {
+      const d = { type: 'text', content: desc }
+      if (pics.length == 1 || !pics[1].type) pics.splice(1, 0, d)
+    }
+
     return (
       <Wrapper>
-        <Header size="small" siteTitle="THE FEELING" />
+        <Header
+          backto="/oeuvre"
+          action="backhome"
+          size="small"
+          siteTitle="THE FEELING"
+        />
         <Parallax
           className="container"
           ref="parallax"
@@ -81,10 +105,19 @@ export default class SingleWork extends React.Component {
           {pics.map((e, i) => (
             <Parallax.Layer
               offset={i}
+              key={i}
               speed={0}
               onClick={() => this.scroll(i + 1 >= pics.length ? 0 : i + 1)}
             >
-              <Image src={e.url} />
+              {e.type && e.type == 'text' ? (
+                <TextContent
+                  bgColor={work.themeColor.hex}
+                  textColor={work.textColor.hex}
+                  dangerouslySetInnerHTML={{ __html: e.content }}
+                />
+              ) : (
+                <Image src={e.url} />
+              )}
             </Parallax.Layer>
           ))}
         </Parallax>
@@ -112,6 +145,11 @@ export const query = graphql`
     work: datoCmsPagePortfolio(slug: { eq: $slug }) {
       title
       infoNode {
+        childMarkdownRemark {
+          html
+        }
+      }
+      descriptionNode {
         childMarkdownRemark {
           html
         }

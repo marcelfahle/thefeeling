@@ -16,15 +16,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         }
       }
     `).then(result => {
-      result.data.work.edges.map(({ node: news }) => {
-        createPage({
-          path: `oeuvre/${news.slug}`,
-          component: path.resolve(`./src/pages/single-work.js`),
-          context: {
-            slug: news.slug,
-          },
+      result &&
+        result.data &&
+        result.data.work &&
+        result.data.work.edges.map(({ node: news }) => {
+          createPage({
+            path: `oeuvre/${news.slug}`,
+            component: path.resolve(`./src/pages/single-work.js`),
+            context: {
+              slug: news.slug,
+            },
+          })
         })
-      })
       resolve()
     })
   })
