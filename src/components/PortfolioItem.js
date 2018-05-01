@@ -16,24 +16,17 @@ const FirstImage = styled.img`
       ? 'calc(100% - 100px)'
       : props.width + '%'};
   max-height: calc(100vh - 70px);
-  margin-left: ${props =>
-    props.pos === 'left'
-      ? getRandomInt(2, 8)
-      : props.pos === 'left-center'
-        ? getRandomInt(10, 20)
-        : props.pos === 'right-center'
-          ? getRandomInt(60, 70)
-          : props.pos === 'right'
-            ? getRandomInt(70, 80)
-            : 50}%;
-  transform: translateX(-50%);
+  margin-left: ${props => props.pos || 0}%;
 `
 
 export default ({ data }) => (
   <Item>
-    <Link to={`/oeuvre/${data.slug}`}>
+    <Link
+      to={`/oeuvre/${data.slug}`}
+      style={{ display: 'block', textAlign: 'left' }}
+    >
       <FirstImage
-        pos={data.pos}
+        pos={data.xPosition}
         width={data.width}
         src={data.pictures[0].url}
       />

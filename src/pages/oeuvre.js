@@ -58,7 +58,7 @@ export const query = graphql`
           title
           info
           width
-          pos
+          xPosition
           speed
           slug
           scrollPageHeight
