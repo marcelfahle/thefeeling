@@ -28,7 +28,7 @@ export default class Oeuvre extends React.Component {
               return (
                 <Parallax.Layer
                   key={i}
-                  offset={i * 0.5}
+                  offset={i - i * 0.5}
                   speed={e.node.speed / 30 || 1}
                   factor={e.node.scrollPageHeight / 100 || 0.7}
                   style={{
