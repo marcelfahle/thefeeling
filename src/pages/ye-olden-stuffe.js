@@ -4,8 +4,13 @@ import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
+import bg from './../components/archiv_hintergrund4.jpg'
 
-const PageWrapper = styled.div``
+const PageWrapper = styled.div`
+		background: url('${bg}') no-repeat;
+		background-size: cover;
+  height: 100vh;
+`
 
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
@@ -13,7 +18,7 @@ const getRandomInt = (min, max) =>
 export default class Oeuvre extends React.Component {
   render() {
     const { data } = this.props
-    const items = data.allDatoCmsPagePortfolio.edges
+    const items = data.allDatoCmsPageArchive.edges
     let offset = 0
 
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
@@ -74,8 +79,8 @@ export default class Oeuvre extends React.Component {
 }
 
 export const query = graphql`
-  query PortfolioQuery {
-    allDatoCmsPagePortfolio(sort: { fields: [position] }) {
+  query ArchiveQuery {
+    allDatoCmsPageArchive(sort: { fields: [position] }) {
       edges {
         node {
           title

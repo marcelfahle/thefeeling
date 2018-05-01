@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import Logo from './Logo'
 import Home from './Home'
+import AboutButton from './AboutButton'
 
 const StyledHeader = styled.div`
   position: absolute;
@@ -50,18 +51,21 @@ export default ({
 }) => (
   <StyledHeader size={size}>
     <div>
-      {action === 'backhome' ? (
-        <Link to={backto}>
+      <Link to={backto}>
+        {action === 'backhome' ? (
           <Flipper size={size}>
             <Logo siteTitle={siteTitle} />
             <Home className="back" siteTitle={siteTitle} />
           </Flipper>
-        </Link>
-      ) : (
-        <Link to="/">
+        ) : action === 'toabout' ? (
+          <Flipper size={size}>
+            <Logo siteTitle={siteTitle} />
+            <AboutButton className="back" siteTitle={siteTitle} />
+          </Flipper>
+        ) : (
           <Logo siteTitle={siteTitle} />
-        </Link>
-      )}
+        )}
+      </Link>
     </div>
   </StyledHeader>
 )
