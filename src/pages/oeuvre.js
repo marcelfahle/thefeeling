@@ -34,7 +34,8 @@ export default class Oeuvre extends React.Component {
               //const fact = e.node.scrollPageHeight / 100 || 0.7
               const fact = 1
               //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
-              const off = i == 0 ? 0 : i - e.node.yOffset / 100
+              offset -= e.node.yOffset
+              const off = i == 0 ? 0 : 0 - offset / 100
               /*
               console.log(
                 'i: ',
