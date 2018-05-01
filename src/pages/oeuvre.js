@@ -22,15 +22,30 @@ export default class Oeuvre extends React.Component {
       <PageWrapper>
         <Header size="small" siteTitle="THE FEELING" />
 
-        <Parallax ref={ref => (this.parallax = ref)} pages={items.length * 0.7}>
+        <Parallax ref={ref => (this.parallax = ref)} pages={items.length}>
           {items &&
             items.map((e, i) => {
+              const speed = e.node.speed / 30 || 0
+              const fact = e.node.scrollPageHeight / 100 || 0.7
+              const off = 0 + i * 0.5 - speed / 20
+              /*
+              console.log(
+                'i: ',
+                i,
+                'offset: ',
+                off,
+                'factor: ',
+                fact,
+                'speed: ',
+                speed
+							)
+							*/
               return (
                 <Parallax.Layer
                   key={i}
-                  offset={i - i * 0.5}
-                  speed={e.node.speed / 30 || 1}
-                  factor={e.node.scrollPageHeight / 100 || 0.7}
+                  offset={off}
+                  speed={speed}
+                  factor={fact}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
