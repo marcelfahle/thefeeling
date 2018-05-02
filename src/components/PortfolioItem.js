@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { default as RouterLink } from 'gatsby-link'
 import styled from 'styled-components'
 
 const getRandomInt = (min, max) =>
@@ -16,20 +16,24 @@ const FirstImage = styled.img`
       ? 'calc(100% - 100px)'
       : props.width + '%'};
   max-height: calc(100vh - 70px);
+`
+
+const Link = styled(RouterLink)`
   margin-left: ${props => props.pos || 0}%;
+  pointer-events: auto;
+  &:hover > img {
+    border: 5px solid ${props => props.themeColor || '#53212'};
+  }
 `
 
 export default ({ data }) => (
   <Item>
     <Link
+      pos={data.xPosition}
+      themeColor={data.themeColor.hex}
       to={`/oeuvre/${data.slug}`}
-      style={{ display: 'block', textAlign: 'left' }}
     >
-      <FirstImage
-        pos={data.xPosition}
-        width={data.width}
-        src={data.pictures[0].url}
-      />
+      <FirstImage width={data.width} src={data.pictures[0].url} />
     </Link>
   </Item>
 )

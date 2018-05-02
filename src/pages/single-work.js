@@ -6,7 +6,7 @@ import { Parallax, Transition } from 'react-spring'
 const Image = styled.img`
   height: auto;
   max-width: 80vw;
-  max-height: 80vh;
+  max-height: calc(100vh - 200px);
 `
 
 const Wrapper = styled.div`
@@ -24,8 +24,6 @@ const InfoBox = styled.div`
   position: absolute;
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
-  width: 250px;
-  height: 100px;
   margin-left: 4.5%;
   bottom: 35px;
   text-align: left;
@@ -46,7 +44,7 @@ const CounterBox = styled.div`
   bottom: 35px;
   text-align: center;
   padding: 6px 10px;
-  font-size: 30px;
+  font-size: 20px;
   line-height: 1.1;
   p {
     margin: 0;
@@ -60,7 +58,7 @@ const TextContent = styled.div`
   max-width: 800px;
   padding: 6px 10px;
   text-align: left;
-  font-size: 18px;
+  font-size: 40px;
 `
 
 export default class SingleWork extends React.Component {

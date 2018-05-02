@@ -64,8 +64,9 @@ export default class Oeuvre extends React.Component {
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '100%',
-                    borderBottom: '1px solid red',
-                    borderTop: '1px solid blue',
+                    pointerEvents: 'none',
+                    //borderBottom: '1px solid red',
+                    //borderTop: '1px solid blue',
                   }}
                 >
                   <PortfolioItem data={e.node} />
