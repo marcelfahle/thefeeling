@@ -22,6 +22,9 @@ const FirstImage = styled.img`
 const Link = styled(RouterLink)`
   margin-left: ${props => props.pos || 0}%;
   pointer-events: auto;
+  > img {
+    border: 5px solid transparent;
+  }
   &:hover > img {
     border: 5px solid ${props => props.themeColor || '#53212'};
   }
