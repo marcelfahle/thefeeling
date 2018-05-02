@@ -1,11 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import Link from 'gatsby-link'
 import videojs from 'video.js'
 import './BackgroundVideoPlayer.css'
 import 'videojs-playlist'
 
 import Header from './Header'
+
+injectGlobal`
+	video + div {
+	opacity: 0;
+		display: none !important;
+	}
+`
 
 const Wrapper = styled.div`
   position: fixed;
@@ -108,6 +115,15 @@ class VideoPlayer extends React.Component {
             autoPlay
             ref={node => (this.videoNode = node)}
             className="video-js"
+            style={{ visibility: 'hidden' }}
+            onPlay={e => {
+              e.persist()
+              setTimeout(() => {
+                e.persist()
+                console.log(e.target)
+                e.target.style.visibility = 'visible'
+              }, 100)
+            }}
           />
         </Link>
       </Wrapper>
