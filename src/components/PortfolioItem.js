@@ -7,6 +7,7 @@ const getRandomInt = (min, max) =>
 
 const Item = styled.div`
   width: 100%;
+  text-align: left;
 `
 
 const FirstImage = styled.img`
