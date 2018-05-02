@@ -12,9 +12,30 @@ const PageWrapper = styled.div`
 
 const Content = styled.div`
   position: absolute;
+  width: 50%;
+  height: 100vh;
+  left: 0;
+  overflow-y: scroll;
 `
 
-const About = () => (
+const Block = styled.div`
+  background: #ffed00;
+  color: black;
+  width: 100%;
+  max-width: 640px;
+  text-align: left;
+  font-size: 24px;
+  padding: 1px 24px;
+  box-sizing: border-box;
+  margin-right: 0;
+  margin-left: auto;
+  margin-top: 160px;
+  &:last-child {
+    margin-bottom: 100px;
+  }
+`
+
+const About = ({ data }) => (
   <PageWrapper>
     <Header
       backto="/oeuvre"
@@ -22,8 +43,36 @@ const About = () => (
       size="small"
       siteTitle="THE FEELING"
     />
-    <Content />
+    <Content>
+      <Block
+        dangerouslySetInnerHTML={{
+          __html: data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
+        }}
+      />
+      <Block
+        dangerouslySetInnerHTML={{
+          __html: data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
+        }}
+      />
+    </Content>
   </PageWrapper>
 )
 
 export default About
+
+export const query = graphql`
+  query AboutQuery {
+    datoCmsPageAbout {
+      aboutNode {
+        childMarkdownRemark {
+          html
+        }
+      }
+      contactNode {
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+  }
+`
