@@ -12,10 +12,13 @@ const PageWrapper = styled.div`
 
 const Content = styled.div`
   position: absolute;
-  width: 50%;
+  width: 100%;
   height: 100vh;
   left: 0;
   overflow-y: scroll;
+  > div {
+    width: 50%;
+  }
 `
 
 const Block = styled.div`
@@ -44,16 +47,18 @@ const About = ({ data }) => (
       siteTitle="THE FEELING"
     />
     <Content>
-      <Block
-        dangerouslySetInnerHTML={{
-          __html: data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
-        }}
-      />
-      <Block
-        dangerouslySetInnerHTML={{
-          __html: data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
-        }}
-      />
+      <div>
+        <Block
+          dangerouslySetInnerHTML={{
+            __html: data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
+          }}
+        />
+        <Block
+          dangerouslySetInnerHTML={{
+            __html: data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
+          }}
+        />
+      </div>
     </Content>
   </PageWrapper>
 )
