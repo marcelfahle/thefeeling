@@ -87,6 +87,9 @@ export const query = graphql`
           slug
           yOffset
           scrollPageHeight
+          previewImage {
+            url
+          }
           themeColor {
             hex
           }

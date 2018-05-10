@@ -37,7 +37,12 @@ export default ({ data }) => (
       themeColor={data.themeColor.hex}
       to={`/oeuvre/${data.slug}`}
     >
-      <FirstImage width={data.width} src={data.pictures[0].url} />
+      <FirstImage
+        width={data.width}
+        src={
+          (data.previewImage && data.previewImage.url) || data.pictures[0].url
+        }
+      />
     </Link>
   </Item>
 )
