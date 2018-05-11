@@ -39,7 +39,10 @@ const Flipper = styled.div`
   height: 55px;
 
   &:hover {
-    transform: rotateX(180deg);
+    transform: translateX(-50%) rotateX(180deg);
+    @media (min-width: 720px) {
+      transform: rotateX(180deg);
+    }
   }
 
   @media (min-width: 720px) {

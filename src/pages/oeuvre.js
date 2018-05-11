@@ -1,11 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
+import MediaQuery from 'react-responsive'
 import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 
-const PageWrapper = styled.div``
+const PageWrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+`
+const ListWrapper = styled.div`
+  padding-top: 160px;
+  @media (min-width: 720px) {
+    padding-top: 0;
+  }
+`
 
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
@@ -27,16 +38,17 @@ export default class Oeuvre extends React.Component {
           siteTitle="THE FEELING"
         />
 
-        <Parallax ref={ref => (this.parallax = ref)} pages={items.length}>
-          {items &&
-            items.map((e, i) => {
-              const speed = e.node.speed / 30 || 0
-              //const fact = e.node.scrollPageHeight / 100 || 0.7
-              const fact = 1
-              //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
-              offset -= e.node.yOffset
-              const off = i == 0 ? 0 : 0 - offset / 100
-              /*
+        <MediaQuery minWidth={720}>
+          <Parallax ref={ref => (this.parallax = ref)} pages={items.length}>
+            {items &&
+              items.map((e, i) => {
+                const speed = e.node.speed / 30 || 0
+                //const fact = e.node.scrollPageHeight / 100 || 0.7
+                const fact = 1
+                //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
+                offset -= e.node.yOffset
+                const off = i == 0 ? 0 : 0 - offset / 100
+                /*
               console.log(
                 'i: ',
                 i,
@@ -48,27 +60,33 @@ export default class Oeuvre extends React.Component {
                 speed
 							)
 							*/
-              return (
-                <Parallax.Layer
-                  key={i}
-                  offset={off}
-                  speed={speed}
-                  factor={fact}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    pointerEvents: 'none',
-                    //borderBottom: '1px solid red',
-                    //borderTop: '1px solid blue',
-                  }}
-                >
-                  <PortfolioItem data={e.node} />
-                </Parallax.Layer>
-              )
-            })}
-        </Parallax>
+                return (
+                  <Parallax.Layer
+                    key={i}
+                    offset={off}
+                    speed={speed}
+                    factor={fact}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      pointerEvents: 'none',
+                      //borderBottom: '1px solid red',
+                      //borderTop: '1px solid blue',
+                    }}
+                  >
+                    <PortfolioItem data={e.node} />
+                  </Parallax.Layer>
+                )
+              })}
+          </Parallax>
+        </MediaQuery>
+        <MediaQuery maxWidth={719}>
+          <ListWrapper>
+            {items && items.map((e, i) => <PortfolioItem data={e.node} />)}
+          </ListWrapper>
+        </MediaQuery>
       </PageWrapper>
     )
   }

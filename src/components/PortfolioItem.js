@@ -7,26 +7,40 @@ const getRandomInt = (min, max) =>
 
 const Item = styled.div`
   width: 100%;
-  text-align: left;
+  text-align: center;
+  margin-bottom: 30px;
+  @media (min-width: 720px) {
+    text-align: left;
+  }
 `
 
 const FirstImage = styled.img`
-  width: auto;
-  max-width: ${props =>
-    !props.width || props.width == 100
-      ? 'calc(100% - 100px)'
-      : props.width + '%'};
-  max-height: calc(100vh - 70px);
+  width: calc(100vw - 50px);
+  max-width: 500px;
+  transition: all 0.8 ease;
+
+  @media (min-width: 720px) {
+    width: auto;
+    max-width: ${props =>
+      !props.width || props.width == 100
+        ? 'calc(100% - 100px)'
+        : props.width + '%'};
+    max-height: calc(100vh - 70px);
+  }
 `
 
 const Link = styled(RouterLink)`
-  margin-left: ${props => props.pos || 0}%;
   pointer-events: auto;
+  transition: all 0.8 ease;
   > img {
     border: 5px solid transparent;
   }
   &:hover > img {
     border: 5px solid ${props => props.themeColor || '#53212'};
+  }
+  @media (min-width: 720px) {
+    margin-left: 25px;
+    margin-left: ${props => props.pos || 0}%;
   }
 `
 
