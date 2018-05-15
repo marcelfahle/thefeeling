@@ -61,6 +61,22 @@ const Flipper = styled.div`
   }
 `
 
+const Wrapper = styled.div`
+  position: absolute;
+  width: calc(100% - 50px);
+  max-width: 500px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 55px;
+  pointer-events: none;
+
+  @media (min-width: 720px) {
+    left: 100px;
+    transform: none;
+    width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
+  }
+`
+
 export default ({
   siteTitle,
   backto = '/',
@@ -80,6 +96,10 @@ export default ({
             <Logo siteTitle={siteTitle} />
             <AboutButton className="back" siteTitle={siteTitle} />
           </Flipper>
+        ) : action === 'static' ? (
+          <Wrapper size={size}>
+            <Logo siteTitle={siteTitle} />
+          </Wrapper>
         ) : (
           <Logo siteTitle={siteTitle} />
         )}

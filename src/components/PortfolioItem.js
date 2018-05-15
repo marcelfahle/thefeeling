@@ -32,12 +32,7 @@ const FirstImage = styled.img`
 const Link = styled(RouterLink)`
   pointer-events: auto;
   transition: all 0.8 ease;
-  > img {
-    border: 5px solid transparent;
-  }
-  &:hover > img {
-    border: 5px solid ${props => props.themeColor || '#53212'};
-  }
+
   @media (min-width: 720px) {
     margin-left: 25px;
     margin-left: ${props => props.pos || 0}%;
