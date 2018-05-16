@@ -11,6 +11,8 @@ module.exports = {
     'gatsby-plugin-react-next',
     'gatsby-transformer-remark',
     'gatsby-plugin-styled-components',
+    'gatsby-plugin-sass',
+    'gatsby-plugin-postcss-sass',
     {
       resolve: 'gatsby-source-datocms',
       options: {

@@ -1,17 +1,36 @@
 import React from 'react'
 import styled from 'styled-components'
+import ModalVideo from 'react-modal-video'
 import Link from 'gatsby-link'
 import Header from './../components/Header'
 import CloseIcon from './../components/CloseIcon'
 import Smile from './../components/icons8-happy-96.png'
 import CloseIconWhite from './../components/kreuz-white.svg'
 import BackArrow from './../components/icons8-undo-96.png'
+import PlayIcon from './../components/icons8-play-96.png'
+import WatchIcon from './../components/icons8-tv-show-96.png'
 import { Parallax, Transition } from 'react-spring'
+import './../../node_modules/react-modal-video/css/modal-video.min.css'
+//import './../../node_modules/react-modal-video/scss/modal-video.scss'
 
 const Image = styled.img`
   height: auto;
   max-width: 80vw;
   max-height: calc(100vh - 200px);
+  user-select: none;
+`
+
+const StartVideoButton = styled.img`
+  width: 96px;
+  height: 96px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  background-image: url(${WatchIcon});
+  cursor: url(${PlayIcon}) 48 48, auto;
+  z-index: 60;
 `
 
 const Wrapper = styled.div`
@@ -78,6 +97,7 @@ const TextContent = styled.div`
   padding: 6px 10px;
   text-align: left;
   font-size: 40px;
+  user-select: none;
 `
 
 const CloseButton = styled(Link)`
@@ -92,7 +112,7 @@ const CloseButton = styled(Link)`
 `
 
 export default class SingleWork extends React.Component {
-  state = { current: 1, cursor: 'default' }
+  state = { current: 1, cursor: 'default', showVideo: false, videoId: null }
 
   componentDidMount() {
     if (window && document) {
@@ -123,6 +143,12 @@ export default class SingleWork extends React.Component {
     const dir = mx > w / 2 ? 1 : -1
 
     this.scroll(i + 1 >= pics.length ? 0 : i + dir)
+  }
+
+  startVideo = (url, e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.setState({ videoId: url, showVideo: true })
   }
 
   render() {
@@ -177,7 +203,14 @@ export default class SingleWork extends React.Component {
                   dangerouslySetInnerHTML={{ __html: e.content }}
                 />
               ) : (
-                <Image src={e.url} />
+                <div>
+                  <Image src={e.url} />
+                  {e.alt && e.title && e.title === 'VIDEO' ? (
+                    <StartVideoButton
+                      onClick={evt => this.startVideo(e.alt, evt)}
+                    />
+                  ) : null}
+                </div>
               )}
             </Parallax.Layer>
           ))}
@@ -196,6 +229,12 @@ export default class SingleWork extends React.Component {
           <p>{this.state.current}</p>
           <p>{pics.length}</p>
         </CounterBox>
+        <ModalVideo
+          channel="youtube"
+          isOpen={this.state.showVideo}
+          videoId={this.state.videoId}
+          onClose={() => this.setState({ showVideo: false })}
+        />
       </Wrapper>
     )
   }
@@ -224,6 +263,8 @@ export const query = graphql`
       }
       pictures {
         url
+        alt
+        title
         resolutions {
           aspectRatio
         }
