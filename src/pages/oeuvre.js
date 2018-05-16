@@ -21,8 +21,7 @@ export default class Oeuvre extends React.Component {
   state = { logoFlip: false }
 
   componentDidMount() {
-    if (window && document) {
-      console.log('huhu', this.parallax.container)
+    if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     }
   }
