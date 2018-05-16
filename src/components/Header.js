@@ -38,7 +38,8 @@ const Flipper = styled.div`
   transform: translateX(-50%);
   height: 55px;
 
-  &:hover {
+  &:hover,
+  &.flipped {
     transform: translateX(-50%) rotateX(180deg);
     @media (min-width: 720px) {
       transform: rotateX(180deg);
@@ -82,17 +83,18 @@ export default ({
   backto = '/',
   action = 'default',
   size = 'big',
+  flipped = false,
 }) => (
   <StyledHeader size={size}>
     <div>
       <Link to={backto}>
         {action === 'backhome' ? (
-          <Flipper size={size}>
+          <Flipper size={size} className={flipped ? 'flipped' : ''}>
             <Logo siteTitle={siteTitle} />
             <Home className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'toabout' ? (
-          <Flipper size={size}>
+          <Flipper size={size} className={flipped ? 'flipped' : ''}>
             <Logo siteTitle={siteTitle} />
             <AboutButton className="back" siteTitle={siteTitle} />
           </Flipper>

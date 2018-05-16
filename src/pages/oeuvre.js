@@ -6,11 +6,7 @@ import { Parallax } from 'react-spring'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 
-const PageWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  overflow-y: scroll;
-`
+const PageWrapper = styled.div``
 const ListWrapper = styled.div`
   padding-top: 160px;
   @media (min-width: 720px) {
@@ -22,6 +18,21 @@ const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Oeuvre extends React.Component {
+  state = { logoFlip: false }
+
+  componentDidMount() {
+    if (window && document) {
+      console.log('huhu', this.parallax.container)
+      this.parallax.container.onscroll = this.handleScroll
+    }
+  }
+
+  handleScroll = e => {
+    e.target.scrollTop > 300
+      ? this.setState({ logoFlip: true })
+      : this.setState({ logoFlip: false })
+  }
+
   render() {
     const { data } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
@@ -36,6 +47,7 @@ export default class Oeuvre extends React.Component {
           action="toabout"
           size="small"
           siteTitle="THE FEELING"
+          flipped={this.state.logoFlip}
         />
 
         <MediaQuery minWidth={720}>
@@ -84,7 +96,10 @@ export default class Oeuvre extends React.Component {
         </MediaQuery>
         <MediaQuery maxWidth={719}>
           <ListWrapper>
-            {items && items.map((e, i) => <PortfolioItem data={e.node} />)}
+            {items &&
+              items.map((e, i) => (
+                <PortfolioItem key={`e${i}`} data={e.node} />
+              ))}
           </ListWrapper>
         </MediaQuery>
       </PageWrapper>

@@ -6,16 +6,14 @@ import bg from './bg-home.jpg'
 
 injectGlobal`
 	html {
-		height: 100%;
 	}
 	body {
 		margin: 0;
 		background: white;
-		height: 100%;
 		background: url('${bg}') no-repeat;
+		background-attachment: fixed;
 		background-size: cover;
 		> div {
-			height: 100%;
 		}
 	}
 `
