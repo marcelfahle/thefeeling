@@ -7,7 +7,7 @@ import Home from './Home'
 import AboutButton from './AboutButton'
 
 const StyledHeader = styled.div`
-  position: absolute;
+  position: ${props => props.pos};
   width: 100%;
   max-width: ${props => (props.size == 'big' ? '500px' : 'none')};
   height: 55px;
@@ -84,8 +84,9 @@ export default ({
   action = 'default',
   size = 'big',
   flipped = false,
+  position = 'absolute',
 }) => (
-  <StyledHeader size={size}>
+  <StyledHeader pos={position} size={size}>
     <div>
       <Link to={backto}>
         {action === 'backhome' ? (

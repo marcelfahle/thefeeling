@@ -23,11 +23,15 @@ export default class Oeuvre extends React.Component {
   componentDidMount() {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
+    } else {
+      if (window && document) {
+        document.addEventListener('scroll', this.handleScroll)
+      }
     }
   }
 
   handleScroll = e => {
-    e.target.scrollTop > 300
+    ;(e.target.scrollTop || window.scrollY) > 300
       ? this.setState({ logoFlip: true })
       : this.setState({ logoFlip: false })
   }
@@ -40,13 +44,14 @@ export default class Oeuvre extends React.Component {
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
 
     return (
-      <PageWrapper>
+      <PageWrapper ref={ref => (this.pw = ref)}>
         <Header
           backto="/about"
           action="toabout"
           size="small"
           siteTitle="THE FEELING"
           flipped={this.state.logoFlip}
+          position="fixed"
         />
 
         <MediaQuery minWidth={720}>
