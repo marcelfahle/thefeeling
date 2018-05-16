@@ -4,6 +4,7 @@ import Link from 'gatsby-link'
 import Header from './../components/Header'
 import CloseIcon from './../components/CloseIcon'
 import Smile from './../components/icons8-happy-96.png'
+import CloseIconWhite from './../components/kreuz-white.svg'
 import BackArrow from './../components/icons8-undo-96.png'
 import { Parallax, Transition } from 'react-spring'
 
@@ -86,7 +87,7 @@ const CloseButton = styled(Link)`
   top: 25px;
   width: 54px;
   height: 54px;
-  cursor: url(${BackArrow}) 48 48, auto;
+  cursor: url(${CloseIconWhite}) 48 48, auto;
   z-index: 51;
 `
 
