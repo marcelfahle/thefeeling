@@ -34,8 +34,8 @@ const Flipper = styled.div`
   transition: all 0.4s ease-in-out;
   width: ${props => (props.mini ? 'calc(65% - 50px)' : 'calc(100% - 50px)')};
   max-width: 500px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: ${props => (props.mini ? '25px' : '50%')};
+  transform: ${props => (props.mini ? 'none' : 'translateX(-50%)')};
   height: 55px;
 
   &:hover,
@@ -61,10 +61,10 @@ const Flipper = styled.div`
     transform: rotateX(180deg);
   }
 
-  transition: all 0.8s ease;
+  transition: top 0.8s ease;
+  top: 0;
   @media (orientation: landscape) {
-    left: 15px;
-    width: 250px;
+    top: -180px;
   }
 `
 
@@ -102,12 +102,12 @@ export default ({
     <div>
       <Link to={backto}>
         {action === 'backhome' ? (
-          <Flipper size={size} className={flipped ? 'flipped' : ''}>
+          <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
             <Logo siteTitle={siteTitle} />
             <Home className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'toabout' ? (
-          <Flipper size={size} className={flipped ? 'flipped' : ''}>
+          <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
             <Logo siteTitle={siteTitle} />
             <AboutButton className="back" siteTitle={siteTitle} />
           </Flipper>
