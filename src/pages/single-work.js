@@ -22,7 +22,7 @@ const Image = styled.img`
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) {
-    max-height: calc(100vh - 60px);
+    max-height: calc(100vh - 90px);
   }
 `
 
