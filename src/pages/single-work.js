@@ -19,6 +19,11 @@ const Image = styled.img`
   max-width: 80vw;
   max-height: calc(100vh - 280px);
   user-select: none;
+
+  transition: bottom 0.8s ease;
+  @media (orientation: landscape) {
+    max-height: calc(100vh - 60px);
+  }
 `
 
 const StartVideoButton = styled.img`
@@ -86,6 +91,11 @@ const InfoBox = styled.div`
     bottom: 35px;
     margin-left: 4.5%;
   }
+
+  transition: bottom 0.8s ease;
+  @media (orientation: landscape) {
+    bottom: -100px;
+  }
 `
 const CounterBox = styled.div`
   position: absolute;
@@ -99,6 +109,7 @@ const CounterBox = styled.div`
   line-height: 1.2;
   letter-spacing: 1px;
   font-size: 14px;
+  transition: bottom 0.8s ease;
   p {
     margin: 0;
     padding: 0;
@@ -109,6 +120,10 @@ const CounterBox = styled.div`
     font-size: 15px;
     bottom: 35px;
     margin-left: 4.5%;
+  }
+
+  @media (orientation: landscape) {
+    bottom: -100px;
   }
 `
 const TextContent = styled.div`

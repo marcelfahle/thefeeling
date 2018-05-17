@@ -60,6 +60,12 @@ const Flipper = styled.div`
   svg.back {
     transform: rotateX(180deg);
   }
+
+  transition: all 0.8s ease;
+  @media (orientation: landscape) {
+    left: 15px;
+    width: 250px;
+  }
 `
 
 const Wrapper = styled.div`
@@ -75,6 +81,11 @@ const Wrapper = styled.div`
     left: 4.5%;
     transform: none;
     width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
+  }
+  transition: top 0.8s ease;
+  top: 0;
+  @media (orientation: landscape) {
+    top: -100px;
   }
 `
 
