@@ -22,7 +22,7 @@ const Image = styled.img`
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) {
-    max-height: calc(100vh - 90px);
+    max-height: calc(100vh - 100px);
   }
 `
 
@@ -154,7 +154,7 @@ const TextContent = styled.div`
 `
 
 const CloseButton = styled(Link)`
-  position: absolute;
+  position: none;
   display: inline-block;
   right: 25px;
   top: 25px;
@@ -171,6 +171,9 @@ const CloseButton = styled(Link)`
     right: 50px;
     width: 54px;
     height: 54px;
+  }
+  @media (orientation: landscape) {
+    display: none;
   }
 `
 
