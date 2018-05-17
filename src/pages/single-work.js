@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Swipeable from 'react-swipeable'
 import ModalVideo from 'react-modal-video'
 import Link from 'gatsby-link'
 import Header from './../components/Header'
@@ -153,7 +154,7 @@ const CloseButton = styled(Link)`
 `
 
 export default class SingleWork extends React.Component {
-  state = { current: 1, cursor: 'default', showVideo: false, videoId: null }
+  state = { current: 0, cursor: 'default', showVideo: false, videoId: null }
 
   componentDidMount() {
     if (window && document) {
@@ -173,17 +174,27 @@ export default class SingleWork extends React.Component {
   }
 
   scroll = to => {
-    this.setState({ current: to + 1 })
+    this.setState({ current: to })
     this.refs.parallax.scrollTo(to)
+  }
+
+  handleSwipeRight = (pics, e) => {
+    const i = this.state.current
+    this.scroll(i > 1 ? i - 1 : 0)
+  }
+
+  handleSwipeLeft = (pics, e) => {
+    const i = this.state.current
+    this.scroll(i + 1 >= pics.length ? 0 : i + 1)
   }
 
   handleClick = (pics, i, e) => {
     const w = document.documentElement.clientWidth
     const mx = e.clientX
 
-    const dir = mx > w / 2 ? 1 : -1
+    const dir = mx > w / 2 ? 1 : i >= 1 ? -1 : 0
 
-    this.scroll(i + 1 >= pics.length ? 0 : i + dir)
+    this.scroll(i >= pics.length - 1 ? 0 : i + dir)
   }
 
   startVideo = (url, e) => {
@@ -224,39 +235,44 @@ export default class SingleWork extends React.Component {
           <CloseIcon />
         </CloseButton>
 
-        <Parallax
-          className="container"
-          ref="parallax"
-          pages={pics.length}
-          horizontal
-          scrolling={false}
+        <Swipeable
+          onSwipedLeft={e => this.handleSwipeLeft(pics, e)}
+          onSwipedRight={e => this.handleSwipeRight(pics, e)}
         >
-          {pics.map((e, i) => (
-            <Parallax.Layer
-              offset={i}
-              key={i}
-              speed={0}
-              onClick={e => this.handleClick(pics, i, e)}
-            >
-              {e.type && e.type == 'text' ? (
-                <TextContent
-                  bgColor={work.themeColor.hex}
-                  textColor={work.textColor.hex}
-                  dangerouslySetInnerHTML={{ __html: e.content }}
-                />
-              ) : (
-                <div>
-                  <Image src={e.url} />
-                  {e.alt && e.title && e.title === 'VIDEO' ? (
-                    <StartVideoButton
-                      onClick={evt => this.startVideo(e.alt, evt)}
-                    />
-                  ) : null}
-                </div>
-              )}
-            </Parallax.Layer>
-          ))}
-        </Parallax>
+          <Parallax
+            className="container"
+            ref="parallax"
+            pages={pics.length}
+            horizontal
+            scrolling={false}
+          >
+            {pics.map((e, i) => (
+              <Parallax.Layer
+                offset={i}
+                key={i}
+                speed={0}
+                onClick={e => this.handleClick(pics, i, e)}
+              >
+                {e.type && e.type == 'text' ? (
+                  <TextContent
+                    bgColor={work.themeColor.hex}
+                    textColor={work.textColor.hex}
+                    dangerouslySetInnerHTML={{ __html: e.content }}
+                  />
+                ) : (
+                  <div>
+                    <Image src={e.url} />
+                    {e.alt && e.title && e.title === 'VIDEO' ? (
+                      <StartVideoButton
+                        onClick={evt => this.startVideo(e.alt, evt)}
+                      />
+                    ) : null}
+                  </div>
+                )}
+              </Parallax.Layer>
+            ))}
+          </Parallax>
+        </Swipeable>
         <InfoBox bgColor={work.themeColor.hex} textColor={work.textColor.hex}>
           <p
             dangerouslySetInnerHTML={{
@@ -268,7 +284,7 @@ export default class SingleWork extends React.Component {
           bgColor={work.themeColor.hex}
           textColor={work.textColor.hex}
         >
-          <p>{this.state.current}</p>
+          <p>{this.state.current + 1}</p>
           <p>{pics.length}</p>
         </CounterBox>
         <ModalVideo

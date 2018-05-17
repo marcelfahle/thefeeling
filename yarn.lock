@@ -2519,6 +2519,10 @@ detect-libc@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
 
+detect-passive-events@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/detect-passive-events/-/detect-passive-events-1.0.4.tgz#6ed477e6e5bceb79079735dcd357789d37f9a91a"
+
 detect-port-alt@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/detect-port-alt/-/detect-port-alt-1.1.3.tgz#a4d2f061d757a034ecf37c514260a98750f2b131"
@@ -7356,6 +7360,13 @@ react-spring@^5.0.1:
   resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.0.1.tgz#cf45795842febda8f72a60884e927f04c920c870"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.44"
+
+react-swipeable@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-4.2.1.tgz#dae68ecd041c299a9b55b4925baf940195858637"
+  dependencies:
+    detect-passive-events "^1.0.4"
+    prop-types "^15.5.8"
 
 react-transition-group@^2.2.1:
   version "2.3.1"
