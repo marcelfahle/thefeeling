@@ -81,7 +81,7 @@ const InfoBox = styled.div`
   }
 
   @media (min-width: 720px) {
-    font-size: 20px;
+    font-size: 14px;
     bottom: 35px;
     margin-left: 4.5%;
   }
@@ -104,7 +104,7 @@ const CounterBox = styled.div`
 
   @media (min-width: 720px) {
     width: 100px;
-    font-size: 20px;
+    font-size: 14px;
     bottom: 35px;
     margin-left: 4.5%;
   }
