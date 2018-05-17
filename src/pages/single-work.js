@@ -73,7 +73,8 @@ const InfoBox = styled.div`
   text-align: left;
   padding: 6px 10px;
   font-size: 15px;
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: 1px;
   max-width: 50%;
   p {
     margin: 0;
@@ -95,7 +96,8 @@ const CounterBox = styled.div`
   bottom: 25px;
   text-align: center;
   padding: 6px 10px;
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: 1px;
   font-size: 14px;
   p {
     margin: 0;
