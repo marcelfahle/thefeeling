@@ -17,7 +17,7 @@ import './../../node_modules/react-modal-video/css/modal-video.min.css'
 const Image = styled.img`
   height: auto;
   max-width: 80vw;
-  max-height: calc(100vh - 300px);
+  max-height: calc(100vh - 280px);
   user-select: none;
 `
 
