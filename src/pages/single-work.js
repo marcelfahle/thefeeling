@@ -9,7 +9,7 @@ import Smile from './../components/icons8-happy-96.png'
 import CloseIconWhite from './../components/kreuz-white.svg'
 import BackArrow from './../components/icons8-undo-96.png'
 import PlayIcon from './../components/icons8-play-96.png'
-import WatchIcon from './../components/icons8-tv-show-96.png'
+import WatchIcon from './../components/play-button.png'
 import { Parallax, Transition } from 'react-spring'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
 //import './../../node_modules/react-modal-video/scss/modal-video.scss'
@@ -26,15 +26,15 @@ const Image = styled.img`
   }
 `
 
-const StartVideoButton = styled.img`
-  width: 96px;
-  height: 96px;
+const StartVideoButton = styled.div`
+  width: 76px;
+  height: 76px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.7);
-  background-image: url(${WatchIcon});
+  background: transparent url(${WatchIcon}) top left no-repeat;
+  background-size: contain;
   z-index: 60;
 `
 
