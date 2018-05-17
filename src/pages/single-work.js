@@ -246,7 +246,7 @@ export default class SingleWork extends React.Component {
       <Wrapper className={this.state.cursor}>
         <Header
           backto="/oeuvre"
-          action="static"
+          action="backhome"
           size="small"
           siteTitle="THE FEELING"
           mini={true}
