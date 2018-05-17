@@ -52,6 +52,7 @@ export default class Oeuvre extends React.Component {
           siteTitle="THE FEELING"
           flipped={this.state.logoFlip}
           position="fixed"
+          mini={true}
         />
 
         <MediaQuery minWidth={720}>

@@ -62,53 +62,94 @@ const InfoBox = styled.div`
   position: absolute;
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
-  margin-left: 4.5%;
-  bottom: 35px;
+  margin-left: 25px;
+  bottom: 25px;
   text-align: left;
   padding: 6px 10px;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.1;
+  max-width: 50%;
   p {
     margin: 0;
     padding: 0;
+  }
+
+  @media (min-width: 720px) {
+    font-size: 20px;
+    bottom: 35px;
+    margin-left: 4.5%;
   }
 `
 const CounterBox = styled.div`
   position: absolute;
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
-  width: 100px;
-  right: 4.5%;
-  bottom: 35px;
+  width: 60px;
+  right: 25px;
+  bottom: 25px;
   text-align: center;
   padding: 6px 10px;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.1;
   p {
     margin: 0;
     padding: 0;
+  }
+
+  @media (min-width: 720px) {
+    width: 100px;
+    font-size: 20px;
+    bottom: 35px;
+    margin-left: 4.5%;
   }
 `
 const TextContent = styled.div`
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
   min-width: 240px;
-  max-width: 800px;
-  padding: 6px 10px;
+  max-width: calc(100% - 100px);
+  padding: 6px 5px;
   text-align: left;
-  font-size: 40px;
+  font-size: 18px;
   user-select: none;
+
+  p:first-child {
+    margin-top: 0;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 420px) {
+    font-size: 24px;
+  }
+  @media (min-width: 960px) {
+    max-width: 720px;
+    font-size: 40px;
+    padding: 6px 10px;
+  }
 `
 
 const CloseButton = styled(Link)`
   position: absolute;
   display: inline-block;
-  right: 50px;
+  right: 25px;
   top: 25px;
-  width: 54px;
-  height: 54px;
+  width: 28px;
+  height: 28px;
   cursor: url(${CloseIconWhite}) 48 48, auto;
   z-index: 51;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (min-width: 720px) {
+    right: 50px;
+    width: 54px;
+    height: 54px;
+  }
 `
 
 export default class SingleWork extends React.Component {
@@ -176,6 +217,7 @@ export default class SingleWork extends React.Component {
           action="static"
           size="small"
           siteTitle="THE FEELING"
+          mini={true}
         />
 
         <CloseButton to="/oeuvre">

@@ -23,7 +23,7 @@ export default () => (
           <g
             id="Group"
             transform="translate(1.000000, 1.000000)"
-            stroke="#1D1D1B"
+            stroke="#FFFFFF"
             strokeWidth="3"
           >
             <path d="M0.5,0.5 L51.5,51.5" id="Shape" />

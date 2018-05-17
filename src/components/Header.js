@@ -32,7 +32,7 @@ const Flipper = styled.div`
   position: absolute;
   transform-style: preserve-3d;
   transition: all 0.4s ease-in-out;
-  width: calc(100% - 50px);
+  width: ${props => (props.mini ? 'calc(65% - 50px)' : 'calc(100% - 50px)')};
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
@@ -47,7 +47,7 @@ const Flipper = styled.div`
   }
 
   @media (min-width: 720px) {
-    left: 100px;
+    left: 4.5%;
     transform: none;
     width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
   }
@@ -64,15 +64,15 @@ const Flipper = styled.div`
 
 const Wrapper = styled.div`
   position: absolute;
-  width: calc(100% - 50px);
-  max-width: 500px;
-  left: 50%;
-  transform: translateX(-50%);
+  max-width: 350px;
+  width: ${props => (props.mini ? 'calc(75% - 50px)' : 'calc(100% - 50px)')};
+  left: ${props => (props.mini ? '25px' : '50%')};
+  transform: ${props => (props.mini ? 'none' : 'translateX(-50%)')};
   height: 55px;
   pointer-events: none;
 
   @media (min-width: 720px) {
-    left: 100px;
+    left: 4.5%;
     transform: none;
     width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
   }
@@ -85,6 +85,7 @@ export default ({
   size = 'big',
   flipped = false,
   position = 'absolute',
+  mini = false,
 }) => (
   <StyledHeader pos={position} size={size}>
     <div>
@@ -100,7 +101,7 @@ export default ({
             <AboutButton className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'static' ? (
-          <Wrapper size={size}>
+          <Wrapper mini={mini} size={size}>
             <Logo siteTitle={siteTitle} />
           </Wrapper>
         ) : (
