@@ -72,8 +72,8 @@ const InfoBox = styled.div`
   bottom: 25px;
   text-align: left;
   padding: 6px 10px;
-  font-size: 14px;
-  line-height: 1.1;
+  font-size: 15px;
+  line-height: 1.2;
   max-width: 50%;
   p {
     margin: 0;
@@ -95,6 +95,7 @@ const CounterBox = styled.div`
   bottom: 25px;
   text-align: center;
   padding: 6px 10px;
+  line-height: 1.2;
   font-size: 14px;
   line-height: 1.1;
   p {
@@ -104,7 +105,7 @@ const CounterBox = styled.div`
 
   @media (min-width: 720px) {
     width: 100px;
-    font-size: 14px;
+    font-size: 15px;
     bottom: 35px;
     margin-left: 4.5%;
   }
