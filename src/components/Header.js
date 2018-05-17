@@ -41,6 +41,7 @@ const Flipper = styled.div`
   &:hover,
   &.flipped {
     transform: translateX(-50%) rotateX(180deg);
+    left: ${props => (props.mini ? '25px' : '50%')};
     @media (min-width: 720px) {
       transform: rotateX(180deg);
     }
