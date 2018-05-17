@@ -17,7 +17,7 @@ import './../../node_modules/react-modal-video/css/modal-video.min.css'
 const Image = styled.img`
   height: auto;
   max-width: 80vw;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 300px);
   user-select: none;
 `
 
@@ -30,7 +30,6 @@ const StartVideoButton = styled.img`
   transform: translateX(-50%) translateY(-50%);
   background-color: rgba(0, 0, 0, 0.7);
   background-image: url(${WatchIcon});
-  cursor: url(${PlayIcon}) 48 48, auto;
   z-index: 60;
 `
 
@@ -50,15 +49,15 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
-  &.default {
+  &.defaulttttt {
     cursor: url(${Smile}), auto;
   }
-  &.left {
+  &.leftttt {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHASURBVHhe7d27TcQAFETRjQmARuiIIuiLLggIKIUibF5gJyutZD5ngdEcybL80QS3APtUVVVVVVVVVVVVVX/dsiyP67reb5c/QmxGmlBPE2qd89uc7rbb3yI2I+2hdnP9Osft9vhLxGak81C7uf8yp5vttU8Rm5EuhdrN8+ft1cPEZqQDod7neNheP0RsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsxhKxxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGa0A8H66WLtUrC53493X8t5sLnu5+uvbQ825/7A4bdMqP7CpKqqqqqqqqqqquofOJ0+AGIJEJ5SYMMhAAAAAElFTkSuQmCC)
         48 48,
       auto;
   }
-  &.right {
+  &.rightttt {
     cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG7SURBVHhe7d2xTcRQFETRjQmARuiIIuiLLggIKIUi7H0IEyBtwq6PLA1zJMuyJU9wC/g+VVVVVVVVVVVVVdWe1nV9XJbleXvchdiMNKEeJtTH3Ne5v2yvbyI2I02c+7nev0L9uDWY2Iw0Xe4mzNt3ot+uDTaf7r4Za4K8bm0uuiaY2Iw1MZ7m+tzaXPTXYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzloglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNmNNiB5dfKTp0cO7jzZRenz90aZPf+BwtOnUX5hUVVVVVVVVVVVV/VOn0xkp1RCeWq6/XAAAAABJRU5ErkJggg==)
         48 48,
       auto;
@@ -73,7 +72,7 @@ const InfoBox = styled.div`
   bottom: 25px;
   text-align: left;
   padding: 6px 10px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.1;
   max-width: 50%;
   p {
@@ -96,7 +95,7 @@ const CounterBox = styled.div`
   bottom: 25px;
   text-align: center;
   padding: 6px 10px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.1;
   p {
     margin: 0;
@@ -144,8 +143,7 @@ const CloseButton = styled(Link)`
   top: 25px;
   width: 28px;
   height: 28px;
-  cursor: url(${CloseIconWhite}) 48 48, auto;
-  z-index: 51;
+  z-index: 151;
 
   svg {
     width: 100%;
