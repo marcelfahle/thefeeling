@@ -40,10 +40,14 @@ const Flipper = styled.div`
 
   &:hover,
   &.flipped {
-    transform: translateX(-50%) rotateX(180deg);
+    transform: ${props =>
+      props.mini
+        ? 'translateX(0) rotateX(180deg)'
+        : 'translateX(-50%) rotateX(180deg)'};
     left: ${props => (props.mini ? '25px' : '50%')};
     @media (min-width: 720px) {
       transform: rotateX(180deg);
+      left: 4.5%;
     }
   }
 
@@ -62,8 +66,6 @@ const Flipper = styled.div`
     transform: rotateX(180deg);
   }
 
-  transition: top 0.8s ease;
-  top: 0;
   @media (orientation: landscape) {
     top: -180px;
   }
@@ -92,6 +94,12 @@ const Wrapper = styled.div`
 
 export default ({
   siteTitle,
+  color = {
+    leftBg: '#e53212',
+    leftText: '#2b632d',
+    rightBg: '#c78800',
+    rightText: '#ffed00',
+  },
   backto = '/',
   action = 'default',
   size = 'big',
@@ -104,20 +112,20 @@ export default ({
       <Link to={backto}>
         {action === 'backhome' ? (
           <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
-            <Logo siteTitle={siteTitle} />
+            <Logo color={color} siteTitle={siteTitle} />
             <Home className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'toabout' ? (
           <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
-            <Logo siteTitle={siteTitle} />
+            <Logo color={color} siteTitle={siteTitle} />
             <AboutButton className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'static' ? (
           <Wrapper mini={mini} size={size}>
-            <Logo siteTitle={siteTitle} />
+            <Logo color={color} siteTitle={siteTitle} />
           </Wrapper>
         ) : (
-          <Logo siteTitle={siteTitle} />
+          <Logo color={color} siteTitle={siteTitle} />
         )}
       </Link>
     </div>

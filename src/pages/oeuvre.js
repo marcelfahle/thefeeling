@@ -31,13 +31,15 @@ export default class Oeuvre extends React.Component {
   }
 
   handleScroll = e => {
-    ;(e.target.scrollTop || window.scrollY) > 300
-      ? this.setState({ logoFlip: true })
-      : this.setState({ logoFlip: false })
+    if ((e.target.scrollTop || window.scrollY) > 300) {
+      this.setState({ logoFlip: true })
+    } else {
+      this.setState({ logoFlip: false })
+    }
   }
 
   render() {
-    const { data } = this.props
+    const { data, color } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
     let offset = 0
 
@@ -53,6 +55,7 @@ export default class Oeuvre extends React.Component {
           flipped={this.state.logoFlip}
           position="fixed"
           mini={true}
+          color={color}
         />
 
         <MediaQuery minWidth={720}>

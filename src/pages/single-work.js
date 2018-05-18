@@ -154,8 +154,8 @@ const TextContent = styled.div`
 `
 
 const CloseButton = styled(Link)`
-  position: none;
-  display: inline-block;
+  position: absolute;
+  display: none;
   right: 25px;
   top: 25px;
   width: 28px;
@@ -182,7 +182,7 @@ export default class SingleWork extends React.Component {
 
   componentDidMount() {
     if (window && document) {
-      document.addEventListener('mousemove', this.onMouseMove)
+      //document.addEventListener('mousemove', this.onMouseMove)
       //document.addEventListener('touchmove', onTouchMove);
       //document.addEventListener('touchstart', onTouchMove);
     }
@@ -229,6 +229,7 @@ export default class SingleWork extends React.Component {
 
   render() {
     const {
+      color,
       data: { work },
       data: {
         work: {
@@ -253,6 +254,7 @@ export default class SingleWork extends React.Component {
           size="small"
           siteTitle="THE FEELING"
           mini={true}
+          color={color}
         />
 
         <CloseButton to="/oeuvre">
@@ -297,6 +299,7 @@ export default class SingleWork extends React.Component {
             ))}
           </Parallax>
         </Swipeable>
+        {/*
         <InfoBox bgColor={work.themeColor.hex} textColor={work.textColor.hex}>
           <p
             dangerouslySetInnerHTML={{
@@ -311,6 +314,7 @@ export default class SingleWork extends React.Component {
           <p>{this.state.current + 1}</p>
           <p>{pics.length}</p>
         </CounterBox>
+				*/}
         <ModalVideo
           channel="youtube"
           isOpen={this.state.showVideo}
