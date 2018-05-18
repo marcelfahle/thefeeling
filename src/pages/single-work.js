@@ -21,7 +21,7 @@ const Image = styled.img`
   user-select: none;
 
   transition: bottom 0.8s ease;
-  @media (orientation: landscape) {
+  @media (orientation: landscape) and (max-height: 480px) {
     max-height: calc(100vh - 100px);
   }
 `

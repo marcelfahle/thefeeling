@@ -9,22 +9,33 @@ import AboutButton from './AboutButton'
 const StyledHeader = styled.div`
   position: ${props => props.pos};
   width: 100%;
-  max-width: ${props => (props.size == 'big' ? '500px' : 'none')};
-  height: 55px;
+  display: block;
+  width: ${props => (props.size == 'big' ? '280px' : '240px')};
+  height: 38px;
+  left: ${props => (props.size == 'big' ? '50%' : '25px')};
+  transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : '0')};
 
   margin-top: 25px;
   transition: all 0.8 ease;
   z-index: 50;
 
-  @media (min-width: 720px) {
-    left: ${props => (props.size == 'big' ? '50%' : 'auto')};
-    transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : '0')};
+  > div {
+    height: 100%;
   }
-
   a {
     perspective: 600;
     display: block;
     position: relative;
+    height: 100%;
+  }
+
+  @media (min-width: 480px) {
+    width: ${props => (props.size == 'big' ? '380px' : '340px')};
+    height: 54px;
+  }
+  @media (min-width: 720px) {
+    width: ${props => (props.size == 'big' ? '500px' : '350px')};
+    height: 55px;
   }
 `
 
@@ -32,19 +43,17 @@ const Flipper = styled.div`
   position: absolute;
   transform-style: preserve-3d;
   transition: all 0.4s ease-in-out;
-  width: ${props => (props.mini ? 'calc(65% - 50px)' : 'calc(100% - 50px)')};
-  max-width: 500px;
-  left: ${props => (props.mini ? '25px' : '50%')};
+  width: 100%;
+	height: 100%;
+
+	/*left: ${props => (props.mini ? '25px' : '50%')}; */
   transform: ${props => (props.mini ? 'none' : 'translateX(-50%)')};
-  height: 55px;
 
   &:hover,
   &.flipped {
     transform: ${props =>
-      props.mini
-        ? 'translateX(0) rotateX(180deg)'
-        : 'translateX(-50%) rotateX(180deg)'};
-    left: ${props => (props.mini ? '25px' : '50%')};
+      props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
+		/*left: ${props => (props.mini ? '25px' : '50%')};*/
     @media (min-width: 720px) {
       transform: rotateX(180deg);
       left: 4.5%;
@@ -54,10 +63,11 @@ const Flipper = styled.div`
   @media (min-width: 720px) {
     left: 4.5%;
     transform: none;
-    width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
+		/*width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};*/
   }
 
   svg {
+		top: 0;
     left: 0;
     backface-visibility: hidden;
     position: absolute;
@@ -66,9 +76,9 @@ const Flipper = styled.div`
     transform: rotateX(180deg);
   }
 
-  @media (orientation: landscape) {
+  @media (orientation: landscape) and (max-height: 480px) {
     top: -180px;
-  }
+	}
 `
 
 const Wrapper = styled.div`
@@ -87,7 +97,7 @@ const Wrapper = styled.div`
   }
   transition: top 0.8s ease;
   top: 0;
-  @media (orientation: landscape) {
+  @media (orientation: landscape) and (max-height: 480px) {
     top: -100px;
   }
 `

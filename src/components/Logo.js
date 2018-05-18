@@ -6,18 +6,6 @@ const Logo = styled.svg`
   path {
     transition: fill 0.4s ease;
   }
-  .leftBg {
-    fill: #e53212;
-  }
-  .leftText {
-    fill: #2b632d;
-  }
-  .rightBg {
-    fill: #c78800;
-  }
-  .rightText {
-    fill: #ffed00;
-  }
 `
 
 class TheLogo extends React.Component {

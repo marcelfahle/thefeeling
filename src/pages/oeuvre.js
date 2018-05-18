@@ -8,7 +8,10 @@ import PortfolioItem from './../components/PortfolioItem'
 
 const PageWrapper = styled.div``
 const ListWrapper = styled.div`
-  padding-top: 160px;
+  padding-top: 100px;
+  @media (min-width: 480px) {
+    padding-top: 140px;
+  }
   @media (min-width: 720px) {
     padding-top: 0;
   }
