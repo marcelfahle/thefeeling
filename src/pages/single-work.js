@@ -67,6 +67,12 @@ const Wrapper = styled.div`
         48 48,
       auto;
   }
+
+  .modal-video-movie-wrap {
+    margin: 45px;
+    width: calc(100% - 90px);
+    height: calc(100% - 90px);
+  }
 `
 
 const InfoBox = styled.div`
@@ -176,6 +182,8 @@ const CloseButton = styled(Link)`
     display: none;
   }
 `
+
+const StyledModalVideo = styled(ModalVideo)``
 
 export default class SingleWork extends React.Component {
   state = { current: 0, cursor: 'default', showVideo: false, videoId: null }
@@ -315,7 +323,7 @@ export default class SingleWork extends React.Component {
           <p>{pics.length}</p>
         </CounterBox>
 				*/}
-        <ModalVideo
+        <StyledModalVideo
           channel="youtube"
           isOpen={this.state.showVideo}
           videoId={this.state.videoId}
