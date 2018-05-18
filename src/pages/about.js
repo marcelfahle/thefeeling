@@ -8,6 +8,7 @@ const PageWrapper = styled.div`
   position: relative;
 	background: url('${bg}') no-repeat;
 	background-size: cover;
+		background-attachment: fixed;
 	background-repeat: no-repeat;
   top: 0;
   left: 0;
