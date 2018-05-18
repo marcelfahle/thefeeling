@@ -17,23 +17,21 @@ injectGlobal`
 
 const Wrapper = styled.div`
   position: fixed;
+  width: 100vw;
+  height: 100wh;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   overflow: hidden;
   > a {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-    z-index: 40;
-    background: black;
     .video-js ~ {
       display: none !important;
     }
   }
+
   video {
+    z-index: 30;
     position: absolute;
     top: 0;
     left: 50%;
@@ -65,6 +63,20 @@ const Wrapper = styled.div`
   }
 `
 
+const StyledLink = styled(Link)`
+  z-index: 100;
+  height: 100vh;
+  width: 100vw;
+  display: block;
+  position: relative;
+  display: block;
+  background: rgba(0, 0, 0, 0);
+  > div {
+    position: relative;
+    z-index: 100;
+  }
+`
+
 class VideoPlayer extends React.Component {
   constructor(props) {
     super(props)
@@ -88,7 +100,9 @@ class VideoPlayer extends React.Component {
       sources: pl,
     }
 
-    this.player = videojs(this.videoNode, null, () => console.log('ready'))
+    this.player = videojs(this.videoNode, { controls: false }, () =>
+      console.log('ready')
+    )
     this.player.playlist(pl)
     this.player.playlist.autoadvance(0)
   }
@@ -109,15 +123,15 @@ class VideoPlayer extends React.Component {
     return (
       <Wrapper>
         <Header siteTitle="THE FEELING" />
-        <Link to="/oeuvre">
-          <video
-            playsInline
-            muted
-            autoPlay
-            ref={node => (this.videoNode = node)}
-            className="video-js"
-          />
-        </Link>
+        <StyledLink to="/oeuvre" />
+        <video
+          playsInline
+          muted
+          autoPlay
+          controls="false"
+          ref={node => (this.videoNode = node)}
+          className="video-js"
+        />
       </Wrapper>
     )
   }
