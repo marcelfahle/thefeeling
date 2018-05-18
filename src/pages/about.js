@@ -84,6 +84,7 @@ const About = ({ data, color }) => (
       siteTitle="THE FEELING"
       mini={true}
       color={color}
+      position="fixed"
     />
     <Content>
       <div>
