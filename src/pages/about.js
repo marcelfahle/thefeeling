@@ -75,13 +75,15 @@ const Block = styled.div`
   }
 `
 
-const About = ({ data }) => (
+const About = ({ data, color }) => (
   <PageWrapper>
     <Header
       backto="/oeuvre"
       action="backhome"
       size="small"
       siteTitle="THE FEELING"
+      mini={true}
+      color={color}
     />
     <Content>
       <div>
