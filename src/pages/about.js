@@ -5,13 +5,17 @@ import Header from './../components/Header'
 import bg from './../components/quer_1.jpg'
 
 const PageWrapper = styled.div`
-  position: absolute;
+  position: relative;
 	background: url('${bg}') no-repeat;
 	background-size: cover;
 	background-repeat: no-repeat;
-	height: 100vh;
-	width: 100vw;
-	overflow-y: scroll;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 `
 
 const Content = styled.div`
