@@ -10,6 +10,7 @@ const PageWrapper = styled.div`
 	background-size: cover;
 		background-attachment: fixed;
 	background-repeat: no-repeat;
+
   top: 0;
   left: 0;
   width: 100%;
