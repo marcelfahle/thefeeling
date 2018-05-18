@@ -8,6 +8,7 @@ import 'videojs-playlist'
 import Header from './Header'
 
 injectGlobal`
+	.video-js > div,
 	video + div {
 	opacity: 0;
 		display: none !important;
@@ -110,20 +111,11 @@ class VideoPlayer extends React.Component {
         <Header siteTitle="THE FEELING" />
         <Link to="/oeuvre">
           <video
-            playsInline="true"
+            playsInline
             muted
             autoPlay
             ref={node => (this.videoNode = node)}
             className="video-js"
-            style={{ visibility: 'hidden' }}
-            onPlay={e => {
-              e.persist()
-              setTimeout(() => {
-                e.persist()
-                console.log(e.target)
-                e.target.style.visibility = 'visible'
-              }, 100)
-            }}
           />
         </Link>
       </Wrapper>
