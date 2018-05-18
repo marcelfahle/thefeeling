@@ -123,12 +123,12 @@ export default ({
         {action === 'backhome' ? (
           <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
             <Logo color={color} siteTitle={siteTitle} />
-            <Home className="back" siteTitle={siteTitle} />
+            <Home color={color} className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'toabout' ? (
           <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
             <Logo color={color} siteTitle={siteTitle} />
-            <AboutButton className="back" siteTitle={siteTitle} />
+            <AboutButton color={color} className="back" siteTitle={siteTitle} />
           </Flipper>
         ) : action === 'static' ? (
           <Wrapper mini={mini} size={size}>
