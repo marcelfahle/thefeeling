@@ -261,6 +261,7 @@ export default class SingleWork extends React.Component {
           siteTitle="THE FEELING"
           mini={true}
           color={color}
+          flipped
         />
 
         <CloseButton to="/oeuvre">
