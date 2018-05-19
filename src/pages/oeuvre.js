@@ -8,11 +8,10 @@ import PortfolioItem from './../components/PortfolioItem'
 import bg from './../layouts/bg-home.jpg'
 
 const PageWrapper = styled.div`
-		background: black;
-		background: url('${bg}') no-repeat;
-		background-attachment: fixed;
-		background-size: cover;
-
+	background: black url('${bg}') no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	height: 100vh;
 `
 const ListWrapper = styled.div`
   padding-top: 100px;
