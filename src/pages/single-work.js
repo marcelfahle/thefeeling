@@ -12,13 +12,14 @@ import PlayIcon from './../components/icons8-play-96.png'
 import WatchIcon from './../components/play-button.png'
 import { Parallax, Transition } from 'react-spring'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
-//import './../../node_modules/react-modal-video/scss/modal-video.scss'
+import bg from './../layouts/bg-home.jpg'
 
 const Image = styled.img`
   height: auto;
   max-width: 80vw;
-  max-height: calc(100vh - 280px);
+  max-height: calc(100vh - 160px);
   user-select: none;
+  margin-top: 50px;
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) and (max-height: 480px) {
@@ -40,6 +41,10 @@ const StartVideoButton = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
+	background: black;
+	background: url('${bg}') no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
   top: 0;
   left: 0;
   width: 100%;

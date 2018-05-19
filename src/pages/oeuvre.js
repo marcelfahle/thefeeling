@@ -5,8 +5,15 @@ import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
+import bg from './../layouts/bg-home.jpg'
 
-const PageWrapper = styled.div``
+const PageWrapper = styled.div`
+		background: black;
+		background: url('${bg}') no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+
+`
 const ListWrapper = styled.div`
   padding-top: 100px;
   @media (min-width: 480px) {
@@ -21,9 +28,16 @@ const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Oeuvre extends React.Component {
-  state = { logoFlip: false }
+  state = { logoFlip: false, active: false }
 
   componentDidMount() {
+    setTimeout(
+      function() {
+        this.setState({ active: true })
+      }.bind(this),
+      3000
+    )
+
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
@@ -59,6 +73,7 @@ export default class Oeuvre extends React.Component {
           position="fixed"
           mini={true}
           color={color}
+          active={this.state.active}
         />
 
         <MediaQuery minWidth={720}>

@@ -116,21 +116,22 @@ export default ({
   flipped = false,
   position = 'absolute',
   mini = false,
+  active = true,
 }) => (
   <StyledHeader pos={position} size={size}>
     <div>
       <Link to={backto}>
-        {action === 'backhome' ? (
+        {active && action === 'backhome' ? (
           <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
             <Logo color={color} siteTitle={siteTitle} />
             <Home color={color} className="back" siteTitle={siteTitle} />
           </Flipper>
-        ) : action === 'toabout' ? (
+        ) : active && action === 'toabout' ? (
           <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
             <Logo color={color} siteTitle={siteTitle} />
             <AboutButton color={color} className="back" siteTitle={siteTitle} />
           </Flipper>
-        ) : action === 'static' ? (
+        ) : !active || action === 'static' ? (
           <Wrapper mini={mini} size={size}>
             <Logo color={color} siteTitle={siteTitle} />
           </Wrapper>

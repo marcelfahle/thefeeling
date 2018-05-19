@@ -2,17 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled, { injectGlobal } from 'styled-components'
-import bg from './bg-home.jpg'
 
 injectGlobal`
 	html {
 	}
 	body {
 		margin: 0;
-		background: white;
-		background: url('${bg}') no-repeat;
-		background-attachment: fixed;
-		background-size: cover;
 		> div {
 		}
 	}

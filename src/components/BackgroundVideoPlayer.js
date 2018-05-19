@@ -85,6 +85,7 @@ class VideoPlayer extends React.Component {
   componentDidMount() {
     const { playlist } = this.props
     const shuffled = this.shuffle(playlist)
+
     const pl = shuffled.map((e, i) => ({
       sources: [
         {
@@ -100,10 +101,10 @@ class VideoPlayer extends React.Component {
       sources: pl,
     }
 
-    this.player = videojs(this.videoNode, { controls: false }, () =>
-      console.log('ready')
-    )
+    this.player = videojs(this.videoNode, { controls: false }, null)
     this.player.playlist(pl)
+    this.player.playlist.repeat()
+    this.player.playlist.shuffle()
     this.player.playlist.autoadvance(0)
   }
 

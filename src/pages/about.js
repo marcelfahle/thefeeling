@@ -79,54 +79,76 @@ const Block = styled.div`
   }
 `
 
-const About = ({ data, color }) => (
-  <PageWrapper>
-    <Header
-      backto="/oeuvre"
-      action="backhome"
-      size="small"
-      siteTitle="THE FEELING"
-      mini={true}
-      color={color}
-      position="fixed"
-    />
-    <Content>
-      <div>
-        <div>
-          <Label>{data.datoCmsPageAbout.aboutLabel}</Label>
-        </div>
-        <div>
-          <Block
-            dangerouslySetInnerHTML={{
-              __html: data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
-            }}
-          />
-        </div>
-        <div>
-          <Label>{data.datoCmsPageAbout.contactLabel}</Label>
-        </div>
-        <div>
-          <Block
-            dangerouslySetInnerHTML={{
-              __html:
-                data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
-            }}
-          />
-        </div>
-        <div>
-          <Label>{data.datoCmsPageAbout.legalLabel}</Label>
-        </div>
-        <div>
-          <Block
-            dangerouslySetInnerHTML={{
-              __html: data.datoCmsPageAbout.legalNode.childMarkdownRemark.html,
-            }}
-          />
-        </div>
-      </div>
-    </Content>
-  </PageWrapper>
-)
+class About extends React.Component {
+  state = { logoFlip: false }
+
+  componentDidMount() {
+    this.page.addEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = e => {
+    if (this.page.scrollTop > 300) {
+      this.setState({ logoFlip: true })
+    } else {
+      this.setState({ logoFlip: false })
+    }
+  }
+  render() {
+    const { data, color } = this.props
+
+    return (
+      <PageWrapper innerRef={e => (this.page = e)}>
+        <Header
+          backto="/oeuvre"
+          action="backhome"
+          size="small"
+          siteTitle="THE FEELING"
+          mini={true}
+          color={color}
+          position="fixed"
+          flipped={this.state.logoFlip}
+        />
+        <Content>
+          <div>
+            <div>
+              <Label>{data.datoCmsPageAbout.aboutLabel}</Label>
+            </div>
+            <div>
+              <Block
+                dangerouslySetInnerHTML={{
+                  __html:
+                    data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
+                }}
+              />
+            </div>
+            <div>
+              <Label>{data.datoCmsPageAbout.contactLabel}</Label>
+            </div>
+            <div>
+              <Block
+                dangerouslySetInnerHTML={{
+                  __html:
+                    data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
+                }}
+              />
+            </div>
+            <div>
+              <Label>{data.datoCmsPageAbout.legalLabel}</Label>
+            </div>
+            <div>
+              <Block
+                dangerouslySetInnerHTML={{
+                  __html:
+                    data.datoCmsPageAbout.legalNode.childMarkdownRemark.html,
+                }}
+              />
+            </div>
+          </div>
+        </Content>
+      </PageWrapper>
+    )
+  }
+}
 
 export default About
 
