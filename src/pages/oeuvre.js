@@ -27,7 +27,7 @@ const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Oeuvre extends React.Component {
-  state = { logoFlip: false, active: false }
+  state = { logoFlip: false, active: false, height: null }
 
   componentDidMount() {
     setTimeout(
@@ -43,6 +43,24 @@ export default class Oeuvre extends React.Component {
       if (window && document) {
         document.addEventListener('scroll', this.handleScroll)
       }
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.data && !this.state.height) {
+      const wrapper = this.parallax.container.childNodes[0]
+      const wrapperHeight = wrapper.clientHeight
+      const winHeight = window.innerHeight
+      console.log('wrapper', wrapper.style.height, winHeight)
+      const items = this.props.data.allDatoCmsPagePortfolio.edges
+      var offset = 0
+      offset = items.reduce((current, e) => {
+        return current + e.node.yOffset
+      }, 0)
+      const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
+      this.setState({ height: maxHeight })
+      wrapper.style.maxHeight = `${maxHeight}px`
+      console.log(wrapperHeight - offset * winHeight / 100)
     }
   }
 
@@ -76,27 +94,30 @@ export default class Oeuvre extends React.Component {
         />
 
         <MediaQuery minWidth={720}>
-          <Parallax ref={ref => (this.parallax = ref)} pages={items.length}>
+          <Parallax
+            className="parallaxer"
+            ref={ref => (this.parallax = ref)}
+            pages={items.length}
+          >
             {items &&
               items.map((e, i) => {
                 const speed = e.node.speed / 30 || 0
                 //const fact = e.node.scrollPageHeight / 100 || 0.7
                 const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
+                //console.log('node', e.node.yOffset)
                 offset -= e.node.yOffset
                 const off = i == 0 ? 0 : 0 - offset / 100
-                /*
-              console.log(
-                'i: ',
-                i,
-                'offset: ',
-                off,
-                'factor: ',
-                fact,
-                'speed: ',
-                speed
-							)
-							*/
+                console.log(
+                  'i: ',
+                  i,
+                  'offset: ',
+                  off,
+                  'speed: ',
+                  speed,
+                  'real offset',
+                  offset
+                )
                 return (
                   <Parallax.Layer
                     key={i}
