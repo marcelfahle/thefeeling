@@ -93,6 +93,7 @@ const Wrapper = styled.div`
   @media (min-width: 720px) {
     left: 4.5%;
     transform: none;
+    max-width: 500px;
     width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};
   }
   transition: top 0.8s ease;

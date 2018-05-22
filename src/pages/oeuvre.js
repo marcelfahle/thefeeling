@@ -6,6 +6,7 @@ import { Parallax } from 'react-spring'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 import bg from './../layouts/bg-home.jpg'
+import archiveButton from './../components/archive_white.svg'
 
 const PageWrapper = styled.div`
 	background: black url('${bg}') no-repeat;
@@ -20,6 +21,15 @@ const ListWrapper = styled.div`
   }
   @media (min-width: 720px) {
     padding-top: 0;
+  }
+`
+const ToArchive = styled.div`
+  position: absolute;
+  bottom: 350px;
+  left: 50%;
+  transform: translateX(-50%);
+  img {
+    width: 260px;
   }
 `
 
@@ -60,7 +70,6 @@ export default class Oeuvre extends React.Component {
       const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
       this.setState({ height: maxHeight })
       wrapper.style.maxHeight = `${maxHeight}px`
-      console.log(wrapperHeight - offset * winHeight / 100)
     }
   }
 
@@ -73,6 +82,8 @@ export default class Oeuvre extends React.Component {
   }
 
   render() {
+    if (!this.props.data) return <div>Loading...</div>
+
     const { data, color } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
     let offset = 0
@@ -84,12 +95,12 @@ export default class Oeuvre extends React.Component {
         <Header
           backto="/about"
           action="toabout"
-          size="small"
           siteTitle="THE FEELING"
+          mini={true}
           flipped={this.state.logoFlip}
           position="fixed"
-          mini={true}
           color={color}
+          size="small"
           active={this.state.active}
         />
 
@@ -108,16 +119,7 @@ export default class Oeuvre extends React.Component {
                 //console.log('node', e.node.yOffset)
                 offset -= e.node.yOffset
                 const off = i == 0 ? 0 : 0 - offset / 100
-                console.log(
-                  'i: ',
-                  i,
-                  'offset: ',
-                  off,
-                  'speed: ',
-                  speed,
-                  'real offset',
-                  offset
-                )
+
                 return (
                   <Parallax.Layer
                     key={i}
@@ -138,6 +140,12 @@ export default class Oeuvre extends React.Component {
                   </Parallax.Layer>
                 )
               })}
+
+            <ToArchive>
+              <Link to="/ye-olden-stuffe">
+                <img src={archiveButton} />
+              </Link>
+            </ToArchive>
           </Parallax>
         </MediaQuery>
         <MediaQuery maxWidth={719}>
@@ -147,6 +155,9 @@ export default class Oeuvre extends React.Component {
                 <PortfolioItem key={`e${i}`} data={e.node} />
               ))}
           </ListWrapper>
+          <Link to="/ye-olden-stuffe">
+            <img src={archiveButton} />
+          </Link>
         </MediaQuery>
       </PageWrapper>
     )

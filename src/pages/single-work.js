@@ -239,18 +239,35 @@ export default class SingleWork extends React.Component {
   }
 
   render() {
-    const {
-      color,
-      data: { work },
-      data: {
-        work: {
-          pictures: pics,
-          descriptionNode: {
-            childMarkdownRemark: { html: desc },
+    var isArchive = false
+    if (this.props.data.work) {
+      var {
+        color,
+        data: { work },
+        data: {
+          work: {
+            pictures: pics,
+            descriptionNode: {
+              childMarkdownRemark: { html: desc },
+            },
           },
         },
-      },
-    } = this.props
+      } = this.props
+    } else {
+      isArchive = true
+      var {
+        color,
+        data: { archive: work },
+        data: {
+          archive: {
+            pictures: pics,
+            descriptionNode: {
+              childMarkdownRemark: { html: desc },
+            },
+          },
+        },
+      } = this.props
+    }
 
     if (desc != '') {
       const d = { type: 'text', content: desc }
@@ -260,7 +277,7 @@ export default class SingleWork extends React.Component {
     return (
       <Wrapper className={this.state.cursor}>
         <Header
-          backto="/oeuvre"
+          backto={isArchive ? '/ye-olden-stuffe' : '/oeuvre'}
           action="backhome"
           size="small"
           siteTitle="THE FEELING"
@@ -268,10 +285,6 @@ export default class SingleWork extends React.Component {
           color={color}
           flipped
         />
-
-        <CloseButton to="/oeuvre">
-          <CloseIcon />
-        </CloseButton>
 
         <Swipeable
           onSwipedLeft={e => this.handleSwipeLeft(pics, e)}
@@ -341,6 +354,34 @@ export default class SingleWork extends React.Component {
 export const query = graphql`
   query WorkQuery($slug: String) {
     work: datoCmsPagePortfolio(slug: { eq: $slug }) {
+      title
+      infoNode {
+        childMarkdownRemark {
+          html
+        }
+      }
+      descriptionNode {
+        childMarkdownRemark {
+          html
+        }
+      }
+      width
+      themeColor {
+        hex
+      }
+      textColor {
+        hex
+      }
+      pictures {
+        url
+        alt
+        title
+        resolutions {
+          aspectRatio
+        }
+      }
+    }
+    archive: datoCmsPageArchive(slug: { eq: $slug }) {
       title
       infoNode {
         childMarkdownRemark {

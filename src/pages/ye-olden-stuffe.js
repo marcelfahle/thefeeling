@@ -15,8 +15,53 @@ const PageWrapper = styled.div`
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
-export default class Oeuvre extends React.Component {
+export default class Archive extends React.Component {
+  state = { logoFlip: false, active: false, height: null }
+
+  componentDidMount() {
+    setTimeout(
+      function() {
+        this.setState({ active: true })
+      }.bind(this),
+      3000
+    )
+
+    if (this.parallax) {
+      this.parallax.container.onscroll = this.handleScroll
+    } else {
+      if (window && document) {
+        document.addEventListener('scroll', this.handleScroll)
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.data && !this.state.height) {
+      const wrapper = this.parallax.container.childNodes[0]
+      const wrapperHeight = wrapper.clientHeight
+      const winHeight = window.innerHeight
+      console.log('wrapper', wrapper.style.height, winHeight)
+      const items = this.props.data.allDatoCmsPageArchive.edges
+      var offset = 0
+      offset = items.reduce((current, e) => {
+        return current + e.node.yOffset
+      }, 0)
+      const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
+      this.setState({ height: maxHeight })
+      wrapper.style.maxHeight = `${maxHeight}px`
+    }
+  }
+
+  handleScroll = e => {
+    if ((e.target.scrollTop || window.scrollY) > 300) {
+      this.setState({ logoFlip: true })
+    } else {
+      this.setState({ logoFlip: false })
+    }
+  }
   render() {
+    if (!this.props.data) return <div>Loading...</div>
+
     const { data } = this.props
     const items = data.allDatoCmsPageArchive.edges
     let offset = 0
@@ -26,13 +71,17 @@ export default class Oeuvre extends React.Component {
     return (
       <PageWrapper>
         <Header
-          backto="/about"
-          action="toabout"
+          backto="/oeuvre"
+          action="backhome"
           size="small"
           siteTitle="THE FEELING"
         />
 
-        <Parallax ref={ref => (this.parallax = ref)} pages={items.length}>
+        <Parallax
+          className="parallaxer"
+          ref={ref => (this.parallax = ref)}
+          pages={items.length}
+        >
           {items &&
             items.map((e, i) => {
               const speed = e.node.speed / 30 || 0
@@ -41,18 +90,7 @@ export default class Oeuvre extends React.Component {
               //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
               offset -= e.node.yOffset
               const off = i == 0 ? 0 : 0 - offset / 100
-              /*
-              console.log(
-                'i: ',
-                i,
-                'offset: ',
-                off,
-                'factor: ',
-                fact,
-                'speed: ',
-                speed
-							)
-							*/
+
               return (
                 <Parallax.Layer
                   key={i}
@@ -69,7 +107,7 @@ export default class Oeuvre extends React.Component {
                     //borderTop: '1px solid blue',
                   }}
                 >
-                  <PortfolioItem data={e.node} />
+                  <PortfolioItem path="ye-olden-stuffe" data={e.node} />
                 </Parallax.Layer>
               )
             })}

@@ -14,6 +14,13 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             }
           }
         }
+        archive: allDatoCmsPageArchive {
+          edges {
+            node {
+              slug
+            }
+          }
+        }
       }
     `).then(result => {
       result &&
@@ -25,6 +32,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             component: path.resolve(`./src/pages/single-work.js`),
             context: {
               slug: news.slug,
+            },
+          })
+        })
+      result.data &&
+        result.data.archive &&
+        result.data.archive.edges.map(({ node: news }) => {
+          createPage({
+            path: `ye-olden-stuffe/${news.slug}`,
+            component: path.resolve(`./src/pages/single-work.js`),
+            context: {
+              slug: news.slug,
+              archive: true,
             },
           })
         })
