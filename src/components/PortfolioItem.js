@@ -39,9 +39,9 @@ const Link = styled(RouterLink)`
   }
 `
 
-export default ({ data, path = 'oeuvre' }) => (
+export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
   <Item>
-    <Link pos={data.xPosition} to={`/${path}/${data.slug}`}>
+    <Link pos={data.xPosition} to={`/${path}/${data.slug}#${lastPos}`}>
       <FirstImage
         width={data.width}
         src={

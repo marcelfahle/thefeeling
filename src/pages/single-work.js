@@ -189,13 +189,17 @@ const CloseButton = styled(Link)`
 const StyledModalVideo = styled(ModalVideo)``
 
 export default class SingleWork extends React.Component {
-  state = { current: 0, cursor: 'default', showVideo: false, videoId: null }
+  state = {
+    current: 0,
+    cursor: 'default',
+    showVideo: false,
+    videoId: null,
+    lastPos: '#0',
+  }
 
   componentDidMount() {
-    if (window && document) {
-      //document.addEventListener('mousemove', this.onMouseMove)
-      //document.addEventListener('touchmove', onTouchMove);
-      //document.addEventListener('touchstart', onTouchMove);
+    if (window && window.location.hash) {
+      this.setState({ lastPos: window.location.hash })
     }
   }
 
@@ -276,10 +280,12 @@ export default class SingleWork extends React.Component {
       if (pics.length == 1 || !pics[1].type) pics.splice(1, 0, d)
     }
 
+    const lp = this.state.lastPos
+
     return (
       <Wrapper bg={bg} className={this.state.cursor}>
         <Header
-          backto={isArchive ? '/ye-olden-stuffe' : '/oeuvre'}
+          backto={isArchive ? `/ye-olden-stuffe${lp}` : `/oeuvre${lp}`}
           action="backhome"
           size="small"
           siteTitle="THE FEELING"

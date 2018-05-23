@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import smoothscroll from 'smoothscroll-polyfill'
 import MediaQuery from 'react-responsive'
 import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
@@ -34,7 +35,7 @@ const ToArchive = styled.div`
   left: 50%;
   transform: translateX(-50%);
   img {
-    width: 450px;
+    width: 650px;
   }
 `
 
@@ -42,7 +43,7 @@ const ToArchiveMobile = styled.div`
   margin-top: 100px;
   margin-bottom: 200px;
   img {
-    width: 50%;
+    width: 80%;
   }
 `
 
@@ -50,7 +51,7 @@ const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Oeuvre extends React.Component {
-  state = { logoFlip: false, active: false, height: null }
+  state = { logoFlip: false, active: false, height: null, lastPos: 0 }
 
   componentDidMount() {
     setTimeout(
@@ -63,8 +64,31 @@ export default class Oeuvre extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
-      if (window && document) {
-        document.addEventListener('scroll', this.handleScroll)
+      this.pw.addEventListener('scroll', this.handleScroll)
+    }
+    if (window && window.location.hash) {
+      const toScroll = parseInt(window.location.hash.replace('#', ''))
+      smoothscroll.polyfill()
+      if (this.parallax) {
+        setTimeout(
+          function() {
+            this.parallax.container.scroll({
+              top: toScroll,
+              behavior: 'smooth',
+            })
+          }.bind(this),
+          500
+        )
+      } else {
+        setTimeout(
+          function() {
+            this.pw.scroll({
+              top: toScroll,
+              behavior: 'smooth',
+            })
+          }.bind(this),
+          500
+        )
       }
     }
   }
@@ -85,9 +109,20 @@ export default class Oeuvre extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.parallax) {
+      this.parallax.container.onscroll = null
+    } else {
+      this.pw.removeEventListener('scroll', this.handleScroll)
+    }
+  }
+
   handleScroll = e => {
-    if ((e.target.scrollTop || window.scrollY) > 300) {
-      this.setState({ logoFlip: true })
+    if (e.target.scrollTop > 300) {
+      this.setState({
+        logoFlip: true,
+        lastPos: e.target.scrollTop,
+      })
     } else {
       this.setState({ logoFlip: false })
     }
@@ -103,7 +138,7 @@ export default class Oeuvre extends React.Component {
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
 
     return (
-      <PageWrapper bg={bg.oeuvre.url} ref={ref => (this.pw = ref)}>
+      <PageWrapper bg={bg.oeuvre.url} innerRef={ref => (this.pw = ref)}>
         <Header
           backto="/about"
           action="toabout"
@@ -128,7 +163,6 @@ export default class Oeuvre extends React.Component {
                 //const fact = e.node.scrollPageHeight / 100 || 0.7
                 const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
-                //console.log('node', e.node.yOffset)
                 offset -= e.node.yOffset
                 const off = i == 0 ? 0 : 0 - offset / 100
 
@@ -148,7 +182,7 @@ export default class Oeuvre extends React.Component {
                       //borderTop: '1px solid blue',
                     }}
                   >
-                    <PortfolioItem data={e.node} />
+                    <PortfolioItem lastPos={this.state.lastPos} data={e.node} />
                   </Parallax.Layer>
                 )
               })}
@@ -164,7 +198,11 @@ export default class Oeuvre extends React.Component {
           <ListWrapper>
             {items &&
               items.map((e, i) => (
-                <PortfolioItem key={`e${i}`} data={e.node} />
+                <PortfolioItem
+                  lastPos={this.state.lastPos}
+                  key={`e${i}`}
+                  data={e.node}
+                />
               ))}
           </ListWrapper>
           <ToArchiveMobile>

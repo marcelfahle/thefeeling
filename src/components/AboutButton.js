@@ -10,7 +10,7 @@ const About = styled.svg`
 
 export default ({ siteTitle, className = 'front', color }) => (
   <About
-    viewBox="0 0 302 48"
+    viewBox="0 0 300 46"
     version="1.1"
     className={className}
     xmlns="http://www.w3.org/2000/svg"

@@ -121,9 +121,10 @@ class VideoPlayer extends React.Component {
       .map(a => a[1])
 
   render() {
+    const { color } = this.props
     return (
       <Wrapper>
-        <Header siteTitle="THE FEELING" />
+        <Header color={color} siteTitle="THE FEELING" />
         <StyledLink to="/oeuvre" />
         <video
           playsInline

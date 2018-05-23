@@ -11,46 +11,51 @@ const StyledHeader = styled.div`
   position: ${props => props.pos};
   width: 100%;
   display: block;
-  width: ${props => (props.size == 'big' ? '280px' : '240px')};
-  height: 38px;
-  left: ${props => (props.size == 'big' ? '50%' : '25px')};
-  transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : '0')};
+	width: calc(100vw - 50px);
+	padding-top: 12.6%;
+	max-width: 500px;
+	top: 25px;
+	left 50%;
+  transform: translateX(-50%);
 
-  margin-top: 25px;
   transition: all 0.8 ease;
   z-index: 50;
 
   > div {
-    height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
   }
   a {
     perspective: 600;
     display: block;
     position: relative;
-    height: 100%;
+    width: 100%;
+		height: 100%;
   }
 
-  @media (min-width: 480px) {
-    width: ${props => (props.size == 'big' ? '380px' : '340px')};
-    height: 54px;
-  }
+
   @media (min-width: 720px) {
+		left: ${props => (props.size == 'big' ? '50%' : '25px')};
+		transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : 'none')};
     width: ${props => (props.size == 'big' ? '500px' : '350px')};
+		padding-top: 0;
     height: 55px;
   }
 `
 
 const Flipper = styled.div`
-  position: absolute;
+	position:absolute;
   transform-style: preserve-3d;
   transition: all 0.4s ease-in-out;
-  width: 100%;
+	width: 100%;
 	height: 100%;
+	top: 0;
 
 	/*left: ${props => (props.mini ? '25px' : '50%')}; */
   transform: ${props => (props.mini ? 'none' : 'translateX(-50%)')};
 
-  &:hover:not(.noFlip),
   &.flipped {
     transform: ${props =>
       props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
@@ -116,7 +121,7 @@ export default ({
   action = 'default',
   size = 'big',
   flipped = false,
-  position = 'absolute',
+  position = 'relative',
   mini = false,
   active = true,
 }) => {

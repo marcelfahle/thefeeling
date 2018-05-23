@@ -2,10 +2,13 @@ import React from 'react'
 
 import BackgroundVideoPlayer from '../components/BackgroundVideoPlayer'
 
-function IndexPage({ data }) {
+function IndexPage({ data, color }) {
   return (
     <div>
-      <BackgroundVideoPlayer playlist={data.datoCmsPageHome.videoPlaylist} />
+      <BackgroundVideoPlayer
+        color={color}
+        playlist={data.datoCmsPageHome.videoPlaylist}
+      />
     </div>
   )
 }
