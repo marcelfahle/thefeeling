@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
+import classNames from 'classnames'
 
 import Logo from './Logo'
 import Home from './Home'
@@ -49,7 +50,7 @@ const Flipper = styled.div`
 	/*left: ${props => (props.mini ? '25px' : '50%')}; */
   transform: ${props => (props.mini ? 'none' : 'translateX(-50%)')};
 
-  &:hover,
+  &:hover:not(.noFlip),
   &.flipped {
     transform: ${props =>
       props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
@@ -118,28 +119,38 @@ export default ({
   position = 'absolute',
   mini = false,
   active = true,
-}) => (
-  <StyledHeader pos={position} size={size}>
-    <div>
-      <Link to={backto}>
-        {active && action === 'backhome' ? (
-          <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
+}) => {
+  var cx = classNames({
+    flipped,
+    noFlip: !active,
+  })
+  return (
+    <StyledHeader pos={position} size={size}>
+      <div>
+        <Link to={backto}>
+          {action === 'backhome' ? (
+            <Flipper mini={mini} size={size} className={cx}>
+              <Logo color={color} siteTitle={siteTitle} />
+              <Home color={color} className="back" siteTitle={siteTitle} />
+            </Flipper>
+          ) : action === 'toabout' ? (
+            <Flipper mini={mini} size={size} className={cx}>
+              <Logo color={color} siteTitle={siteTitle} />
+              <AboutButton
+                color={color}
+                className="back"
+                siteTitle={siteTitle}
+              />
+            </Flipper>
+          ) : action === 'static' ? (
+            <Wrapper mini={mini} size={size}>
+              <Logo color={color} siteTitle={siteTitle} />
+            </Wrapper>
+          ) : (
             <Logo color={color} siteTitle={siteTitle} />
-            <Home color={color} className="back" siteTitle={siteTitle} />
-          </Flipper>
-        ) : active && action === 'toabout' ? (
-          <Flipper mini={mini} size={size} className={flipped ? 'flipped' : ''}>
-            <Logo color={color} siteTitle={siteTitle} />
-            <AboutButton color={color} className="back" siteTitle={siteTitle} />
-          </Flipper>
-        ) : !active || action === 'static' ? (
-          <Wrapper mini={mini} size={size}>
-            <Logo color={color} siteTitle={siteTitle} />
-          </Wrapper>
-        ) : (
-          <Logo color={color} siteTitle={siteTitle} />
-        )}
-      </Link>
-    </div>
-  </StyledHeader>
-)
+          )}
+        </Link>
+      </div>
+    </StyledHeader>
+  )
+}

@@ -13,6 +13,11 @@ const PageWrapper = styled.div`
 	background-attachment: fixed;
 	background-size: cover;
 	height: 100vh;
+	overflow-y: scroll;
+
+  @media (min-width: 720px) {
+		overflow-y: initial;
+	}
 `
 const ListWrapper = styled.div`
   padding-top: 100px;
@@ -25,11 +30,19 @@ const ListWrapper = styled.div`
 `
 const ToArchive = styled.div`
   position: absolute;
-  bottom: 350px;
+  bottom: 150px;
   left: 50%;
   transform: translateX(-50%);
   img {
-    width: 260px;
+    width: 450px;
+  }
+`
+
+const ToArchiveMobile = styled.div`
+  margin-top: 100px;
+  margin-bottom: 200px;
+  img {
+    width: 50%;
   }
 `
 
@@ -57,7 +70,8 @@ export default class Oeuvre extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.data && !this.state.height) {
+    if (this.props.data && !this.state.height && this.parallax) {
+      console.log('update', this.state.height, this.parallax)
       const wrapper = this.parallax.container.childNodes[0]
       const wrapperHeight = wrapper.clientHeight
       const winHeight = window.innerHeight
@@ -155,9 +169,11 @@ export default class Oeuvre extends React.Component {
                 <PortfolioItem key={`e${i}`} data={e.node} />
               ))}
           </ListWrapper>
-          <Link to="/ye-olden-stuffe">
-            <img src={archiveButton} />
-          </Link>
+          <ToArchiveMobile>
+            <Link to="/ye-olden-stuffe">
+              <img src={archiveButton} />
+            </Link>
+          </ToArchiveMobile>
         </MediaQuery>
       </PageWrapper>
     )

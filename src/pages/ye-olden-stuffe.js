@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import MediaQuery from 'react-responsive'
 import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
 import Header from './../components/Header'
@@ -9,7 +10,22 @@ import bg from './../components/archiv_hintergrund4.jpg'
 const PageWrapper = styled.div`
 		background: url('${bg}') no-repeat;
 		background-size: cover;
+	background-attachment: fixed;
   height: 100vh;
+	overflow-y: scroll;
+
+  @media (min-width: 720px) {
+		overflow-y: initial;
+	}
+`
+const ListWrapper = styled.div`
+  padding-top: 100px;
+  @media (min-width: 480px) {
+    padding-top: 140px;
+  }
+  @media (min-width: 720px) {
+    padding-top: 0;
+  }
 `
 
 const getRandomInt = (min, max) =>
@@ -36,7 +52,7 @@ export default class Archive extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.data && !this.state.height) {
+    if (this.props.data && !this.state.height && this.parallax) {
       const wrapper = this.parallax.container.childNodes[0]
       const wrapperHeight = wrapper.clientHeight
       const winHeight = window.innerHeight
@@ -77,41 +93,51 @@ export default class Archive extends React.Component {
           siteTitle="THE FEELING"
         />
 
-        <Parallax
-          className="parallaxer"
-          ref={ref => (this.parallax = ref)}
-          pages={items.length}
-        >
-          {items &&
-            items.map((e, i) => {
-              const speed = e.node.speed / 30 || 0
-              //const fact = e.node.scrollPageHeight / 100 || 0.7
-              const fact = 1
-              //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
-              offset -= e.node.yOffset
-              const off = i == 0 ? 0 : 0 - offset / 100
+        <MediaQuery minWidth={720}>
+          <Parallax
+            className="parallaxer"
+            ref={ref => (this.parallax = ref)}
+            pages={items.length}
+          >
+            {items &&
+              items.map((e, i) => {
+                const speed = e.node.speed / 30 || 0
+                //const fact = e.node.scrollPageHeight / 100 || 0.7
+                const fact = 1
+                //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
+                offset -= e.node.yOffset
+                const off = i == 0 ? 0 : 0 - offset / 100
 
-              return (
-                <Parallax.Layer
-                  key={i}
-                  offset={off}
-                  speed={speed}
-                  factor={fact}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    pointerEvents: 'none',
-                    //borderBottom: '1px solid red',
-                    //borderTop: '1px solid blue',
-                  }}
-                >
-                  <PortfolioItem path="ye-olden-stuffe" data={e.node} />
-                </Parallax.Layer>
-              )
-            })}
-        </Parallax>
+                return (
+                  <Parallax.Layer
+                    key={i}
+                    offset={off}
+                    speed={speed}
+                    factor={fact}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      pointerEvents: 'none',
+                      //borderBottom: '1px solid red',
+                      //borderTop: '1px solid blue',
+                    }}
+                  >
+                    <PortfolioItem path="ye-olden-stuffe" data={e.node} />
+                  </Parallax.Layer>
+                )
+              })}
+          </Parallax>
+        </MediaQuery>
+        <MediaQuery maxWidth={719}>
+          <ListWrapper>
+            {items &&
+              items.map((e, i) => (
+                <PortfolioItem key={`e${i}`} data={e.node} />
+              ))}
+          </ListWrapper>
+        </MediaQuery>
       </PageWrapper>
     )
   }
