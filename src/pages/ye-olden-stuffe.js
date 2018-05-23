@@ -179,6 +179,7 @@ export default class Archive extends React.Component {
               items.map((e, i) => (
                 <PortfolioItem
                   lastPos={this.state.lastPos}
+                  path="ye-olden-stuffe"
                   key={`e${i}`}
                   data={e.node}
                 />
