@@ -12,7 +12,7 @@ import archiveButton from './../components/archive_white.svg'
 const PageWrapper = styled.div`
 	background: black url('${props => props.bg || bg}');
 		background-repeat: repeat-y;
-		background-size: contain;
+		background-size: auto;
 	min-height: 100vh;
 
   @media (min-width: 720px) {
@@ -82,7 +82,7 @@ export default class Oeuvre extends React.Component {
       } else {
         setTimeout(
           function() {
-            this.pw.scroll({
+            window.scroll({
               top: toScroll,
               behavior: 'smooth',
             })
