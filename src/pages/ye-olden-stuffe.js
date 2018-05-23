@@ -11,8 +11,10 @@ const PageWrapper = styled.div`
 	background: black url('${props => props.bg || bg}') no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
-  height: 100vh;
-	overflow-y: scroll;
+	background-repeat: no-repeat;
+		min-height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 
   @media (min-width: 720px) {
 		overflow-y: initial;
@@ -32,7 +34,7 @@ const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Archive extends React.Component {
-  state = { logoFlip: false, active: false, height: null }
+  state = { logoFlip: false, active: false, height: null, lastPos: 0 }
 
   componentDidMount() {
     setTimeout(
@@ -45,8 +47,31 @@ export default class Archive extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
-      if (window && document) {
-        document.addEventListener('scroll', this.handleScroll)
+      window.addEventListener('scroll', this.handleScroll)
+    }
+    if (window && window.location.hash) {
+      const toScroll = parseInt(window.location.hash.replace('#', ''))
+      smoothscroll.polyfill()
+      if (this.parallax) {
+        setTimeout(
+          function() {
+            this.parallax.container.scroll({
+              top: toScroll,
+              behavior: 'smooth',
+            })
+          }.bind(this),
+          500
+        )
+      } else {
+        setTimeout(
+          function() {
+            window.scroll({
+              top: toScroll,
+              behavior: 'smooth',
+            })
+          }.bind(this),
+          500
+        )
       }
     }
   }
@@ -67,9 +92,20 @@ export default class Archive extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.parallax) {
+      this.parallax.container.onscroll = null
+    } else {
+      document.removeEventListener('scroll', this.handleScroll)
+    }
+  }
+
   handleScroll = e => {
     if ((e.target.scrollTop || window.scrollY) > 300) {
-      this.setState({ logoFlip: true })
+      this.setState({
+        logoFlip: true,
+        lastPos: e.target.scrollTop || e.target.scrollingElement.scrollTop,
+      })
     } else {
       this.setState({ logoFlip: false })
     }
@@ -127,7 +163,11 @@ export default class Archive extends React.Component {
                       pointerEvents: 'none',
                     }}
                   >
-                    <PortfolioItem path="ye-olden-stuffe" data={e.node} />
+                    <PortfolioItem
+                      lastPos={this.state.lastPos}
+                      path="ye-olden-stuffe"
+                      data={e.node}
+                    />
                   </Parallax.Layer>
                 )
               })}
@@ -137,7 +177,11 @@ export default class Archive extends React.Component {
           <ListWrapper>
             {items &&
               items.map((e, i) => (
-                <PortfolioItem key={`e${i}`} data={e.node} />
+                <PortfolioItem
+                  lastPos={this.state.lastPos}
+                  key={`e${i}`}
+                  data={e.node}
+                />
               ))}
           </ListWrapper>
         </MediaQuery>
