@@ -10,14 +10,14 @@ import bg from './../layouts/bg-home.jpg'
 import archiveButton from './../components/archive_white.svg'
 
 const PageWrapper = styled.div`
-	background: black url('${props => props.bg || bg}') no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	height: 100vh;
-	overflow-y: scroll;
+	background: black url('${props => props.bg || bg}');
+		background-repeat: repeat-y;
+		background-size: contain;
+	min-height: 100vh;
 
   @media (min-width: 720px) {
 		overflow-y: initial;
+		background-attachment: fixed;
 	}
 `
 const ListWrapper = styled.div`
@@ -41,7 +41,7 @@ const ToArchive = styled.div`
 
 const ToArchiveMobile = styled.div`
   margin-top: 100px;
-  margin-bottom: 200px;
+  padding-bottom: 200px;
   img {
     width: 80%;
   }
@@ -64,7 +64,7 @@ export default class Oeuvre extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
-      this.pw.addEventListener('scroll', this.handleScroll)
+      window.addEventListener('scroll', this.handleScroll)
     }
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
@@ -113,15 +113,15 @@ export default class Oeuvre extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = null
     } else {
-      this.pw.removeEventListener('scroll', this.handleScroll)
+      document.removeEventListener('scroll', this.handleScroll)
     }
   }
 
   handleScroll = e => {
-    if (e.target.scrollTop > 300) {
+    if ((e.target.scrollTop || window.scrollY) > 300) {
       this.setState({
         logoFlip: true,
-        lastPos: e.target.scrollTop,
+        lastPos: e.target.scrollTop || e.target.scrollingElement.scrollTop,
       })
     } else {
       this.setState({ logoFlip: false })
