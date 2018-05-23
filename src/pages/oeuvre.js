@@ -14,12 +14,15 @@ const PageWrapper = styled.div`
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
-		min-height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 
   @media (min-width: 720px) {
-		overflow-y: initial;
+		//overflow-y: initial;
 	}
 `
 const ListWrapper = styled.div`
@@ -66,7 +69,7 @@ export default class Oeuvre extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
-      window.addEventListener('scroll', this.handleScroll)
+      this.pw.addEventListener('scroll', this.handleScroll)
     }
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
@@ -84,7 +87,7 @@ export default class Oeuvre extends React.Component {
       } else {
         setTimeout(
           function() {
-            window.scroll({
+            this.pw.scroll({
               top: toScroll,
               behavior: 'smooth',
             })
@@ -115,7 +118,7 @@ export default class Oeuvre extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = null
     } else {
-      document.removeEventListener('scroll', this.handleScroll)
+      this.pw.removeEventListener('scroll', this.handleScroll)
     }
   }
 
