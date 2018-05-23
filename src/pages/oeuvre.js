@@ -18,11 +18,10 @@ const PageWrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  overflow: auto;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 
   @media (min-width: 720px) {
-		//overflow-y: initial;
 	}
 `
 const ListWrapper = styled.div`
