@@ -11,13 +11,15 @@ import archiveButton from './../components/archive_white.svg'
 
 const PageWrapper = styled.div`
 	background: black url('${props => props.bg || bg}');
-		background-repeat: repeat-y;
-		background-size: auto;
-	min-height: 100vh;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+		min-height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 
   @media (min-width: 720px) {
 		overflow-y: initial;
-		background-attachment: fixed;
 	}
 `
 const ListWrapper = styled.div`
