@@ -9,7 +9,7 @@ import bg from './../layouts/bg-home.jpg'
 import archiveButton from './../components/archive_white.svg'
 
 const PageWrapper = styled.div`
-	background: black url('${bg}') no-repeat;
+	background: black url('${props => props.bg || bg}') no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
 	height: 100vh;
@@ -71,11 +71,9 @@ export default class Oeuvre extends React.Component {
 
   componentDidUpdate() {
     if (this.props.data && !this.state.height && this.parallax) {
-      console.log('update', this.state.height, this.parallax)
       const wrapper = this.parallax.container.childNodes[0]
       const wrapperHeight = wrapper.clientHeight
       const winHeight = window.innerHeight
-      console.log('wrapper', wrapper.style.height, winHeight)
       const items = this.props.data.allDatoCmsPagePortfolio.edges
       var offset = 0
       offset = items.reduce((current, e) => {
@@ -98,14 +96,14 @@ export default class Oeuvre extends React.Component {
   render() {
     if (!this.props.data) return <div>Loading...</div>
 
-    const { data, color } = this.props
+    const { data, color, bg } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
     let offset = 0
 
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
 
     return (
-      <PageWrapper ref={ref => (this.pw = ref)}>
+      <PageWrapper bg={bg.oeuvre.url} ref={ref => (this.pw = ref)}>
         <Header
           backto="/about"
           action="toabout"

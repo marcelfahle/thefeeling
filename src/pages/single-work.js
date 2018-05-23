@@ -42,7 +42,7 @@ const StartVideoButton = styled.div`
 const Wrapper = styled.div`
   position: relative;
 	background: black;
-	background: url('${bg}') no-repeat;
+	background: url('${props => props.bg || bg}') no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
   top: 0;
@@ -241,6 +241,7 @@ export default class SingleWork extends React.Component {
   render() {
     var isArchive = false
     if (this.props.data.work) {
+      var bg = this.props.bg.oeuvreDetail.url
       var {
         color,
         data: { work },
@@ -255,6 +256,7 @@ export default class SingleWork extends React.Component {
       } = this.props
     } else {
       isArchive = true
+      var bg = this.props.bg.archiveDetail.url
       var {
         color,
         data: { archive: work },
@@ -275,7 +277,7 @@ export default class SingleWork extends React.Component {
     }
 
     return (
-      <Wrapper className={this.state.cursor}>
+      <Wrapper bg={bg} className={this.state.cursor}>
         <Header
           backto={isArchive ? '/ye-olden-stuffe' : '/oeuvre'}
           action="backhome"

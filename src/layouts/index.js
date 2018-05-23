@@ -64,7 +64,11 @@ const Layout = props => (
         { name: 'keywords', content: '' },
       ]}
     />
-    <div>{props.children(Object.assign({}, props, { color: color }))}</div>
+    <div>
+      {props.children(
+        Object.assign({}, props, { bg: props.data.bg, color: color })
+      )}
+    </div>
   </Wrapper>
 )
 
@@ -79,6 +83,23 @@ export const query = graphql`
     site {
       siteMetadata {
         title
+      }
+    }
+    bg: datoCmsBackground {
+      oeuvre {
+        url
+      }
+      oeuvreDetail {
+        url
+      }
+      archive {
+        url
+      }
+      archiveDetail {
+        url
+      }
+      about {
+        url
       }
     }
   }

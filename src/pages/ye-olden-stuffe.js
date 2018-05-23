@@ -8,8 +8,8 @@ import PortfolioItem from './../components/PortfolioItem'
 import bg from './../components/archiv_hintergrund4.jpg'
 
 const PageWrapper = styled.div`
-		background: url('${bg}') no-repeat;
-		background-size: cover;
+	background: black url('${props => props.bg || bg}') no-repeat;
+	background-size: cover;
 	background-attachment: fixed;
   height: 100vh;
 	overflow-y: scroll;
@@ -56,7 +56,6 @@ export default class Archive extends React.Component {
       const wrapper = this.parallax.container.childNodes[0]
       const wrapperHeight = wrapper.clientHeight
       const winHeight = window.innerHeight
-      console.log('wrapper', wrapper.style.height, winHeight)
       const items = this.props.data.allDatoCmsPageArchive.edges
       var offset = 0
       offset = items.reduce((current, e) => {
@@ -78,19 +77,25 @@ export default class Archive extends React.Component {
   render() {
     if (!this.props.data) return <div>Loading...</div>
 
-    const { data } = this.props
+    const { data, color, bg } = this.props
     const items = data.allDatoCmsPageArchive.edges
     let offset = 0
 
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
 
     return (
-      <PageWrapper>
+      <PageWrapper bg={bg.archive.url} ref={ref => (this.pw = ref)}>
         <Header
           backto="/oeuvre"
           action="backhome"
           size="small"
           siteTitle="THE FEELING"
+          mini={true}
+          flipped={this.state.logoFlip}
+          position="fixed"
+          color={color}
+          size="small"
+          active={this.state.active}
         />
 
         <MediaQuery minWidth={720}>
@@ -120,8 +125,6 @@ export default class Archive extends React.Component {
                       justifyContent: 'center',
                       width: '100%',
                       pointerEvents: 'none',
-                      //borderBottom: '1px solid red',
-                      //borderTop: '1px solid blue',
                     }}
                   >
                     <PortfolioItem path="ye-olden-stuffe" data={e.node} />

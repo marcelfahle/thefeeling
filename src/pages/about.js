@@ -6,7 +6,7 @@ import bg from './../components/quer_1.jpg'
 
 const PageWrapper = styled.div`
   position: absolute;
-	background: url('${bg}') no-repeat;
+	background: url('${props => bg || bg}') no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
@@ -94,10 +94,10 @@ class About extends React.Component {
     }
   }
   render() {
-    const { data, color } = this.props
+    const { data, color, bg } = this.props
 
     return (
-      <PageWrapper innerRef={e => (this.page = e)}>
+      <PageWrapper bg={bg.about.url} innerRef={e => (this.page = e)}>
         <Header
           backto="/oeuvre"
           action="backhome"
