@@ -122,6 +122,7 @@ class VideoPlayer extends React.Component {
 
   render() {
     const { color } = this.props
+    console.log('color', color)
     return (
       <Wrapper>
         <Header color={color} siteTitle="THE FEELING" />
