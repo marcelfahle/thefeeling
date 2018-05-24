@@ -111,9 +111,42 @@ const Wrapper = styled.div`
   }
 `
 
+const colors = [
+  {
+    leftBg: '#e53212',
+    leftText: '#2b632d',
+    rightBg: '#c78800',
+    rightText: '#ffed00',
+  },
+  {
+    leftBg: '#009ee3',
+    leftText: '#273582',
+    rightBg: '#e53212',
+    rightText: '#c78800',
+  },
+  {
+    leftBg: '#009ee3',
+    leftText: '#ffffff',
+    rightBg: '#2b632d',
+    rightText: '#c78800',
+  },
+  {
+    leftBg: '#b51614',
+    leftText: '#009ee3',
+    rightBg: '#273582',
+    rightText: '#e30513',
+  },
+  {
+    leftBg: '#ffed00',
+    leftText: '#273582',
+    rightBg: '#e30513',
+    rightText: '#b51614',
+  },
+]
+const color = colors[Math.floor(Math.random() * colors.length)]
+
 export default ({
   siteTitle,
-  color,
   backto = '/',
   action = 'default',
   size = 'big',
