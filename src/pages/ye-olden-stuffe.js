@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import smoothscroll from 'smoothscroll-polyfill'
 import MediaQuery from 'react-responsive'
 import Link from 'gatsby-link'
 import { Parallax } from 'react-spring'
