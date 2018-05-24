@@ -78,7 +78,7 @@ export default class Oeuvre extends React.Component {
           function() {
             this.parallax.container.scroll({
               top: toScroll,
-              behavior: 'auto',
+              behavior: 'smooth',
             })
           }.bind(this),
           500
@@ -88,7 +88,7 @@ export default class Oeuvre extends React.Component {
           function() {
             this.pw.scroll({
               top: toScroll,
-              behavior: 'auto',
+              behavior: 'smooth',
             })
           }.bind(this),
           500
