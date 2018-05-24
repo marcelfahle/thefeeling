@@ -57,7 +57,7 @@ export default class Archive extends React.Component {
           function() {
             this.parallax.container.scroll({
               top: toScroll,
-              behavior: 'smooth',
+              behavior: 'auto',
             })
           }.bind(this),
           500
@@ -67,7 +67,7 @@ export default class Archive extends React.Component {
           function() {
             window.scroll({
               top: toScroll,
-              behavior: 'smooth',
+              behavior: 'auto',
             })
           }.bind(this),
           500
