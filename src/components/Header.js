@@ -113,12 +113,7 @@ const Wrapper = styled.div`
 
 export default ({
   siteTitle,
-  color = {
-    leftBg: '#e53212',
-    leftText: '#2b632d',
-    rightBg: '#c78800',
-    rightText: '#ffed00',
-  },
+  color,
   backto = '/',
   action = 'default',
   size = 'big',

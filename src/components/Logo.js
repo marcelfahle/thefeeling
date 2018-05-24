@@ -80,4 +80,6 @@ class TheLogo extends React.Component {
   }
 }
 
+TheLogo.displayName = 'Logo'
+
 export default TheLogo
