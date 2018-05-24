@@ -23,9 +23,12 @@ const Image = styled.img`
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) and (max-height: 480px) {
+    margin-top: 0;
     max-height: calc(100vh - 100px);
   }
 `
+
+const StyledSwipeable = styled(Swipeable)``
 
 const StartVideoButton = styled.div`
   width: 76px;
@@ -291,10 +294,11 @@ export default class SingleWork extends React.Component {
           siteTitle="THE FEELING"
           mini={true}
           color={color}
+          position="absolute"
           flipped
         />
 
-        <Swipeable
+        <StyledSwipeable
           onSwipedLeft={e => this.handleSwipeLeft(pics, e)}
           onSwipedRight={e => this.handleSwipeRight(pics, e)}
         >
@@ -331,7 +335,7 @@ export default class SingleWork extends React.Component {
               </Parallax.Layer>
             ))}
           </Parallax>
-        </Swipeable>
+        </StyledSwipeable>
         {/*
         <InfoBox bgColor={work.themeColor.hex} textColor={work.textColor.hex}>
           <p

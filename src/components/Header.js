@@ -36,6 +36,10 @@ const StyledHeader = styled.div`
   }
 
 
+  @media (orientation: landscape) and (max-height: 480px) {
+    top: -180px;
+		height: 0.1px;
+	}
   @media (min-width: 720px) {
 		left: ${props => (props.size == 'big' ? '50%' : '25px')};
 		transform: ${props => (props.size == 'big' ? 'translateX(-50%)' : 'none')};
@@ -66,11 +70,6 @@ const Flipper = styled.div`
     }
   }
 
-  @media (min-width: 720px) {
-    left: 4.5%;
-    transform: none;
-		/*width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};*/
-  }
 
   svg {
 		top: 0;
@@ -82,9 +81,12 @@ const Flipper = styled.div`
     transform: rotateX(180deg);
   }
 
-  @media (orientation: landscape) and (max-height: 480px) {
-    top: -180px;
-	}
+
+  @media (min-width: 720px) {
+    left: 4.5%;
+    transform: none;
+		/*width: ${props => (props.size == 'big' ? 'calc(100% - 50px)' : '350px')};*/
+  }
 `
 
 const Wrapper = styled.div`
