@@ -107,12 +107,12 @@ class VideoPlayer extends React.Component {
       console.log('player ready.')
     )
     this.player.on('play', () => videojs.log('play'))
-    this.player.on('ended', () => videojs.log('ended'))
+    this.player.on('ended', () => this.player.playlist.next())
     this.player.on('playlistitem', (e, f) => videojs.log('playlistitem', e, f))
     this.player.playlist(pl)
     this.player.playlist.repeat()
     //this.player.playlist.shuffle()
-    this.player.playlist.autoadvance(1)
+    //this.player.playlist.autoadvance(1)
   }
 
   componentWillUnmount() {
