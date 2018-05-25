@@ -112,15 +112,8 @@ const Wrapper = styled.div`
 `
 
 class Header extends React.Component {
-  state = {
-    color: {
-      leftBg: '#e53212',
-      leftText: '#2b632d',
-      rightBg: '#c78800',
-      rightText: '#ffed00',
-    },
-  }
-  componentDidMount() {
+  constructor(props) {
+    super(props)
     const colors = [
       {
         leftBg: '#e53212',
@@ -153,8 +146,10 @@ class Header extends React.Component {
         rightText: '#b51614',
       },
     ]
-    this.setState({ color: colors[Math.floor(Math.random() * colors.length)] })
+    this.c = colors[Math.floor(Math.random() * colors.length)]
   }
+
+  componentDidMount() {}
   render() {
     const {
       siteTitle,
@@ -170,7 +165,7 @@ class Header extends React.Component {
       flipped,
       noFlip: !active,
     })
-    const { color } = this.state
+    const color = this.c
     return (
       <StyledHeader pos={position} size={size}>
         <div>
