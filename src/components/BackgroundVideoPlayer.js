@@ -100,12 +100,19 @@ class VideoPlayer extends React.Component {
       preload: 'none',
       sources: pl,
     }
+    console.log('component did mount')
+    console.log('playlist', pl)
 
-    this.player = videojs(this.videoNode, { controls: false }, null)
+    this.player = videojs(this.videoNode, { controls: false }, () =>
+      console.log('player ready.')
+    )
+    this.player.on('play', () => videojs.log('play'))
+    this.player.on('ended', () => videojs.log('ended'))
+    this.player.on('playlistitem', (e, f) => videojs.log('playlistitem', e, f))
     this.player.playlist(pl)
     this.player.playlist.repeat()
-    this.player.playlist.shuffle()
-    this.player.playlist.autoadvance(0)
+    //this.player.playlist.shuffle()
+    this.player.playlist.autoadvance(1)
   }
 
   componentWillUnmount() {
