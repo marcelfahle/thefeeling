@@ -289,7 +289,7 @@ export default class SingleWork extends React.Component {
       <Wrapper bg={bg} className={this.state.cursor}>
         <Header
           backto={isArchive ? `/ye-olden-stuffe${lp}` : `/oeuvre${lp}`}
-          action="backhome"
+          action={isArchive ? 'backarchive' : 'backhome'}
           size="small"
           siteTitle="THE FEELING"
           mini={true}

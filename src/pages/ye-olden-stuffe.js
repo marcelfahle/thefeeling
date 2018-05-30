@@ -13,8 +13,11 @@ const PageWrapper = styled.div`
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
-		min-height: 100vh;
-  overflow: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 
   @media (min-width: 720px) {

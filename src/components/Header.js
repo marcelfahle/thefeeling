@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import Logo from './Logo'
 import Home from './Home'
+import BackToArchive from './BackToArchive'
 import AboutButton from './AboutButton'
 
 const StyledHeader = styled.div`
@@ -174,6 +175,15 @@ class Header extends React.Component {
               <Flipper mini={mini} size={size} className={cx}>
                 <Logo color={color} siteTitle={siteTitle} />
                 <Home color={color} className="back" siteTitle={siteTitle} />
+              </Flipper>
+            ) : action === 'backarchive' ? (
+              <Flipper mini={mini} size={size} className={cx}>
+                <Logo color={color} siteTitle={siteTitle} />
+                <BackToArchive
+                  color={color}
+                  className="back"
+                  siteTitle={siteTitle}
+                />
               </Flipper>
             ) : action === 'toabout' ? (
               <Flipper mini={mini} size={size} className={cx}>
