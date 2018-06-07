@@ -124,7 +124,7 @@ export default class Archive extends React.Component {
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
 
     return (
-      <PageWrapper bg={bg.archive.url} ref={ref => (this.pw = ref)}>
+      <PageWrapper bg={bg.archive.url} innerRef={ref => (this.pw = ref)}>
         <Header
           backto="/oeuvre"
           action="backhome"
