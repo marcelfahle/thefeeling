@@ -51,7 +51,7 @@ export default class Archive extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
-      window.addEventListener('scroll', this.handleScroll)
+      this.pw.addEventListener('scroll', this.handleScroll)
     }
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
@@ -69,7 +69,7 @@ export default class Archive extends React.Component {
       } else {
         setTimeout(
           function() {
-            window.scroll({
+            this.pw.scroll({
               top: toScroll,
               behavior: 'smooth',
             })
@@ -100,7 +100,7 @@ export default class Archive extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = null
     } else {
-      document.removeEventListener('scroll', this.handleScroll)
+      this.pw.removeEventListener('scroll', this.handleScroll)
     }
   }
 
@@ -128,7 +128,6 @@ export default class Archive extends React.Component {
         <Header
           backto="/oeuvre"
           action="backhome"
-          size="small"
           siteTitle="THE FEELING"
           mini={true}
           flipped={this.state.logoFlip}
