@@ -92,7 +92,7 @@ export default class Archive extends React.Component {
       }, 0)
       const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
       this.setState({ height: maxHeight })
-      wrapper.style.maxHeight = `${maxHeight}px`
+      wrapper.style.maxHeight = `${maxHeight + 500}px`
     }
   }
 
