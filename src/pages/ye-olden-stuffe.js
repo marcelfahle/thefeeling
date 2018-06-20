@@ -206,7 +206,6 @@ export const query = graphql`
           speed
           slug
           yOffset
-          scrollPageHeight
           themeColor {
             hex
           }

@@ -232,7 +232,6 @@ export const query = graphql`
           speed
           slug
           yOffset
-          scrollPageHeight
           previewImage {
             url
           }

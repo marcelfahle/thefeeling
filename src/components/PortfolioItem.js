@@ -23,7 +23,7 @@ const FirstImage = styled.img`
     width: auto;
     max-width: ${props =>
       !props.width || props.width == 100
-        ? 'calc(100% - 100px)'
+        ? '100%'
         : props.width + '%'};
   }
 `
