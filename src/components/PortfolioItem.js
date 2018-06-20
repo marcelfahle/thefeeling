@@ -20,7 +20,7 @@ const FirstImage = styled.img`
   transition: all 0.8 ease;
 
   @media (min-width: 720px) {
-    width: auto;
+    width: 100%;
     max-width: ${props =>
       !props.width || props.width == 100
         ? '100%'
