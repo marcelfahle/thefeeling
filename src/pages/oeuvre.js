@@ -109,7 +109,7 @@ export default class Oeuvre extends React.Component {
       }, 0)
       const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
       this.setState({ height: maxHeight })
-      wrapper.style.maxHeight = `${maxHeight + winHeight}px`
+      wrapper.style.maxHeight = `${maxHeight + (winHeight/2)}px`
     }
   }
 
