@@ -145,7 +145,7 @@ export default class Archive extends React.Component {
           >
             {items &&
               items.map((e, i) => {
-                const speed = e.node.speed / 30 || 0
+                const speed = e.node.speed / 100 || 0
                 //const fact = e.node.scrollPageHeight / 100 || 0.7
                 const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
@@ -156,8 +156,7 @@ export default class Archive extends React.Component {
                   <Parallax.Layer
                     key={i}
                     offset={off}
-                    speed={speed}
-                    factor={fact}
+                    speed={e.node.speed}
                     style={{
                       display: 'flex',
                       alignItems: 'center',

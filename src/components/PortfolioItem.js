@@ -8,7 +8,8 @@ const getRandomInt = (min, max) =>
 const Item = styled.div`
   width: 100%;
   text-align: center;
-  margin-bottom: 30px;
+  //margin-bottom: 30px;
+  //border: 1px solid red;
   @media (min-width: 720px) {
     text-align: left;
   }

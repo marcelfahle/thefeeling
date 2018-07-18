@@ -163,26 +163,28 @@ export default class Oeuvre extends React.Component {
           >
             {items &&
               items.map((e, i) => {
-                const speed = e.node.speed / 30 || 0
+                //const speed = e.node.speed / 30 || 0
+                const speed = e.node.speed / 100 || 0
                 //const fact = e.node.scrollPageHeight / 100 || 0.7
                 const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
                 offset -= e.node.yOffset
                 const off = i == 0 ? 0 : 0 - offset / 100
 
+                //console.log('item', i, speed);
+
                 return (
                   <Parallax.Layer
                     key={i}
                     offset={off}
                     speed={speed}
-                    factor={fact}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       width: '100%',
                       pointerEvents: 'none',
-                      //borderBottom: '1px solid red',
+                      //borderBottom: '1px solid yellow',
                       //borderTop: '1px solid blue',
                     }}
                   >
