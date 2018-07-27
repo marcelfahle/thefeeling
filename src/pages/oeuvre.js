@@ -105,9 +105,10 @@ export default class Oeuvre extends React.Component {
       const items = this.props.data.allDatoCmsPagePortfolio.edges
       var offset = 0
       offset = items.reduce((current, e) => {
-        return current + e.node.yOffset
+        return current + (e.node.yOffset / 100)
       }, 0)
-      const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
+      const maxHeight = (offset * winHeight) + winHeight/1.2;
+      //const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
       this.setState({ height: maxHeight })
       wrapper.style.maxHeight = `${maxHeight + (winHeight/2)}px`
     }
