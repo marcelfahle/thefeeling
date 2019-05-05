@@ -269,6 +269,9 @@ export default class SingleWork extends React.Component {
 
     const lp = this.state.lastPos
 
+    const subs = this.props.data[type].subPages
+    console.log('work', work)
+
     return (
       <Wrapper bg={bg} className={this.state.cursor}>
         <Header
@@ -293,27 +296,32 @@ export default class SingleWork extends React.Component {
             horizontal
             scrolling={false}
           >
-            {pics.map((e, i) => (
+            {subs.map((e, i) => (
               <ParallaxLayer
                 offset={i}
                 key={i}
                 speed={0}
-                onClick={e => this.handleClick(pics, i, e)}
+                onClick={e => this.handleClick(subs, i, e)}
               >
-                {e.type && e.type === 'text' ? (
+                {e.mediaType && e.mediaType === 'text' ? (
                   <TextContent
-                    bgColor={work.themeColor.hex}
-                    textColor={work.textColor.hex}
-                    dangerouslySetInnerHTML={{ __html: e.content }}
+                    bgColor={
+                      e.themeColor ? e.themeColor.hex : work.themeColor.hex
+                    }
+                    textColor={
+                      e.textColor ? e.textColor.hex : work.textColor.hex
+                    }
+                    dangerouslySetInnerHTML={{ __html: e.text }}
                   />
                 ) : (
                   <div>
-                    <Image src={e.url} />
-                    {e.alt && e.title && e.title === 'VIDEO' ? (
-                      <StartVideoButton
-                        onClick={evt => this.startVideo(e.alt, evt)}
-                      />
-                    ) : null}
+                    <Image src={e.image.url} />
+                    {e.mediaType &&
+                      e.mediaType === 'video' && (
+                        <StartVideoButton
+                          onClick={evt => this.startVideo(e.video.url, evt)}
+                        />
+                      )}
                   </div>
                 )}
               </ParallaxLayer>
@@ -376,6 +384,33 @@ export const query = graphql`
           aspectRatio
         }
       }
+      subPages {
+        mediaType
+        text
+        opacity
+        externalLink
+        video {
+          url
+          title
+          provider
+          providerUid
+          thumbnailUrl
+          width
+          height
+        }
+        themeColor {
+          hex
+        }
+        textColor {
+          hex
+        }
+        image {
+          url
+          resolutions {
+            aspectRatio
+          }
+        }
+      }
     }
     archive: datoCmsPageArchive(slug: { eq: $slug }) {
       title
@@ -402,6 +437,33 @@ export const query = graphql`
         title
         resolutions {
           aspectRatio
+        }
+      }
+      subPages {
+        mediaType
+        text
+        opacity
+        externalLink
+        video {
+          url
+          title
+          provider
+          providerUid
+          thumbnailUrl
+          width
+          height
+        }
+        themeColor {
+          hex
+        }
+        textColor {
+          hex
+        }
+        image {
+          url
+          resolutions {
+            aspectRatio
+          }
         }
       }
     }
