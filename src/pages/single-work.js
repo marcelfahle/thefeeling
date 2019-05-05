@@ -1,16 +1,17 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import Swipeable from 'react-swipeable'
 import ModalVideo from 'react-modal-video'
-import Link from 'gatsby-link'
 import Header from './../components/Header'
-import CloseIcon from './../components/CloseIcon'
+//import CloseIcon from './../components/CloseIcon'
 import Smile from './../components/icons8-happy-96.png'
-import CloseIconWhite from './../components/kreuz-white.svg'
-import BackArrow from './../components/icons8-undo-96.png'
-import PlayIcon from './../components/icons8-play-96.png'
+//import CloseIconWhite from './../components/kreuz-white.svg'
+//import BackArrow from './../components/icons8-undo-96.png'
+//import PlayIcon from './../components/icons8-play-96.png'
 import WatchIcon from './../components/play-button.png'
-import { Parallax, Transition } from 'react-spring'
+//import { Transition } from 'react-spring'
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
 import bg from './../layouts/bg-home.jpg'
 
@@ -81,63 +82,63 @@ const Wrapper = styled.div`
   }
 `
 
-const InfoBox = styled.div`
-  position: absolute;
-  background: ${props => props.bgColor || 'black'};
-  color: ${props => props.textColor || 'white'};
-  margin-left: 25px;
-  bottom: 25px;
-  text-align: left;
-  padding: 6px 10px;
-  font-size: 15px;
-  line-height: 1.2;
-  letter-spacing: 1px;
-  max-width: 50%;
-  p {
-    margin: 0;
-    padding: 0;
-  }
-
-  @media (min-width: 720px) {
-    font-size: 15px;
-    bottom: 35px;
-    margin-left: 4.5%;
-  }
-
-  transition: bottom 0.8s ease;
-  @media (orientation: landscape) {
-    bottom: -100px;
-  }
-`
-const CounterBox = styled.div`
-  position: absolute;
-  background: ${props => props.bgColor || 'black'};
-  color: ${props => props.textColor || 'white'};
-  width: 60px;
-  right: 25px;
-  bottom: 25px;
-  text-align: center;
-  padding: 6px 10px;
-  line-height: 1.2;
-  letter-spacing: 1px;
-  font-size: 14px;
-  transition: bottom 0.8s ease;
-  p {
-    margin: 0;
-    padding: 0;
-  }
-
-  @media (min-width: 720px) {
-    width: 100px;
-    font-size: 15px;
-    bottom: 35px;
-    margin-left: 4.5%;
-  }
-
-  @media (orientation: landscape) {
-    bottom: -100px;
-  }
-`
+//const InfoBox = styled.div`
+//  position: absolute;
+//  background: ${props => props.bgColor || 'black'};
+//  color: ${props => props.textColor || 'white'};
+//  margin-left: 25px;
+//  bottom: 25px;
+//  text-align: left;
+//  padding: 6px 10px;
+//  font-size: 15px;
+//  line-height: 1.2;
+//  letter-spacing: 1px;
+//  max-width: 50%;
+//  p {
+//    margin: 0;
+//    padding: 0;
+//  }
+//
+//  @media (min-width: 720px) {
+//    font-size: 15px;
+//    bottom: 35px;
+//    margin-left: 4.5%;
+//  }
+//
+//  transition: bottom 0.8s ease;
+//  @media (orientation: landscape) {
+//    bottom: -100px;
+//  }
+//`
+//const CounterBox = styled.div`
+//  position: absolute;
+//  background: ${props => props.bgColor || 'black'};
+//  color: ${props => props.textColor || 'white'};
+//  width: 60px;
+//  right: 25px;
+//  bottom: 25px;
+//  text-align: center;
+//  padding: 6px 10px;
+//  line-height: 1.2;
+//  letter-spacing: 1px;
+//  font-size: 14px;
+//  transition: bottom 0.8s ease;
+//  p {
+//    margin: 0;
+//    padding: 0;
+//  }
+//
+//  @media (min-width: 720px) {
+//    width: 100px;
+//    font-size: 15px;
+//    bottom: 35px;
+//    margin-left: 4.5%;
+//  }
+//
+//  @media (orientation: landscape) {
+//    bottom: -100px;
+//  }
+//`
 const TextContent = styled.div`
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
@@ -165,29 +166,29 @@ const TextContent = styled.div`
   }
 `
 
-const CloseButton = styled(Link)`
-  position: absolute;
-  display: none;
-  right: 25px;
-  top: 25px;
-  width: 28px;
-  height: 28px;
-  z-index: 151;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  @media (min-width: 720px) {
-    right: 50px;
-    width: 54px;
-    height: 54px;
-  }
-  @media (orientation: landscape) {
-    display: none;
-  }
-`
+//const CloseButton = styled(Link)`
+//  position: absolute;
+//  display: none;
+//  right: 25px;
+//  top: 25px;
+//  width: 28px;
+//  height: 28px;
+//  z-index: 151;
+//
+//  svg {
+//    width: 100%;
+//    height: 100%;
+//  }
+//
+//  @media (min-width: 720px) {
+//    right: 50px;
+//    width: 54px;
+//    height: 54px;
+//  }
+//  @media (orientation: landscape) {
+//    display: none;
+//  }
+//`
 
 const StyledModalVideo = styled(ModalVideo)``
 
@@ -247,40 +248,23 @@ export default class SingleWork extends React.Component {
 
   render() {
     var isArchive = false
+    var bg, type
+    var color = this.props.color
     if (this.props.data.work) {
-      var bg = this.props.bg.oeuvreDetail.url
-      var {
-        color,
-        data: { work },
-        data: {
-          work: {
-            pictures: pics,
-            descriptionNode: {
-              childMarkdownRemark: { html: desc },
-            },
-          },
-        },
-      } = this.props
+      type = 'work'
+      bg = this.props.bg.oeuvreDetail.url
     } else {
+      type = 'archive'
       isArchive = true
-      var bg = this.props.bg.archiveDetail.url
-      var {
-        color,
-        data: { archive: work },
-        data: {
-          archive: {
-            pictures: pics,
-            descriptionNode: {
-              childMarkdownRemark: { html: desc },
-            },
-          },
-        },
-      } = this.props
+      bg = this.props.bg.archiveDetail.url
     }
+    const work = this.props.data[type]
+    const pics = this.props.data[type].pictures
+    const desc = this.props.data[type].descriptionNode.childMarkdownRemark.html
 
-    if (desc != '') {
+    if (desc !== '') {
       const d = { type: 'text', content: desc }
-      if (pics.length == 1 || !pics[1].type) pics.splice(1, 0, d)
+      if (pics.length === 1 || !pics[1].type) pics.splice(1, 0, d)
     }
 
     const lp = this.state.lastPos
@@ -310,13 +294,13 @@ export default class SingleWork extends React.Component {
             scrolling={false}
           >
             {pics.map((e, i) => (
-              <Parallax.Layer
+              <ParallaxLayer
                 offset={i}
                 key={i}
                 speed={0}
                 onClick={e => this.handleClick(pics, i, e)}
               >
-                {e.type && e.type == 'text' ? (
+                {e.type && e.type === 'text' ? (
                   <TextContent
                     bgColor={work.themeColor.hex}
                     textColor={work.textColor.hex}
@@ -332,7 +316,7 @@ export default class SingleWork extends React.Component {
                     ) : null}
                   </div>
                 )}
-              </Parallax.Layer>
+              </ParallaxLayer>
             ))}
           </Parallax>
         </StyledSwipeable>

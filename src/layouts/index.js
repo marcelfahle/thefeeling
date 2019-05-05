@@ -1,9 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import styled, { injectGlobal } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
+import { graphql, StaticQuery } from 'gatsby'
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
 	html {
 	}
 	body {
@@ -55,52 +55,55 @@ const colors = [
 ]
 const color = colors[Math.floor(Math.random() * colors.length)]
 
-const Layout = props => (
-  <Wrapper>
-    <Helmet
-      title={props.data.site.siteMetadata.title}
-      meta={[
-        { name: 'description', content: '' },
-        { name: 'keywords', content: '' },
-      ]}
-    />
-    <div>
-      {props.children(
-        Object.assign({}, props, { bg: props.data.bg, color: color })
-      )}
-    </div>
-  </Wrapper>
+export default ({ children }) => (
+  <StaticQuery
+    query={graphql`
+      query SiteTitleQuery {
+        site {
+          siteMetadata {
+            title
+          }
+        }
+        bg: datoCmsBackground {
+          oeuvre {
+            url
+          }
+          oeuvreDetail {
+            url
+          }
+          archive {
+            url
+          }
+          archiveDetail {
+            url
+          }
+          about {
+            url
+          }
+        }
+      }
+    `}
+    render={data => (
+      <Wrapper>
+        <GlobalStyle />
+        <Helmet
+          title={data.site.siteMetadata.title}
+          meta={[
+            { name: 'description', content: '' },
+            { name: 'keywords', content: '' },
+          ]}
+        />
+        <div>
+          {/*children(Object.assign({}, { data }, { bg: data.bg, color: color }))*/}
+          {React.Children.map(children, child =>
+            React.cloneElement(child, { bg: data.bg, color: color })
+          )}
+        </div>
+      </Wrapper>
+    )}
+  />
 )
 
-Layout.propTypes = {
-  children: PropTypes.func,
-}
-
-export default Layout
-
-export const query = graphql`
-  query SiteTitleQuery {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-    bg: datoCmsBackground {
-      oeuvre {
-        url
-      }
-      oeuvreDetail {
-        url
-      }
-      archive {
-        url
-      }
-      archiveDetail {
-        url
-      }
-      about {
-        url
-      }
-    }
-  }
-`
+//Layout.propTypes = {
+//  children: PropTypes.func,
+//}

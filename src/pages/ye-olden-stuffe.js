@@ -1,9 +1,9 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import smoothscroll from 'smoothscroll-polyfill'
 import MediaQuery from 'react-responsive'
-import Link from 'gatsby-link'
-import { Parallax } from 'react-spring'
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 import bg from './../components/archiv_hintergrund4.jpg'
@@ -34,8 +34,8 @@ const ListWrapper = styled.div`
   }
 `
 
-const getRandomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min
+//const getRandomInt = (min, max) =>
+//  Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Archive extends React.Component {
   state = { logoFlip: false, active: false, height: null, lastPos: 0 }
@@ -92,7 +92,7 @@ export default class Archive extends React.Component {
       }, 0)
       const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
       this.setState({ height: maxHeight })
-      wrapper.style.maxHeight = `${maxHeight + (winHeight/2)}px`
+      wrapper.style.maxHeight = `${maxHeight + winHeight / 2}px`
     }
   }
 
@@ -145,15 +145,15 @@ export default class Archive extends React.Component {
           >
             {items &&
               items.map((e, i) => {
-                const speed = e.node.speed / 100 || 0
+                //const speed = e.node.speed / 100 || 0
                 //const fact = e.node.scrollPageHeight / 100 || 0.7
-                const fact = 1
+                //const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
                 offset -= e.node.yOffset
-                const off = i == 0 ? 0 : 0 - offset / 100
+                const off = i === 0 ? 0 : 0 - offset / 100
 
                 return (
-                  <Parallax.Layer
+                  <ParallaxLayer
                     key={i}
                     offset={off}
                     speed={e.node.speed}
@@ -170,7 +170,7 @@ export default class Archive extends React.Component {
                       path="ye-olden-stuffe"
                       data={e.node}
                     />
-                  </Parallax.Layer>
+                  </ParallaxLayer>
                 )
               })}
           </Parallax>

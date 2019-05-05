@@ -1,9 +1,10 @@
 import React from 'react'
+import { graphql } from 'gatsby'
 import styled from 'styled-components'
 import smoothscroll from 'smoothscroll-polyfill'
 import MediaQuery from 'react-responsive'
 import Link from 'gatsby-link'
-import { Parallax } from 'react-spring'
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 import bg from './../layouts/bg-home.jpg'
@@ -51,11 +52,20 @@ const ToArchiveMobile = styled.div`
   }
 `
 
-const getRandomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min
+//const getRandomInt = (min, max) =>
+//  Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class Oeuvre extends React.Component {
+  constructor(props) {
+    super(props)
+    this.pwRef = React.createRef()
+  }
   state = { logoFlip: false, active: false, height: null, lastPos: 0 }
+
+  getRef = node => {
+    console.log('getref', node)
+    this.parallaxRef = node
+  }
 
   componentDidMount() {
     setTimeout(
@@ -65,10 +75,12 @@ export default class Oeuvre extends React.Component {
       3000
     )
 
-    if (this.parallax) {
-      this.parallax.container.onscroll = this.handleScroll
+    console.log('refs', this.parallaxRef, this.pwRef)
+
+    if (this.parallaxRef && window) {
+      this.parallaxRef.container.onscroll = this.handleScroll
     } else {
-      this.pw.addEventListener('scroll', this.handleScroll)
+      this.pwRef.current.addEventListener('scroll', this.handleScroll)
     }
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
@@ -86,7 +98,7 @@ export default class Oeuvre extends React.Component {
       } else {
         setTimeout(
           function() {
-            this.pw.scroll({
+            this.pwRef.current.scroll({
               top: toScroll,
               behavior: 'smooth',
             })
@@ -98,27 +110,27 @@ export default class Oeuvre extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.data && !this.state.height && this.parallax) {
-      const wrapper = this.parallax.container.childNodes[0]
-      const wrapperHeight = wrapper.clientHeight
+    if (this.props.data && !this.state.height && this.parallaxRef) {
+      const wrapper = this.parallaxRef.container.childNodes[0]
+      //const wrapperHeight = wrapper.clientHeight
       const winHeight = window.innerHeight
       const items = this.props.data.allDatoCmsPagePortfolio.edges
       var offset = 0
       offset = items.reduce((current, e) => {
-        return current + (e.node.yOffset / 100)
+        return current + e.node.yOffset / 100
       }, 0)
-      const maxHeight = (offset * winHeight) + winHeight/1.2;
+      const maxHeight = offset * winHeight + winHeight / 1.2
       //const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
       this.setState({ height: maxHeight })
-      wrapper.style.maxHeight = `${maxHeight + (winHeight/2)}px`
+      wrapper.style.maxHeight = `${maxHeight + winHeight / 2}px`
     }
   }
 
   componentWillUnmount() {
-    if (this.parallax) {
-      this.parallax.container.onscroll = null
+    if (this.parallaxRef) {
+      this.parallaxRef.container.onscroll = null
     } else {
-      this.pw.removeEventListener('scroll', this.handleScroll)
+      this.pwRef.current.removeEventListener('scroll', this.handleScroll)
     }
   }
 
@@ -134,16 +146,19 @@ export default class Oeuvre extends React.Component {
   }
 
   render() {
+    //console.log('props', this.props)
     if (!this.props.data) return <div>Loading...</div>
 
     const { data, color, bg } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
     let offset = 0
 
+    //console.log(this.props)
+
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
 
     return (
-      <PageWrapper bg={bg.oeuvre.url} innerRef={ref => (this.pw = ref)}>
+      <PageWrapper bg={bg.oeuvre.url} ref={this.pwRef}>
         <Header
           backto="/about"
           action="toabout"
@@ -159,7 +174,7 @@ export default class Oeuvre extends React.Component {
         <MediaQuery minWidth={720}>
           <Parallax
             className="parallaxer"
-            ref={ref => (this.parallax = ref)}
+            ref={this.getRef}
             pages={items.length}
           >
             {items &&
@@ -167,15 +182,40 @@ export default class Oeuvre extends React.Component {
                 //const speed = e.node.speed / 30 || 0
                 const speed = e.node.speed / 100 || 0
                 //const fact = e.node.scrollPageHeight / 100 || 0.7
-                const fact = 1
+                //const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
                 offset -= e.node.yOffset
-                const off = i == 0 ? 0 : 0 - offset / 100
+                const off = i === 0 ? 0 : 0 - offset / 100
 
-                //console.log('item', i, speed);
+                //console.log(
+                //  i,
+                //  e.node.title,
+                //  `speed: ${speed}`,
+                //  `orig yOffset: ${e.node.yOffset}`,
+                //  `acc offset: ${off}`,
+                //  `width: ${e.node.width}`
+                //)
+                var border = 'none'
+                switch (i) {
+                  case 0:
+                    border = '3px solid red'
+                    break
+                  case 1:
+                    border = '3px solid purple'
+                    break
+                  case 2:
+                    border = '3px solid yellow'
+                    break
+                  case 3:
+                    border = '3px solid black'
+                    break
+                  default:
+                    border = 'none'
+                    break
+                }
 
                 return (
-                  <Parallax.Layer
+                  <ParallaxLayer
                     key={i}
                     offset={off}
                     speed={speed}
@@ -185,18 +225,19 @@ export default class Oeuvre extends React.Component {
                       justifyContent: 'center',
                       width: '100%',
                       pointerEvents: 'none',
-                      //borderBottom: '1px solid yellow',
-                      //borderTop: '1px solid blue',
+                      border: 'none',
+                      //border: border,
+                      //borderTop: '3px solid blue',
                     }}
                   >
                     <PortfolioItem lastPos={this.state.lastPos} data={e.node} />
-                  </Parallax.Layer>
+                  </ParallaxLayer>
                 )
               })}
 
             <ToArchive>
               <Link to="/ye-olden-stuffe">
-                <img src={archiveButton} />
+                <img alt="Ye olden stuffe" src={archiveButton} />
               </Link>
             </ToArchive>
           </Parallax>
@@ -214,7 +255,7 @@ export default class Oeuvre extends React.Component {
           </ListWrapper>
           <ToArchiveMobile>
             <Link to="/ye-olden-stuffe">
-              <img src={archiveButton} />
+              <img alt="Ye olden stuffe" src={archiveButton} />
             </Link>
           </ToArchiveMobile>
         </MediaQuery>
@@ -248,6 +289,18 @@ export const query = graphql`
             url
             resolutions {
               aspectRatio
+            }
+          }
+          subPages {
+            mediaType
+            text
+            opacity
+            externalLink
+            image {
+              url
+              resolutions {
+                aspectRatio
+              }
             }
           }
         }

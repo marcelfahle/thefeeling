@@ -1,13 +1,14 @@
 import React from 'react'
-import styled, { injectGlobal } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import Link from 'gatsby-link'
 import videojs from 'video.js'
 import './BackgroundVideoPlayer.css'
-import 'videojs-playlist'
-
+import videojsPlaylistPlugin from 'videojs-playlist'
 import Header from './Header'
 
-injectGlobal`
+videojs.registerPlugin('playlist', videojsPlaylistPlugin)
+
+const GlobalStyle = createGlobalStyle`
 	.video-js > div,
 	video + div {
 	opacity: 0;
@@ -79,10 +80,6 @@ const StyledLink = styled(Link)`
 `
 
 class VideoPlayer extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     const { playlist } = this.props
     const shuffled = this.shuffle(playlist)
@@ -95,18 +92,18 @@ class VideoPlayer extends React.Component {
         },
       ],
     }))
-    const videoJsOptions = {
-      autoplay: true,
-      controls: false,
-      preload: 'none',
-      sources: pl,
-    }
-    console.log('component did mount')
-    console.log('playlist', pl)
+    //const videoJsOptions = {
+    //  autoplay: true,
+    //  controls: false,
+    //  preload: 'none',
+    //  sources: pl,
+    //}
+    //console.log('component did mount')
+    //console.log('playlist', pl)
 
-    this.player = videojs(this.videoNode, { controls: false }, () =>
-      console.log('player ready.')
-    )
+    this.player = videojs(this.videoNode, { controls: false }, () => {
+      //console.log('player ready.', this, this.player)
+    })
     this.player.on('play', () => videojs.log('play'))
     //this.player.on('ended', () => this.player.playlist.next())
     //this.player.on('playlistitem', (e, f) => videojs.log('playlistitem', e, f))
@@ -133,13 +130,14 @@ class VideoPlayer extends React.Component {
     console.log('color', color)
     return (
       <Wrapper>
+        <GlobalStyle />
         <Header color={color} siteTitle="THE FEELING" />
         <StyledLink to="/oeuvre" />
         <video
           playsInline
           muted
           autoPlay
-          controls="false"
+          controls={false}
           ref={node => (this.videoNode = node)}
           className="video-js"
         />
