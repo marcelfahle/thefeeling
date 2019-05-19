@@ -275,6 +275,8 @@ export const query = graphql`
           speed
           slug
           yOffset
+          baseFontSize
+          imageOpacity
           previewImage {
             url
           }

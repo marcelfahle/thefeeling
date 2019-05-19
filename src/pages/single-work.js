@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Swipeable from 'react-swipeable'
 import ModalVideo from 'react-modal-video'
 import Header from './../components/Header'
@@ -20,7 +20,6 @@ const Image = styled.img`
   max-width: 80vw;
   max-height: calc(100vh - 160px);
   user-select: none;
-  margin-top: 50px;
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) and (max-height: 480px) {
@@ -139,15 +138,54 @@ const Wrapper = styled.div`
 //    bottom: -100px;
 //  }
 //`
-const TextContent = styled.div`
+const Content = styled.div`
+  position: relative;
+  margin-top: 50px;
+`
+const TextFieldBaseStyles = css`
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
-  min-width: 240px;
-  max-width: calc(100% - 100px);
   padding: 6px 5px;
   text-align: left;
-  font-size: 18px;
+  font-size: ${props => props.baseFontsize}px;
   user-select: none;
+  p {
+    font-size: 1em;
+  }
+  h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+  }
+  h2 {
+    font-size: 1.5em;
+    margin: 0.75em 0;
+  }
+  h3 {
+    font-size: 1.17em;
+    margin: 0.83em 0;
+  }
+  h4 {
+    margin: 1.12em 0;
+  }
+  h5 {
+    font-size: 0.83em;
+    margin: 1.5em 0;
+  }
+  h6 {
+    font-size: 0.75em;
+    margin: 1.67em 0;
+  }
+`
+const TextOverImageContent = styled.div`
+  ${TextFieldBaseStyles};
+  width: calc(100% - 10px);
+  height: calc(100% - 12px);
+  position: absolute;
+`
+const TextContent = styled.div`
+  ${TextFieldBaseStyles};
+  min-width: 240px;
+  max-width: calc(100% - 100px);
 
   p:first-child {
     margin-top: 0;
@@ -303,26 +341,41 @@ export default class SingleWork extends React.Component {
                 speed={0}
                 onClick={e => this.handleClick(subs, i, e)}
               >
-                {e.mediaType && e.mediaType === 'text' ? (
-                  <TextContent
-                    bgColor={
-                      e.themeColor ? e.themeColor.hex : work.themeColor.hex
-                    }
-                    textColor={
-                      e.textColor ? e.textColor.hex : work.textColor.hex
-                    }
-                    dangerouslySetInnerHTML={{ __html: e.text }}
+                <Content>
+                  {e.text &&
+                    e.text !== '' &&
+                    !e.image && (
+                      <TextContent
+                        baseFontsize={e.baseFontSize}
+                        bgColor={
+                          e.themeColor ? e.themeColor.hex : work.themeColor.hex
+                        }
+                        textColor={
+                          e.textColor ? e.textColor.hex : work.textColor.hex
+                        }
+                        dangerouslySetInnerHTML={{ __html: e.text }}
+                      />
+                    )}
+                  {e.text &&
+                    e.text !== '' &&
+                    e.image && (
+                      <TextOverImageContent
+                        baseFontsize={e.baseFontSize}
+                        bgColor={
+                          e.themeColor ? e.themeColor.hex : work.themeColor.hex
+                        }
+                        textColor={
+                          e.textColor ? e.textColor.hex : work.textColor.hex
+                        }
+                        dangerouslySetInnerHTML={{ __html: e.text }}
+                      />
+                    )}
+                  {e.image && <Image src={e.image.url} />}
+                </Content>
+                {e.video && (
+                  <StartVideoButton
+                    onClick={evt => this.startVideo(e.video.url, evt)}
                   />
-                ) : (
-                  <div>
-                    <Image src={e.image.url} />
-                    {e.mediaType &&
-                      e.mediaType === 'video' && (
-                        <StartVideoButton
-                          onClick={evt => this.startVideo(e.video.url, evt)}
-                        />
-                      )}
-                  </div>
                 )}
               </ParallaxLayer>
             ))}
@@ -371,6 +424,8 @@ export const query = graphql`
         mediaType
         text
         externalLink
+        baseFontSize
+        opacity
         video {
           url
           title
@@ -424,6 +479,8 @@ export const query = graphql`
           width
           height
         }
+        baseFontSize
+        opacity
         themeColor {
           hex
         }
