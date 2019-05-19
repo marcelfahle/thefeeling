@@ -270,7 +270,6 @@ export const query = graphql`
       edges {
         node {
           title
-          info
           width
           xPosition
           speed
@@ -279,22 +278,24 @@ export const query = graphql`
           previewImage {
             url
           }
+          previewText
+          previewTextNode {
+            childMarkdownRemark {
+              html
+            }
+          }
           themeColor {
             hex
+            rgb
           }
           textColor {
             hex
+            rgb
           }
-          pictures {
-            url
-            resolutions {
-              aspectRatio
-            }
-          }
+
           subPages {
             mediaType
             text
-            opacity
             externalLink
             image {
               url

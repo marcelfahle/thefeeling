@@ -260,12 +260,12 @@ export default class SingleWork extends React.Component {
     }
     const work = this.props.data[type]
     const pics = this.props.data[type].pictures
-    const desc = this.props.data[type].descriptionNode.childMarkdownRemark.html
+    //const desc = this.props.data[type].descriptionNode.childMarkdownRemark.html
 
-    if (desc !== '') {
-      const d = { type: 'text', content: desc }
-      if (pics.length === 1 || !pics[1].type) pics.splice(1, 0, d)
-    }
+    //if (desc !== '') {
+    //  const d = { type: 'text', content: desc }
+    //  if (pics.length === 1 || !pics[1].type) pics.splice(1, 0, d)
+    //}
 
     const lp = this.state.lastPos
 
@@ -292,7 +292,7 @@ export default class SingleWork extends React.Component {
           <Parallax
             className="container"
             ref="parallax"
-            pages={pics.length}
+            pages={subs.length}
             horizontal
             scrolling={false}
           >
@@ -359,16 +359,6 @@ export const query = graphql`
   query WorkQuery($slug: String) {
     work: datoCmsPagePortfolio(slug: { eq: $slug }) {
       title
-      infoNode {
-        childMarkdownRemark {
-          html
-        }
-      }
-      descriptionNode {
-        childMarkdownRemark {
-          html
-        }
-      }
       width
       themeColor {
         hex
@@ -376,18 +366,10 @@ export const query = graphql`
       textColor {
         hex
       }
-      pictures {
-        url
-        alt
-        title
-        resolutions {
-          aspectRatio
-        }
-      }
+
       subPages {
         mediaType
         text
-        opacity
         externalLink
         video {
           url
@@ -414,16 +396,6 @@ export const query = graphql`
     }
     archive: datoCmsPageArchive(slug: { eq: $slug }) {
       title
-      infoNode {
-        childMarkdownRemark {
-          html
-        }
-      }
-      descriptionNode {
-        childMarkdownRemark {
-          html
-        }
-      }
       width
       themeColor {
         hex
@@ -442,7 +414,6 @@ export const query = graphql`
       subPages {
         mediaType
         text
-        opacity
         externalLink
         video {
           url

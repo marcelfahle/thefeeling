@@ -29,6 +29,12 @@ const FirstImage = styled.img`
   }
 `
 
+const TextElement = styled.div`
+  display: inline-block;
+  padding: 20px;
+  border: 1px solid red;
+`
+
 const Link = styled(RouterLink)`
   pointer-events: auto;
   transition: all 0.8 ease;
@@ -58,17 +64,32 @@ const NoLink = styled.span`
   }
 `
 
-const hasImage = data =>
-  data.subPages &&
-  data.subPages.length > 0 &&
-  data.subPages[0].image &&
-  data.subPages[0].image.url
+const hasImage = data => data.previewImage && data.previewImage.url
 
 const Img = ({ data }) => (
   <FirstImage
-    width={data.width}
-    style={{ opacity: data.subPages[0].opacity / 100 }}
-    src={data.subPages[0].image.url}
+    width={`${data.width}%`}
+    style={{ left: data.xPosition }}
+    src={data.previewImage.url}
+  />
+)
+
+const createMarkup = html => {
+  return { __html: html }
+}
+
+const Txt = ({ data }) => (
+  <TextElement
+    style={{
+      width: `${data.width}%`,
+      left: data.xPosition,
+      backgroundColor: data.themeColor ? data.themeColor.hex : 'transparent',
+      color: data.textColor ? data.textColor.hex : 'transparent',
+      fontSize: 24,
+    }}
+    dangerouslySetInnerHTML={createMarkup(
+      data.previewText ? data.previewText : 'No Data'
+    )}
   />
 )
 
@@ -84,13 +105,13 @@ export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
       >
         {hasImage(data) ? <Img data={data} /> : <p>No image</p>}
       </ExternalLink>
-    ) : data.subPages && data.subPages.length === 1 ? (
+    ) : data.subPages && data.subPages.length === 0 ? (
       <NoLink pos={data.xPosition} target="_blank">
-        {hasImage(data) ? <Img data={data} /> : <p>No image</p>}
+        {hasImage(data) ? <Img data={data} /> : <Txt data={data} />}
       </NoLink>
     ) : (
       <Link pos={data.xPosition} to={`/${path}/${data.slug}#${lastPos}`}>
-        {hasImage(data) ? <Img data={data} /> : <p>No image</p>}
+        {hasImage(data) ? <Img data={data} /> : <Txt data={data} />}
       </Link>
     )}
   </Item>
