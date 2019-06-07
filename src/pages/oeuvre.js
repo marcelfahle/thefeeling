@@ -296,7 +296,6 @@ export const query = graphql`
           }
 
           subPages {
-            mediaType
             text
             externalLink
             image {

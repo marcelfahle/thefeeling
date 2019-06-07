@@ -421,7 +421,6 @@ export const query = graphql`
       }
 
       subPages {
-        mediaType
         text
         externalLink
         baseFontSize
@@ -467,7 +466,6 @@ export const query = graphql`
         }
       }
       subPages {
-        mediaType
         text
         externalLink
         video {
