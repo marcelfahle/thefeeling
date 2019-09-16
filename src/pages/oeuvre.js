@@ -78,7 +78,7 @@ export default class Oeuvre extends React.Component {
       3000
     )
 
-    console.log('refs', this.parallaxRef, this.pwRef)
+    //console.log('refs', this.parallaxRef, this.pwRef)
 
     if (this.parallaxRef && window) {
       this.parallaxRef.container.onscroll = this.handleScroll
@@ -124,8 +124,8 @@ export default class Oeuvre extends React.Component {
       }, 0)
       const maxHeight = offset * winHeight + winHeight / 1.2
       //const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
-      this.setState({ height: maxHeight })
-      wrapper.style.maxHeight = `${maxHeight + winHeight / 2}px`
+      //this.setState({ height: maxHeight })
+      //wrapper.style.maxHeight = `${maxHeight + winHeight / 2}px`
     }
   }
 
@@ -155,6 +155,7 @@ export default class Oeuvre extends React.Component {
     const { data, color, bg } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
     let offset = 0
+    let off = 0;
 
     //console.log(this.props)
 
@@ -178,7 +179,7 @@ export default class Oeuvre extends React.Component {
           <Parallax
             className="parallaxer"
             ref={this.getRef}
-            pages={items.length+1}
+            pages={items.length}
             style={{'border':'1px solid red'}}
           >
             {items &&
@@ -189,7 +190,7 @@ export default class Oeuvre extends React.Component {
                 //const fact = 1
                 //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
                 offset -= e.node.yOffset
-                const off = i === 0 ? 0 : 0 - offset / 100
+                off = i === 0 ? 0 : 0 - offset / 100
 
                 //console.log(
                 //  i,
@@ -239,7 +240,7 @@ export default class Oeuvre extends React.Component {
                 )
               })}
 
-              <ParallaxLayer key={items.length} offset={items.length-1} speed={1.5}>
+              <ParallaxLayer key={items.length} offset={off + 1.2} speed={1.2}>
               <ToArchive>
                 <Link to="/ye-olden-stuffe">
                   <img alt="Ye olden stuffe" src={archiveButton} />
