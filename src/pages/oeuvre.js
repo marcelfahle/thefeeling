@@ -35,10 +35,13 @@ const ListWrapper = styled.div`
   }
 `
 const ToArchive = styled.div`
+/*
   position: absolute;
   bottom: 150px;
   left: 50%;
   transform: translateX(-50%);
+  */
+  
   img {
     width: 650px;
   }
@@ -175,7 +178,8 @@ export default class Oeuvre extends React.Component {
           <Parallax
             className="parallaxer"
             ref={this.getRef}
-            pages={items.length}
+            pages={items.length+1}
+            style={{'border':'1px solid red'}}
           >
             {items &&
               items.map((e, i) => {
@@ -235,12 +239,14 @@ export default class Oeuvre extends React.Component {
                 )
               })}
 
-            <ToArchive>
-              <Link to="/ye-olden-stuffe">
-                <img alt="Ye olden stuffe" src={archiveButton} />
-              </Link>
-            </ToArchive>
-          </Parallax>
+              <ParallaxLayer key={items.length} offset={items.length-1} speed={1.5}>
+              <ToArchive>
+                <Link to="/ye-olden-stuffe">
+                  <img alt="Ye olden stuffe" src={archiveButton} />
+                </Link>
+              </ToArchive>
+              </ParallaxLayer>
+              </Parallax>
         </MediaQuery>
         <MediaQuery maxWidth={719}>
           <ListWrapper>

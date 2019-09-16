@@ -83,7 +83,7 @@ class About extends React.Component {
   state = { logoFlip: false }
 
   componentDidMount() {
-    this.page.addEventListener('scroll', this.handleScroll)
+    this.page && this.page.addEventListener('scroll', this.handleScroll)
   }
 
   handleScroll = e => {

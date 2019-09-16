@@ -20,6 +20,7 @@ const Image = styled.img`
   max-width: 80vw;
   max-height: calc(100vh - 160px);
   user-select: none;
+  opacity: ${props => props.opacity};
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) and (max-height: 480px) {
@@ -181,11 +182,13 @@ const TextOverImageContent = styled.div`
   width: calc(100% - 10px);
   height: calc(100% - 12px);
   position: absolute;
+  z-index: 20;
 `
 const TextContent = styled.div`
   ${TextFieldBaseStyles};
   min-width: 240px;
   max-width: calc(100% - 100px);
+  z-index: 21;
 
   p:first-child {
     margin-top: 0;
@@ -194,14 +197,14 @@ const TextContent = styled.div`
     margin-bottom: 0;
   }
 
-  @media (min-width: 420px) {
+  /*@media (min-width: 420px) {
     font-size: 24px;
   }
   @media (min-width: 960px) {
     max-width: 720px;
     font-size: 40px;
     padding: 6px 10px;
-  }
+  }*/
 `
 
 //const CloseButton = styled(Link)`
@@ -370,7 +373,7 @@ export default class SingleWork extends React.Component {
                         dangerouslySetInnerHTML={{ __html: e.text }}
                       />
                     )}
-                  {e.image && <Image src={e.image.url} />}
+                  {e.image && <Image src={e.image.url} opacity={e.opacity / 100} />}
                 </Content>
                 {e.video && (
                   <StartVideoButton
