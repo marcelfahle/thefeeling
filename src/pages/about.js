@@ -1,12 +1,12 @@
-import React from 'react'
-import { graphql } from 'gatsby'
+import React, { useState, useEffect, useRef } from 'react'
+import { graphql, useStaticQuery } from 'gatsby'
 import styled from 'styled-components'
 import Header from './../components/Header'
 import bg from './../components/quer_1.jpg'
 
 const PageWrapper = styled.div`
   position: absolute;
-	background: url('${props => bg || bg}') no-repeat;
+	background: url('${props => props.bg || bg}') no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
@@ -79,100 +79,130 @@ const Block = styled.div`
   }
 `
 
-class About extends React.Component {
-  state = { logoFlip: false }
-
-  componentDidMount() {
-    this.page && this.page.addEventListener('scroll', this.handleScroll)
-  }
-
-  handleScroll = e => {
-    if (this.page.scrollTop > 300) {
-      this.setState({ logoFlip: true })
-    } else {
-      this.setState({ logoFlip: false })
+export default ({ bg, color }) => {
+  const containerEl = useRef(null)
+  const data = useStaticQuery(graphql`
+    query AboutQuery {
+      datoCmsPageAbout {
+        aboutLabel
+        contactLabel
+        legalLabel
+        aboutNode {
+          childMarkdownRemark {
+            html
+          }
+        }
+        contactNode {
+          childMarkdownRemark {
+            html
+          }
+        }
+        legalNode {
+          childMarkdownRemark {
+            html
+          }
+        }
+      }
     }
-  }
-  render() {
-    const { data, color, bg } = this.props
+  `)
+  const [hasScrolled, setHasScrolled] = useState(false)
 
-    return (
-      <PageWrapper bg={bg.about.url} innerRef={e => (this.page = e)}>
-        <Header
-          backto="/oeuvre"
-          action="backhome"
-          size="small"
-          siteTitle="THE FEELING"
-          mini={true}
-          color={color}
-          position="fixed"
-          flipped={this.state.logoFlip}
-        />
-        <Content>
+  useEffect(
+    () => {
+      console.log('useeffect', document, document.addEventListener)
+      const handleScroll = () => {
+        const isScrolling = containerEl.current.scrollTop > 300
+        if (isScrolling !== hasScrolled) {
+          setHasScrolled(!hasScrolled)
+        }
+      }
+      containerEl.current.addEventListener('scroll', handleScroll, {
+        passive: true,
+      })
+      return () => {
+        containerEl.current.removeEventListener('scroll', handleScroll)
+      }
+    },
+    [hasScrolled]
+  )
+
+  if (!data) return null
+  return (
+    <PageWrapper bg={bg.about.url} ref={containerEl}>
+      <Header
+        backto="/oeuvre"
+        action="backhome"
+        size="small"
+        siteTitle="THE FEELING"
+        mini={true}
+        color={color}
+        position="fixed"
+        flipped={hasScrolled}
+      />
+      <Content>
+        <div>
           <div>
-            <div>
-              <Label>{data.datoCmsPageAbout.aboutLabel}</Label>
-            </div>
-            <div>
-              <Block
-                dangerouslySetInnerHTML={{
-                  __html:
-                    data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
-                }}
-              />
-            </div>
-            <div>
-              <Label>{data.datoCmsPageAbout.contactLabel}</Label>
-            </div>
-            <div>
-              <Block
-                dangerouslySetInnerHTML={{
-                  __html:
-                    data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
-                }}
-              />
-            </div>
-            <div>
-              <Label>{data.datoCmsPageAbout.legalLabel}</Label>
-            </div>
-            <div>
-              <Block
-                dangerouslySetInnerHTML={{
-                  __html:
-                    data.datoCmsPageAbout.legalNode.childMarkdownRemark.html,
-                }}
-              />
-            </div>
+            <Label>{data.datoCmsPageAbout.aboutLabel}</Label>
           </div>
-        </Content>
-      </PageWrapper>
-    )
-  }
+          <div>
+            <Block
+              dangerouslySetInnerHTML={{
+                __html:
+                  data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
+              }}
+            />
+          </div>
+          <div>
+            <Label>{data.datoCmsPageAbout.contactLabel}</Label>
+          </div>
+          <div>
+            <Block
+              dangerouslySetInnerHTML={{
+                __html:
+                  data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
+              }}
+            />
+          </div>
+          <div>
+            <Label>{data.datoCmsPageAbout.legalLabel}</Label>
+          </div>
+          <div>
+            <Block
+              dangerouslySetInnerHTML={{
+                __html:
+                  data.datoCmsPageAbout.legalNode.childMarkdownRemark.html,
+              }}
+            />
+          </div>
+        </div>
+      </Content>
+    </PageWrapper>
+  )
 }
 
-export default About
-
-export const query = graphql`
-  query AboutQuery {
-    datoCmsPageAbout {
-      aboutLabel
-      contactLabel
-      legalLabel
-      aboutNode {
-        childMarkdownRemark {
-          html
-        }
-      }
-      contactNode {
-        childMarkdownRemark {
-          html
-        }
-      }
-      legalNode {
-        childMarkdownRemark {
-          html
-        }
-      }
-    }
-  }
-`
+//class About extends React.Component {
+//  state = { logoFlip: false }
+//
+//  componentDidMount() {
+//    this.page && this.page.addEventListener('scroll', this.handleScroll)
+//  }
+//
+//  handleScroll = e => {
+//    if (this.page.scrollTop > 300) {
+//      this.setState({ logoFlip: true })
+//    } else {
+//      this.setState({ logoFlip: false })
+//    }
+//  }
+//  render() {
+//    const { data, color, bg } = this.props
+//
+//    return (
+//    )
+//  }
+//}
+//
+//export default About
+//
+//export const query = graphql`
+//`
