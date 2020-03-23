@@ -281,10 +281,16 @@ export default class SingleWork extends React.Component {
     this.scroll(i >= pics.length - 1 ? 0 : i + dir)
   }
 
+  youtube_parser = url => {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+    var match = url.match(regExp)
+    return match && match[7].length == 11 ? match[7] : false
+  }
+
   startVideo = (url, e) => {
     e.preventDefault()
     e.stopPropagation()
-    this.setState({ videoId: url, showVideo: true })
+    this.setState({ videoId: this.youtube_parser(url), showVideo: true })
   }
 
   render() {
@@ -373,7 +379,9 @@ export default class SingleWork extends React.Component {
                         dangerouslySetInnerHTML={{ __html: e.text }}
                       />
                     )}
-                  {e.image && <Image src={e.image.url} opacity={e.opacity / 100} />}
+                  {e.image && (
+                    <Image src={e.image.url} opacity={e.opacity / 100} />
+                  )}
                 </Content>
                 {e.video && (
                   <StartVideoButton
