@@ -316,7 +316,7 @@ export default class SingleWork extends React.Component {
       bg = this.props.bg.archiveDetail.url
     }
     const work = this.props.data[type]
-    const pics = this.props.data[type].pictures
+    //const pics = this.props.data[type].pictures
     //const desc = this.props.data[type].descriptionNode.childMarkdownRemark.html
 
     //if (desc !== '') {
@@ -343,8 +343,8 @@ export default class SingleWork extends React.Component {
         />
 
         <StyledSwipeable
-          onSwipedLeft={e => this.handleSwipeLeft(pics, e)}
-          onSwipedRight={e => this.handleSwipeRight(pics, e)}
+          onSwipedLeft={e => this.handleSwipeLeft(subs, e)}
+          onSwipedRight={e => this.handleSwipeRight(subs, e)}
         >
           <Parallax
             className="container"
@@ -481,17 +481,13 @@ export const query = graphql`
       textColor {
         hex
       }
-      pictures {
-        url
-        alt
-        title
-        resolutions {
-          aspectRatio
-        }
-      }
+
       subPages {
         text
         externalLink
+        baseFontSize
+        baseFontSizeMobile
+        opacity
         video {
           url
           title
@@ -501,9 +497,6 @@ export const query = graphql`
           width
           height
         }
-        baseFontSize
-        baseFontSizeMobile
-        opacity
         themeColor {
           hex
         }

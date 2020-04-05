@@ -203,22 +203,40 @@ export const query = graphql`
       edges {
         node {
           title
-          info
           width
           xPosition
           speed
           slug
           yOffset
+          baseFontSize
+          baseFontSizeMobile
+          imageOpacity
+          previewImage {
+            url
+          }
+          previewText
+          previewTextNode {
+            childMarkdownRemark {
+              html
+            }
+          }
           themeColor {
             hex
+            rgb
           }
           textColor {
             hex
+            rgb
           }
-          pictures {
-            url
-            resolutions {
-              aspectRatio
+
+          subPages {
+            text
+            externalLink
+            image {
+              url
+              resolutions {
+                aspectRatio
+              }
             }
           }
         }
