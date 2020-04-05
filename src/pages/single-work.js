@@ -21,6 +21,7 @@ const Image = styled.img`
   max-height: calc(100vh - 160px);
   user-select: none;
   opacity: ${props => props.opacity};
+  margin-bottom: -5px;
 
   transition: bottom 0.8s ease;
   @media (orientation: landscape) and (max-height: 480px) {
@@ -76,9 +77,11 @@ const Wrapper = styled.div`
   }
 
   .modal-video-movie-wrap {
-    margin: 45px;
-    width: calc(100% - 90px);
-    height: calc(100% - 90px);
+		@media (max-width: 960px) {
+			margin: 45px;
+			width: calc(100% - 90px);
+			//height: calc(100% - 90px);
+		}
   }
 `
 
@@ -148,7 +151,10 @@ const TextFieldBaseStyles = css`
   color: ${props => props.textColor || 'white'};
   padding: 6px 5px;
   text-align: left;
-  font-size: ${props => props.baseFontsize}px;
+  font-size: ${props => props.baseFontSizeMobile}px;
+  @media (min-width: 720px) {
+    font-size: ${props => props.baseFontSize}px;
+  }
   user-select: none;
   p {
     font-size: 1em;
@@ -183,6 +189,10 @@ const TextOverImageContent = styled.div`
   height: calc(100% - 12px);
   position: absolute;
   z-index: 20;
+  overflow: hidden;
+  p {
+    margin-top: 0;
+  }
 `
 const TextContent = styled.div`
   ${TextFieldBaseStyles};
@@ -355,7 +365,8 @@ export default class SingleWork extends React.Component {
                     e.text !== '' &&
                     !e.image && (
                       <TextContent
-                        baseFontsize={e.baseFontSize}
+                        baseFontSize={e.baseFontSize}
+                        baseFontSizeMobile={e.baseFontSizeMobile}
                         bgColor={
                           e.themeColor ? e.themeColor.hex : work.themeColor.hex
                         }
@@ -369,7 +380,8 @@ export default class SingleWork extends React.Component {
                     e.text !== '' &&
                     e.image && (
                       <TextOverImageContent
-                        baseFontsize={e.baseFontSize}
+                        baseFontSize={e.baseFontSize}
+                        baseFontSizeMobile={e.baseFontSizeMobile}
                         bgColor={
                           e.themeColor ? e.themeColor.hex : work.themeColor.hex
                         }
@@ -435,6 +447,7 @@ export const query = graphql`
         text
         externalLink
         baseFontSize
+        baseFontSizeMobile
         opacity
         video {
           url
@@ -489,6 +502,7 @@ export const query = graphql`
           height
         }
         baseFontSize
+        baseFontSizeMobile
         opacity
         themeColor {
           hex

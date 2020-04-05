@@ -35,13 +35,13 @@ const ListWrapper = styled.div`
   }
 `
 const ToArchive = styled.div`
-/*
+  /*
   position: absolute;
   bottom: 150px;
   left: 50%;
   transform: translateX(-50%);
   */
-  
+
   img {
     width: 650px;
   }
@@ -155,7 +155,7 @@ export default class Oeuvre extends React.Component {
     const { data, color, bg } = this.props
     const items = data.allDatoCmsPagePortfolio.edges
     let offset = 0
-    let off = 0;
+    let off = 0
 
     //console.log(this.props)
 
@@ -180,7 +180,7 @@ export default class Oeuvre extends React.Component {
             className="parallaxer"
             ref={this.getRef}
             pages={items.length}
-            style={{'border':'1px solid red'}}
+            style={{ border: '1px solid red' }}
           >
             {items &&
               items.map((e, i) => {
@@ -240,14 +240,14 @@ export default class Oeuvre extends React.Component {
                 )
               })}
 
-              <ParallaxLayer key={items.length} offset={off + 1.2} speed={1.2}>
+            <ParallaxLayer key={items.length} offset={off + 1.2} speed={1.2}>
               <ToArchive>
                 <Link to="/ye-olden-stuffe">
                   <img alt="Ye olden stuffe" src={archiveButton} />
                 </Link>
               </ToArchive>
-              </ParallaxLayer>
-              </Parallax>
+            </ParallaxLayer>
+          </Parallax>
         </MediaQuery>
         <MediaQuery maxWidth={719}>
           <ListWrapper>
@@ -283,6 +283,7 @@ export const query = graphql`
           slug
           yOffset
           baseFontSize
+          baseFontSizeMobile
           imageOpacity
           previewImage {
             url
