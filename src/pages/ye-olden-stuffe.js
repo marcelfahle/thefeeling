@@ -51,7 +51,9 @@ export default class Archive extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = this.handleScroll
     } else {
-      this.pw.addEventListener('scroll', this.handleScroll)
+      if (this.pw) {
+        this.pw.addEventListener('scroll', this.handleScroll)
+      }
     }
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
@@ -100,7 +102,9 @@ export default class Archive extends React.Component {
     if (this.parallax) {
       this.parallax.container.onscroll = null
     } else {
-      this.pw.removeEventListener('scroll', this.handleScroll)
+      if (this.pw) {
+        this.pw.removeEventListener('scroll', this.handleScroll)
+      }
     }
   }
 
