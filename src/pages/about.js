@@ -65,6 +65,9 @@ const Label = styled.div`
 const Block = styled.div`
   background: #ffed00;
   color: black;
+  a {
+    color: black;
+  }
   width: 100%;
   max-width: 640px;
   text-align: left;
@@ -84,22 +87,12 @@ export default ({ bg, color }) => {
   const data = useStaticQuery(graphql`
     query AboutQuery {
       datoCmsPageAbout {
-        aboutLabel
-        contactLabel
-        legalLabel
-        aboutNode {
-          childMarkdownRemark {
-            html
-          }
-        }
-        contactNode {
-          childMarkdownRemark {
-            html
-          }
-        }
-        legalNode {
-          childMarkdownRemark {
-            html
+        content {
+          label
+          bodyNode {
+            childMarkdownRemark {
+              html
+            }
           }
         }
       }
@@ -127,6 +120,7 @@ export default ({ bg, color }) => {
   )
 
   if (!data) return null
+  console.log(data)
   return (
     <PageWrapper bg={bg.about.url} ref={containerEl}>
       <Header
@@ -141,39 +135,20 @@ export default ({ bg, color }) => {
       />
       <Content>
         <div>
-          <div>
-            <Label>{data.datoCmsPageAbout.aboutLabel}</Label>
-          </div>
-          <div>
-            <Block
-              dangerouslySetInnerHTML={{
-                __html:
-                  data.datoCmsPageAbout.aboutNode.childMarkdownRemark.html,
-              }}
-            />
-          </div>
-          <div>
-            <Label>{data.datoCmsPageAbout.contactLabel}</Label>
-          </div>
-          <div>
-            <Block
-              dangerouslySetInnerHTML={{
-                __html:
-                  data.datoCmsPageAbout.contactNode.childMarkdownRemark.html,
-              }}
-            />
-          </div>
-          <div>
-            <Label>{data.datoCmsPageAbout.legalLabel}</Label>
-          </div>
-          <div>
-            <Block
-              dangerouslySetInnerHTML={{
-                __html:
-                  data.datoCmsPageAbout.legalNode.childMarkdownRemark.html,
-              }}
-            />
-          </div>
+          {data.datoCmsPageAbout.content.map(c => (
+            <>
+              <div>
+                <Label>{c.label}</Label>
+              </div>
+              <div>
+                <Block
+                  dangerouslySetInnerHTML={{
+                    __html: c.bodyNode.childMarkdownRemark.html,
+                  }}
+                />
+              </div>
+            </>
+          ))}
         </div>
       </Content>
     </PageWrapper>
