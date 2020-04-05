@@ -180,7 +180,6 @@ export default class Oeuvre extends React.Component {
             className="parallaxer"
             ref={this.getRef}
             pages={items.length}
-            style={{ border: '1px solid red' }}
           >
             {items &&
               items.map((e, i) => {
