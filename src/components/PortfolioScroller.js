@@ -119,7 +119,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.data && !this.state.height && this.parallaxRef) {
+    if (this.props.data && window && !this.state.height && this.parallaxRef) {
       const wrapper = this.parallaxRef.container.childNodes[0]
       //const wrapperHeight = wrapper.clientHeight
       const winHeight = window.innerHeight
@@ -156,8 +156,13 @@ export default class PortfolioScroller extends React.Component {
     }
   }
 
-  realPageNum = items =>
-    window ? Math.ceil(this.state.height / window.innerHeight) : items.length
+  realPageNum = items => {
+    if (window) {
+      return Math.ceil(this.state.height / window.innerHeight)
+    } else {
+      items.length
+    }
+  }
 
   render() {
     //console.log('props', this.props)
