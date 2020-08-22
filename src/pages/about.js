@@ -25,6 +25,7 @@ const Content = styled.div`
   margin-left: 25px;
   margin-right: 25px;
   transition: all 0.8 ease;
+  overflow-x: hidden;
 
   @media (min-width: 720px) {
     margin-left: 100px;

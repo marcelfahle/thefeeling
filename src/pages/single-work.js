@@ -17,7 +17,7 @@ import bg from './../layouts/bg-home.jpg'
 
 const Image = styled.img`
   height: auto;
-  max-width: 80vw;
+  width: 91%;
   max-height: calc(100vh - 160px);
   user-select: none;
   opacity: ${props => props.opacity};
@@ -36,11 +36,8 @@ const StartVideoButton = styled.div`
   width: 76px;
   height: 76px;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  background: transparent url(${WatchIcon}) top left no-repeat;
-  background-size: contain;
+  left: calc(50% - 50px);
+  top: calc(50% - 25px);
   z-index: 60;
 `
 
@@ -149,7 +146,7 @@ const Content = styled.div`
 const TextFieldBaseStyles = css`
   background: ${props => props.bgColor || 'black'};
   color: ${props => props.textColor || 'white'};
-  padding: 6px 5px;
+  padding: 20px;
   text-align: left;
   font-size: ${props => props.baseFontSizeMobile}px;
   @media (min-width: 720px) {
@@ -197,7 +194,10 @@ const TextOverImageContent = styled.div`
 const TextContent = styled.div`
   ${TextFieldBaseStyles};
   min-width: 240px;
+  width: 100%;
   max-width: calc(100% - 100px);
+  margin-left: 50%;
+  transform: translateX(-50%);
   z-index: 21;
 
   p:first-child {
@@ -368,10 +368,18 @@ export default class SingleWork extends React.Component {
                         baseFontSize={e.baseFontSize}
                         baseFontSizeMobile={e.baseFontSizeMobile}
                         bgColor={
-                          e.themeColor ? e.themeColor.hex : work.themeColor.hex
+                          e.themeColor
+                            ? e.themeColor.hex
+                            : work.themeColor
+                              ? work.themeColor.hex
+                              : 'rgba(0,0,0,0)'
                         }
                         textColor={
-                          e.textColor ? e.textColor.hex : work.textColor.hex
+                          e.textColor
+                            ? e.textColor.hex
+                            : work.textColor
+                              ? work.textColor.hex
+                              : 'white'
                         }
                         dangerouslySetInnerHTML={{ __html: e.text }}
                       />
@@ -398,7 +406,24 @@ export default class SingleWork extends React.Component {
                 {e.video && (
                   <StartVideoButton
                     onClick={evt => this.startVideo(e.video.url, evt)}
-                  />
+                  >
+                    <svg
+                      height="100"
+                      width="100"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill={
+                          e.themeColor
+                            ? e.themeColor.hex
+                            : work.themeColor
+                              ? work.themeColor.hex
+                              : 'white'
+                        }
+                        d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
+                      />
+                    </svg>
+                  </StartVideoButton>
                 )}
               </ParallaxLayer>
             ))}

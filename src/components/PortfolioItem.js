@@ -9,10 +9,12 @@ const Item = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
+  margin-bottom: 10px;
   //margin-bottom: 30px;
   //border: 2px solid red;
   @media (min-width: 720px) {
     text-align: left;
+    margin-bottom: 10px;
   }
 `
 
@@ -39,26 +41,23 @@ const FirstImage = styled.img`
 `
 
 const TextElement = styled.div`
+  padding: 20px;
+  top: 0;
+  bottom: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   ${props =>
     !props.hasImage
       ? `
-  position: relative;
-  text-align:center;   
-  `
+          position: relative;
+          text-align:center;   
+        `
       : `
-  position: absolute;
-	top: 0;
-  //top: 50%;
-  //left: 50%;
-  //transform: translate(-50%, -50%);
-  padding: 20px;
-	width: calc(100% - 40px);
-
-	bottom: 5px;
-  display: flex;
-  justify-content: center;
-	flex-direction: column;
-
+          position: absolute;
+          padding: 20px;
+          width: calc(100% - 40px);
+          bottom: 5px;
   `};
 /*
   top: 0;
@@ -77,6 +76,9 @@ const TextElement = styled.div`
 	}
   p {
     font-size: 1em;
+  }
+  p:first-child {
+    margin-top: 0;
   }
   h1 {
     font-size: 2em;
@@ -106,6 +108,7 @@ const TextElement = styled.div`
 const linkStyles = css`
   pointer-events: auto;
   transition: all 0.8 ease;
+  text-decoration: none;
   //border:5px solid green;
 
   // TODO: why was this here?
@@ -133,7 +136,7 @@ const ExternalLink = styled.a`
   ${linkStyles};
 `
 const NoLink = styled.span`
-  ${linkStyles} //border:5px solid red;;;;;;;;;;;;;;;;;;;;
+  ${linkStyles} //border:5px solid red;;;;;;;;;;;;;;;;;;;;;;;;;;
 `
 
 const hasImage = data => data.previewImage && data.previewImage.url
