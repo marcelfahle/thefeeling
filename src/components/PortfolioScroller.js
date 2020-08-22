@@ -157,7 +157,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   realPageNum = items => {
-    if (window) {
+    if (typeof window !== 'undefined' && window.innerHeight) {
       return Math.ceil(this.state.height / window.innerHeight)
     } else {
       items.length
