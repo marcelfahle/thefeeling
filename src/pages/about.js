@@ -103,7 +103,6 @@ export default ({ bg, color }) => {
 
   useEffect(
     () => {
-      console.log('useeffect', document, document.addEventListener)
       const handleScroll = () => {
         const isScrolling = containerEl.current.scrollTop > 300
         if (isScrolling !== hasScrolled) {
@@ -121,7 +120,6 @@ export default ({ bg, color }) => {
   )
 
   if (!data) return null
-  console.log(data)
   return (
     <PageWrapper bg={bg.about.url} ref={containerEl}>
       <Header

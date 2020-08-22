@@ -327,7 +327,6 @@ export default class SingleWork extends React.Component {
     const lp = this.state.lastPos
 
     const subs = this.props.data[type].subPages
-    console.log('work', work)
 
     return (
       <Wrapper bg={bg} className={this.state.cursor}>

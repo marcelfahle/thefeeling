@@ -71,7 +71,6 @@ export default class PortfolioScroller extends React.Component {
   }
 
   getRef = node => {
-    console.log('getref', node)
     this.parallaxRef = node
   }
 
@@ -144,9 +143,7 @@ export default class PortfolioScroller extends React.Component {
     }
   }
 
-  updateParallaxSize = () => {
-    console.log('yo!', this.parallaxRef, this.parallaxRef)
-  }
+  updateParallaxSize = () => {}
 
   handleScroll = e => {
     if ((e.target.scrollTop || window.scrollY) > 300) {
@@ -182,7 +179,6 @@ export default class PortfolioScroller extends React.Component {
 
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
     //
-    console.log('REAL PAGE NUM', this.realPageNum(items))
 
     return (
       <PageWrapper bg={bg} ref={this.pwRef}>
