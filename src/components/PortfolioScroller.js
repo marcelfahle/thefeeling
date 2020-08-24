@@ -160,7 +160,7 @@ export default class PortfolioScroller extends React.Component {
     if (typeof window !== 'undefined' && window.innerHeight) {
       return Math.ceil(this.state.height / window.innerHeight)
     } else {
-      items.length
+      return items.length
     }
   }
 
