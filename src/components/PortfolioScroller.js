@@ -273,7 +273,11 @@ export default class PortfolioScroller extends React.Component {
                       //borderTop: '3px solid blue',
                     }}
                   >
-                    <PortfolioItem lastPos={this.state.lastPos} data={e.node} />
+                    <PortfolioItem
+                      path={this.props.path}
+                      lastPos={this.state.lastPos}
+                      data={e.node}
+                    />
                   </ParallaxLayer>
                 )
               })}
@@ -294,6 +298,7 @@ export default class PortfolioScroller extends React.Component {
             {items &&
               items.map((e, i) => (
                 <PortfolioItem
+                  path={this.props.path}
                   lastPos={this.state.lastPos}
                   key={`e${i}`}
                   data={e.node}

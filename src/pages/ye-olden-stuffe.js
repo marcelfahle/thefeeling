@@ -19,6 +19,7 @@ export default function Archive({ data, color, bg }) {
       toArchiveLink={false}
       backTo="/oeuvre"
       headerAction="backhome"
+      path="ye-olden-stuffe"
     />
   )
 }

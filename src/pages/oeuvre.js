@@ -20,6 +20,7 @@ export default function Oeuvre({ data, color, bg }) {
       toArchiveLink={true}
       backTo="/about"
       headerAction="toabout"
+      path="oeuvre"
     />
   )
 }
