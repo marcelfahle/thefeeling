@@ -17,7 +17,7 @@ import bg from './../layouts/bg-home.jpg'
 
 const Image = styled.img`
   height: auto;
-  width: 91%;
+  max-width: 91%;
   max-height: calc(100vh - 160px);
   user-select: none;
   opacity: ${props => props.opacity};
@@ -195,7 +195,7 @@ const TextContent = styled.div`
   ${TextFieldBaseStyles};
   min-width: 240px;
   width: 100%;
-  max-width: calc(100% - 100px);
+  max-width: calc(100% - 160px);
   margin-left: 50%;
   transform: translateX(-50%);
   z-index: 21;
