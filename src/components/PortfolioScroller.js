@@ -94,15 +94,15 @@ export default class PortfolioScroller extends React.Component {
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
       smoothscroll.polyfill()
-      if (this.parallax) {
+      if (this.parallaxRef) {
         setTimeout(
           function() {
-            this.parallax.container.scroll({
+            this.parallaxRef.container.scroll({
               top: toScroll,
               behavior: 'smooth',
             })
           }.bind(this),
-          500
+          3000
         )
       } else {
         setTimeout(
@@ -112,7 +112,7 @@ export default class PortfolioScroller extends React.Component {
               behavior: 'smooth',
             })
           }.bind(this),
-          500
+          700
         )
       }
     }
@@ -282,15 +282,20 @@ export default class PortfolioScroller extends React.Component {
                 )
               })}
 
-            {toArchiveLink && (
-              <ParallaxLayer key={items.length} offset={off + 1.2} speed={1.2}>
-                <ToArchive>
-                  <Link to="/ye-olden-stuffe">
-                    <img alt="Ye olden stuffe" src={archiveButton} />
-                  </Link>
-                </ToArchive>
-              </ParallaxLayer>
-            )}
+            {false &&
+              toArchiveLink && (
+                <ParallaxLayer
+                  key={items.length}
+                  offset={off + 1.2}
+                  speed={1.2}
+                >
+                  <ToArchive>
+                    <Link to="/ye-olden-stuffe">
+                      <img alt="Ye olden stuffe" src={archiveButton} />
+                    </Link>
+                  </ToArchive>
+                </ParallaxLayer>
+              )}
           </Parallax>
         </MediaQuery>
         <MediaQuery maxWidth={719}>
@@ -305,11 +310,11 @@ export default class PortfolioScroller extends React.Component {
                 />
               ))}
           </ListWrapper>
-          <ToArchiveMobile>
-            <Link to="/ye-olden-stuffe">
-              <img alt="Ye olden stuffe" src={archiveButton} />
-            </Link>
-          </ToArchiveMobile>
+          {/* <ToArchiveMobile> */}
+          {/*   <Link to="/ye-olden-stuffe"> */}
+          {/*     <img alt="Ye olden stuffe" src={archiveButton} /> */}
+          {/*   </Link> */}
+          {/* </ToArchiveMobile> */}
         </MediaQuery>
       </PageWrapper>
     )

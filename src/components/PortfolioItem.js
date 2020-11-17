@@ -136,7 +136,7 @@ const ExternalLink = styled.a`
   ${linkStyles};
 `
 const NoLink = styled.span`
-  ${linkStyles} //border:5px solid red;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ${linkStyles} //border:5px solid red;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 `
 
 const hasImage = data => data.previewImage && data.previewImage.url
@@ -185,6 +185,10 @@ export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
         {hasImage(data) ? <Img data={data} /> : null}
         {data.previewText && data.previewText !== '' && <Txt data={data} />}
       </ExternalLink>
+    ) : data.slug === 'ye-olden-stuffe' ? (
+      <Link left={data.xPosition} mwidth={data.width} to={`/${data.slug}`}>
+        {hasImage(data) ? <Img data={data} /> : null}
+      </Link>
     ) : data.subPages && data.subPages.length === 0 ? (
       <NoLink left={data.xPosition} mwidth={data.width} target="_blank">
         {hasImage(data) ? <Img data={data} /> : null}

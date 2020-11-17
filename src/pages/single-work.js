@@ -6,6 +6,8 @@ import ModalVideo from 'react-modal-video'
 import Header from './../components/Header'
 //import CloseIcon from './../components/CloseIcon'
 import Smile from './../components/icons8-happy-96.png'
+import MouseLeft from './../components/mouse-left.png'
+import MouseRight from './../components/mouse-right.png'
 //import CloseIconWhite from './../components/kreuz-white.svg'
 //import BackArrow from './../components/icons8-undo-96.png'
 //import PlayIcon from './../components/icons8-play-96.png'
@@ -59,18 +61,14 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
-  &.defaulttttt {
+  &.default {
     cursor: url(${Smile}), auto;
   }
-  &.leftttt {
-    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHASURBVHhe7d27TcQAFETRjQmARuiIIuiLLggIKIUibF5gJyutZD5ngdEcybL80QS3APtUVVVVVVVVVVVVVX/dsiyP67reb5c/QmxGmlBPE2qd89uc7rbb3yI2I+2hdnP9Osft9vhLxGak81C7uf8yp5vttU8Rm5EuhdrN8+ft1cPEZqQDod7neNheP0RsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsRhKhxGYkEUpsxhKxxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGY0EUxsRhPBxGa0A8H66WLtUrC53493X8t5sLnu5+uvbQ825/7A4bdMqP7CpKqqqqqqqqqqquofOJ0+AGIJEJ5SYMMhAAAAAElFTkSuQmCC)
-        48 48,
-      auto;
+  &.left {
+    cursor: url(${MouseLeft}), auto;
   }
-  &.rightttt {
-    cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG7SURBVHhe7d2xTcRQFETRjQmARuiIIuiLLggIKIUi7H0IEyBtwq6PLA1zJMuyJU9wC/g+VVVVVVVVVVVVVdWe1nV9XJbleXvchdiMNKEeJtTH3Ne5v2yvbyI2I02c+7nev0L9uDWY2Iw0Xe4mzNt3ot+uDTaf7r4Za4K8bm0uuiaY2Iw1MZ7m+tzaXPTXYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzmggmNqOJYGIzloglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNiOJUGIzkgglNmNNiB5dfKTp0cO7jzZRenz90aZPf+BwtOnUX5hUVVVVVVVVVVVV/VOn0xkp1RCeWq6/XAAAAABJRU5ErkJggg==)
-        48 48,
-      auto;
+  &.right {
+    cursor: url(${MouseRight}), auto;
   }
 
   .modal-video-movie-wrap {
@@ -329,7 +327,11 @@ export default class SingleWork extends React.Component {
     const subs = this.props.data[type].subPages
 
     return (
-      <Wrapper bg={bg} className={this.state.cursor}>
+      <Wrapper
+        bg={bg}
+        className={this.state.cursor}
+        onMouseMove={this.onMouseMove}
+      >
         <Header
           backto={isArchive ? `/ye-olden-stuffe${lp}` : `/oeuvre${lp}`}
           action={isArchive ? 'backarchive' : 'backhome'}
