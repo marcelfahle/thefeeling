@@ -17,6 +17,16 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
 import bg from './../layouts/bg-home.jpg'
 
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+  html,body {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+  }
+`
+
 const Image = styled.img`
   height: auto;
   max-width: 91%;
@@ -54,7 +64,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: auto;
   z-index: 49;
   .container > div > div {
     display: flex;
@@ -332,6 +342,7 @@ export default class SingleWork extends React.Component {
         className={this.state.cursor}
         onMouseMove={this.onMouseMove}
       >
+        <GlobalStyle />
         <Header
           backto={isArchive ? `/ye-olden-stuffe${lp}` : `/oeuvre${lp}`}
           action={isArchive ? 'backarchive' : 'backhome'}
