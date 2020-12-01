@@ -1,12 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import styled from 'styled-components'
-import smoothscroll from 'smoothscroll-polyfill'
-import MediaQuery from 'react-responsive'
-import Link from 'gatsby-link'
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
-import Header from './../components/Header'
-import PortfolioItem from './../components/PortfolioItem'
 import PortfolioScroller from './../components/PortfolioScroller'
 
 export default function Oeuvre({ data, color, bg }) {

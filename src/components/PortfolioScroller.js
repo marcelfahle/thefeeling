@@ -79,7 +79,7 @@ export default class PortfolioScroller extends React.Component {
       function() {
         this.setState({ active: true })
       }.bind(this),
-      3000
+      300
     )
 
     //console.log('refs', this.parallaxRef, this.pwRef)
@@ -102,7 +102,7 @@ export default class PortfolioScroller extends React.Component {
               behavior: 'smooth',
             })
           }.bind(this),
-          3000
+          1000
         )
       } else {
         setTimeout(
