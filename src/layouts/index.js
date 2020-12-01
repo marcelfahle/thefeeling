@@ -91,6 +91,7 @@ export default ({ children }) => (
           meta={[
             { name: 'description', content: '' },
             { name: 'keywords', content: '' },
+            { name: 'viewport', content: 'width=device-width, minimal-ui' },
           ]}
         />
         <div>
