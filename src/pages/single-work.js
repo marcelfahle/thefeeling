@@ -62,7 +62,9 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+/* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
   overflow: auto;
   -webkit-overflow-scrolling: auto;
   z-index: 49;

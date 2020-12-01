@@ -4,7 +4,9 @@ import styled, { createGlobalStyle } from 'styled-components'
 import { graphql, StaticQuery } from 'gatsby'
 
 const GlobalStyle = createGlobalStyle`
-	html, body { height: 100% }
+	html, body { 
+		height: -webkit-fill-available;
+	}
 	html {
 	}
 	body {
