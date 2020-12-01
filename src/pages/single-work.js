@@ -149,7 +149,7 @@ const Wrapper = styled.div`
 //`
 const Content = styled.div`
   position: relative;
-  margin-top: 50px;
+  //margin-top: 50px;
 `
 const TextFieldBaseStyles = css`
   background: ${props => props.bgColor || 'black'};
