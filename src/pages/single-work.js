@@ -49,7 +49,7 @@ const StartVideoButton = styled.div`
   height: 76px;
   position: absolute;
   left: calc(50% - 50px);
-  top: calc(50% - 25px);
+  top: calc(50% - 46px);
   z-index: 60;
 `
 
@@ -207,7 +207,7 @@ const TextContent = styled.div`
   ${TextFieldBaseStyles};
   min-width: 240px;
   width: 100%;
-  max-width: calc(100% - 160px);
+  max-width: calc(91% - 40px);
   margin-left: 50%;
   transform: translateX(-50%);
   z-index: 21;
