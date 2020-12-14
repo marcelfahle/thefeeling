@@ -8,17 +8,16 @@
     "gatsby": "^2.4.2",
     "gatsby-link": "^2.1.1",
     "gatsby-plugin-layout": "^1.0.15",
-    "gatsby-plugin-postcss-sass": "^1.0.20",
     "gatsby-plugin-react-helmet": "^3.0.12",
-    "gatsby-plugin-sass": "^2.0.11",
     "gatsby-plugin-styled-components": "^3.0.7",
     "gatsby-source-datocms": "^2.1.4",
     "gatsby-source-filesystem": "^2.0.33",
     "gatsby-transformer-remark": "^2.3.12",
     "react": "^16.8.6",
+    "react-div-100vh": "^0.5.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
-    "react-modal-video": "^1.2.3",
+    "react-modal-video": "^1.2.6",
     "react-responsive": "^4.1.0",
     "react-spring": "^8.0.20",
     "react-swipeable": "^4.2.1",
@@ -27,7 +26,9 @@
     "video.js": "^6.8.0",
     "videojs-playlist": "^4.2.0"
   },
-  "keywords": ["gatsby"],
+  "keywords": [
+    "gatsby"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
