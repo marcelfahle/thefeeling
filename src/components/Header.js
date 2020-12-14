@@ -62,7 +62,7 @@ const Flipper = styled.div`
 
   &.flipped {
     transform: ${props =>
-      props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
+		props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
 		/*left: ${props => (props.mini ? '25px' : '50%')};*/
     @media (min-width: 720px) {
       transform: rotateX(180deg);
@@ -111,99 +111,99 @@ const Wrapper = styled.div`
 `
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props)
-    const colors = [
-      {
-        leftBg: '#e53212',
-        leftText: '#2b632d',
-        rightBg: '#c78800',
-        rightText: '#ffed00',
-      },
-      {
-        leftBg: '#009ee3',
-        leftText: '#273582',
-        rightBg: '#e53212',
-        rightText: '#c78800',
-      },
-      {
-        leftBg: '#009ee3',
-        leftText: '#ffffff',
-        rightBg: '#2b632d',
-        rightText: '#c78800',
-      },
-      {
-        leftBg: '#b51614',
-        leftText: '#009ee3',
-        rightBg: '#273582',
-        rightText: '#e30513',
-      },
-      {
-        leftBg: '#ffed00',
-        leftText: '#273582',
-        rightBg: '#e30513',
-        rightText: '#b51614',
-      },
-    ]
-    this.c = colors[Math.floor(Math.random() * colors.length)]
-  }
+	constructor(props) {
+		super(props)
+		const colors = [
+			{
+				leftBg: '#e53212',
+				leftText: '#2b632d',
+				rightBg: '#c78800',
+				rightText: '#ffed00',
+			},
+			{
+				leftBg: '#009ee3',
+				leftText: '#273582',
+				rightBg: '#e53212',
+				rightText: '#c78800',
+			},
+			{
+				leftBg: '#009ee3',
+				leftText: '#ffffff',
+				rightBg: '#2b632d',
+				rightText: '#c78800',
+			},
+			{
+				leftBg: '#b51614',
+				leftText: '#009ee3',
+				rightBg: '#273582',
+				rightText: '#e30513',
+			},
+			{
+				leftBg: '#ffed00',
+				leftText: '#273582',
+				rightBg: '#e30513',
+				rightText: '#b51614',
+			},
+		]
+		this.c = colors[Math.floor(Math.random() * colors.length)]
+	}
 
-  componentDidMount() {}
-  render() {
-    const {
-      siteTitle,
-      backto = '/',
-      action = 'default',
-      size = 'big',
-      flipped = false,
-      position = 'relative',
-      mini = false,
-      active = true,
-    } = this.props
-    var cx = classNames({
-      flipped,
-      noFlip: !active,
-    })
-    const color = this.c
-    return (
-      <StyledHeader pos={position} size={size}>
-        <div>
-          <Link to={backto}>
-            {action === 'backhome' ? (
-              <Flipper mini={mini} size={size} className={cx}>
-                <Logo color={color} siteTitle={siteTitle} />
-                <Home color={color} className="back" siteTitle={siteTitle} />
-              </Flipper>
-            ) : action === 'backarchive' ? (
-              <Flipper mini={mini} size={size} className={cx}>
-                <Logo color={color} siteTitle={siteTitle} />
-                <BackToArchive
-                  color={color}
-                  className="back"
-                  siteTitle={siteTitle}
-                />
-              </Flipper>
-            ) : action === 'toabout' ? (
-              <Flipper mini={mini} size={size} className={cx}>
-                <Logo color={color} siteTitle={siteTitle} />
-                <AboutButton
-                  color={color}
-                  className="back"
-                  siteTitle={siteTitle}
-                />
-              </Flipper>
-            ) : action === 'static' ? (
-              <Wrapper mini={mini} size={size}>
-                <Logo color={color} siteTitle={siteTitle} />
-              </Wrapper>
-            ) : (
-              <Logo color={color} siteTitle={siteTitle} />
-            )}
-          </Link>
-        </div>
-      </StyledHeader>
-    )
-  }
+	componentDidMount() {}
+	render() {
+		const {
+			siteTitle,
+			backto = '/',
+			action = 'default',
+			size = 'big',
+			flipped = false,
+			position = 'relative',
+			mini = false,
+			active = true,
+		} = this.props
+		var cx = classNames({
+			flipped,
+			noFlip: !active,
+		})
+		const color = this.c
+		return (
+			<StyledHeader pos={position} size={size}>
+				<div>
+					<Link to={backto}>
+						{action === 'backhome' ? (
+							<Flipper mini={mini} size={size} className={cx}>
+								<Logo color={color} siteTitle={siteTitle} />
+								<Home color={color} className="back" siteTitle={siteTitle} />
+							</Flipper>
+						) : action === 'backarchive' ? (
+							<Flipper mini={mini} size={size} className={cx}>
+								<Logo color={color} siteTitle={siteTitle} />
+								<BackToArchive
+									color={color}
+									className="back"
+									siteTitle={siteTitle}
+								/>
+							</Flipper>
+						) : action === 'toabout' ? (
+							<Flipper mini={mini} size={size} className={cx}>
+								<Logo color={color} siteTitle={siteTitle} />
+								<AboutButton
+									color={color}
+									className="back"
+									siteTitle={siteTitle}
+								/>
+							</Flipper>
+						) : action === 'static' ? (
+							<Wrapper mini={mini} size={size}>
+								<Logo color={color} siteTitle={siteTitle} />
+							</Wrapper>
+						) : (
+											<Logo color={color} siteTitle={siteTitle} />
+										)}
+					</Link>
+				</div>
+			</StyledHeader>
+		)
+	}
 }
 Header.displayName = 'Header'
 export default Header

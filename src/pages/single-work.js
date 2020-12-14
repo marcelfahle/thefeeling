@@ -1,6 +1,6 @@
 import React from 'react'
-import { graphql } from 'gatsby'
-import styled, { css } from 'styled-components'
+import {graphql} from 'gatsby'
+import styled, {css} from 'styled-components'
 import Swipeable from 'react-swipeable'
 import ModalVideo from 'react-modal-video'
 import Header from './../components/Header'
@@ -13,17 +13,18 @@ import MouseRight from './../components/mouse-right.png'
 //import PlayIcon from './../components/icons8-play-96.png'
 import WatchIcon from './../components/play-button.png'
 //import { Transition } from 'react-spring'
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
+import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
 import bg from './../layouts/bg-home.jpg'
 
-import { createGlobalStyle } from 'styled-components'
+import {createGlobalStyle} from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   html,body {
 		position: fixed;
 		width: 100vw;
-		height: 100vh;
+		min-height: 100vh;
+		min-height: -webkit-fill-available
   }
 `
 
@@ -49,8 +50,12 @@ const StartVideoButton = styled.div`
   height: 76px;
   position: absolute;
   left: calc(50% - 50px);
-  top: calc(50% - 46px);
+  top: calc(50% - 12px);
   z-index: 60;
+  @media (orientation: landscape) and (max-height: 860px) {
+  top: calc(50% - 45px);
+		
+	}
 `
 
 const Wrapper = styled.div`
@@ -86,8 +91,8 @@ const Wrapper = styled.div`
   .modal-video-movie-wrap {
 		@media (max-width: 960px) {
 			margin: 45px;
-			width: calc(100% - 90px);
-			//height: calc(100% - 90px);
+			width: calc(100% - 120px);
+			max-height: calc(100% - 240px);
 		}
   }
 `
@@ -149,10 +154,20 @@ const Wrapper = styled.div`
 //    bottom: -100px;
 //  }
 //`
+const ContentWrap = styled.div`
+  position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
 const Content = styled.div`
   position: relative;
-  @media (orientation: landscape) {
-    //margin-top: 50px;
+  @media (orientation: portrait) {
+		margin-top: 75px;
   }
 `
 const TextFieldBaseStyles = css`
@@ -161,7 +176,7 @@ const TextFieldBaseStyles = css`
   padding: 20px;
   text-align: left;
   font-size: ${props => props.baseFontSizeMobile}px;
-  @media (min-width: 720px) {
+	@media (min-width: 720px) and (min-height: 760px) {
     font-size: ${props => props.baseFontSize}px;
   }
   user-select: none;
@@ -256,196 +271,204 @@ const TextContent = styled.div`
 const StyledModalVideo = styled(ModalVideo)``
 
 export default class SingleWork extends React.Component {
-  state = {
-    current: 0,
-    cursor: 'default',
-    showVideo: false,
-    videoId: null,
-    lastPos: '#0',
-  }
+	constructor(props) {
+		super(props)
+		this.state = {
+			current: 0,
+			cursor: 'default',
+			showVideo: false,
+			videoId: null,
+			lastPos: '#0',
+			orientation: null
+		}
+	}
 
-  componentDidMount() {
-    if (window && window.location.hash) {
-      this.setState({ lastPos: window.location.hash })
-    }
-  }
+	componentDidMount() {
+		if (window && window.location.hash) {
+			this.setState({lastPos: window.location.hash})
+		}
 
-  onMouseMove = e => {
-    const w = document.documentElement.clientWidth
-    const mx = e.clientX
+	}
 
-    const dir = mx > w / 2 ? 'right' : 'left'
 
-    this.setState({ cursor: dir })
-  }
+	onMouseMove = e => {
+		const w = document.documentElement.clientWidth
+		const mx = e.clientX
 
-  scroll = to => {
-    this.setState({ current: to })
-    this.refs.parallax.scrollTo(to)
-  }
+		const dir = mx > w / 2 ? 'right' : 'left'
 
-  handleSwipeRight = (pics, e) => {
-    const i = this.state.current
-    this.scroll(i > 1 ? i - 1 : 0)
-  }
+		this.setState({cursor: dir})
+	}
 
-  handleSwipeLeft = (pics, e) => {
-    const i = this.state.current
-    this.scroll(i + 1 >= pics.length ? 0 : i + 1)
-  }
+	scroll = to => {
+		this.setState({current: to})
+		this.refs.parallax.scrollTo(to)
+	}
 
-  handleClick = (pics, i, e) => {
-    const w = document.documentElement.clientWidth
-    const mx = e.clientX
+	handleSwipeRight = (pics, e) => {
+		const i = this.state.current
+		this.scroll(i > 1 ? i - 1 : 0)
+	}
 
-    const dir = mx > w / 2 ? 1 : i >= 1 ? -1 : 0
+	handleSwipeLeft = (pics, e) => {
+		const i = this.state.current
+		this.scroll(i + 1 >= pics.length ? 0 : i + 1)
+	}
 
-    this.scroll(i >= pics.length - 1 ? 0 : i + dir)
-  }
+	handleClick = (pics, i, e) => {
+		const w = document.documentElement.clientWidth
+		const mx = e.clientX
 
-  youtube_parser = url => {
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
-    var match = url.match(regExp)
-    return match && match[7].length == 11 ? match[7] : false
-  }
+		const dir = mx > w / 2 ? 1 : i >= 1 ? -1 : 0
 
-  startVideo = (url, e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    this.setState({ videoId: this.youtube_parser(url), showVideo: true })
-  }
+		this.scroll(i >= pics.length - 1 ? 0 : i + dir)
+	}
 
-  render() {
-    var isArchive = false
-    var bg, type
-    var color = this.props.color
-    if (this.props.data.work) {
-      type = 'work'
-      bg = this.props.bg.oeuvreDetail.url
-    } else {
-      type = 'archive'
-      isArchive = true
-      bg = this.props.bg.archiveDetail.url
-    }
-    const work = this.props.data[type]
-    //const pics = this.props.data[type].pictures
-    //const desc = this.props.data[type].descriptionNode.childMarkdownRemark.html
+	youtube_parser = url => {
+		var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+		var match = url.match(regExp)
+		return match && match[7].length == 11 ? match[7] : false
+	}
 
-    //if (desc !== '') {
-    //  const d = { type: 'text', content: desc }
-    //  if (pics.length === 1 || !pics[1].type) pics.splice(1, 0, d)
-    //}
+	startVideo = (url, e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		this.setState({videoId: this.youtube_parser(url), showVideo: true})
+	}
 
-    const lp = this.state.lastPos
+	render() {
+		var isArchive = false
+		var bg, type
+		var color = this.props.color
+		if (this.props.data.work) {
+			type = 'work'
+			bg = this.props.bg.oeuvreDetail.url
+		} else {
+			type = 'archive'
+			isArchive = true
+			bg = this.props.bg.archiveDetail.url
+		}
+		const work = this.props.data[type]
+		//const pics = this.props.data[type].pictures
+		//const desc = this.props.data[type].descriptionNode.childMarkdownRemark.html
 
-    const subs = this.props.data[type].subPages
+		//if (desc !== '') {
+		//  const d = { type: 'text', content: desc }
+		//  if (pics.length === 1 || !pics[1].type) pics.splice(1, 0, d)
+		//}
 
-    return (
-      <Wrapper
-        bg={bg}
-        className={this.state.cursor}
-        onMouseMove={this.onMouseMove}
-      >
-        <GlobalStyle />
-        <Header
-          backto={isArchive ? `/ye-olden-stuffe${lp}` : `/oeuvre${lp}`}
-          action={isArchive ? 'backarchive' : 'backhome'}
-          size="small"
-          siteTitle="THE FEELING"
-          mini={true}
-          color={color}
-          position="absolute"
-          flipped
-        />
+		const lp = this.state.lastPos
 
-        <StyledSwipeable
-          onSwipedLeft={e => this.handleSwipeLeft(subs, e)}
-          onSwipedRight={e => this.handleSwipeRight(subs, e)}
-        >
-          <Parallax
-            className="container"
-            ref="parallax"
-            pages={subs.length}
-            horizontal
-            scrolling={false}
-          >
-            {subs.map((e, i) => (
-              <ParallaxLayer
-                offset={i}
-                key={i}
-                speed={0}
-                onClick={e => this.handleClick(subs, i, e)}
-              >
-                <Content>
-                  {e.text &&
-                    e.text !== '' &&
-                    !e.image && (
-                      <TextContent
-                        baseFontSize={e.baseFontSize}
-                        baseFontSizeMobile={e.baseFontSizeMobile}
-                        bgColor={
-                          e.themeColor
-                            ? e.themeColor.hex
-                            : work.themeColor
-                              ? work.themeColor.hex
-                              : 'rgba(0,0,0,0)'
-                        }
-                        textColor={
-                          e.textColor
-                            ? e.textColor.hex
-                            : work.textColor
-                              ? work.textColor.hex
-                              : 'white'
-                        }
-                        dangerouslySetInnerHTML={{ __html: e.text }}
-                      />
-                    )}
-                  {e.text &&
-                    e.text !== '' &&
-                    e.image && (
-                      <TextOverImageContent
-                        baseFontSize={e.baseFontSize}
-                        baseFontSizeMobile={e.baseFontSizeMobile}
-                        bgColor={
-                          e.themeColor ? e.themeColor.hex : work.themeColor.hex
-                        }
-                        textColor={
-                          e.textColor ? e.textColor.hex : work.textColor.hex
-                        }
-                        dangerouslySetInnerHTML={{ __html: e.text }}
-                      />
-                    )}
-                  {e.image && (
-                    <Image src={e.image.url} opacity={e.opacity / 100} />
-                  )}
-                </Content>
-                {e.video && (
-                  <StartVideoButton
-                    onClick={evt => this.startVideo(e.video.url, evt)}
-                  >
-                    <svg
-                      height="100"
-                      width="100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill={
-                          e.themeColor
-                            ? e.themeColor.hex
-                            : work.themeColor
-                              ? work.themeColor.hex
-                              : 'white'
-                        }
-                        d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
-                      />
-                    </svg>
-                  </StartVideoButton>
-                )}
-              </ParallaxLayer>
-            ))}
-          </Parallax>
-        </StyledSwipeable>
-        {/*
+		const subs = this.props.data[type].subPages
+
+		return (
+			<Wrapper
+				bg={bg}
+				className={this.state.cursor}
+				onMouseMove={this.onMouseMove}
+			>
+				<GlobalStyle />
+				<Header
+					backto={isArchive ? `/ye-olden-stuffe${lp}` : `/oeuvre${lp}`}
+					action={isArchive ? 'backarchive' : 'backhome'}
+					size="small"
+					siteTitle="THE FEELING"
+					mini={true}
+					color={color}
+					position="absolute"
+					flipped
+				/>
+
+				<StyledSwipeable
+					onSwipedLeft={e => this.handleSwipeLeft(subs, e)}
+					onSwipedRight={e => this.handleSwipeRight(subs, e)}
+				>
+					<Parallax
+						className="container"
+						ref="parallax"
+						pages={subs.length}
+						horizontal
+						scrolling={false}
+					>
+						{subs.map((e, i) => (
+							<ParallaxLayer
+								offset={i}
+								key={i}
+								speed={0}
+								onClick={e => this.handleClick(subs, i, e)}
+							>
+								<ContentWrap>
+									<Content>
+										{e.text &&
+											e.text !== '' &&
+											!e.image && (
+												<TextContent
+													baseFontSize={e.baseFontSize}
+													baseFontSizeMobile={e.baseFontSizeMobile}
+													bgColor={
+														e.themeColor
+															? e.themeColor.hex
+															: work.themeColor
+																? work.themeColor.hex
+																: 'rgba(0,0,0,0)'
+													}
+													textColor={
+														e.textColor
+															? e.textColor.hex
+															: work.textColor
+																? work.textColor.hex
+																: 'white'
+													}
+													dangerouslySetInnerHTML={{__html: e.text}}
+												/>
+											)}
+										{e.text &&
+											e.text !== '' &&
+											e.image && (
+												<TextOverImageContent
+													baseFontSize={e.baseFontSize}
+													baseFontSizeMobile={e.baseFontSizeMobile}
+													bgColor={
+														e.themeColor ? e.themeColor.hex : work.themeColor.hex
+													}
+													textColor={
+														e.textColor ? e.textColor.hex : work.textColor.hex
+													}
+													dangerouslySetInnerHTML={{__html: e.text}}
+												/>
+											)}
+										{e.image && (
+											<Image src={e.image.url} opacity={e.opacity / 100} />
+										)}
+									</Content>
+								</ContentWrap>
+								{e.video && (
+									<StartVideoButton
+										onClick={evt => this.startVideo(e.video.url, evt)}
+									>
+										<svg
+											height="100"
+											width="100"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill={
+													e.themeColor
+														? e.themeColor.hex
+														: work.themeColor
+															? work.themeColor.hex
+															: 'white'
+												}
+												d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
+											/>
+										</svg>
+									</StartVideoButton>
+								)}
+							</ParallaxLayer>
+						))}
+					</Parallax>
+				</StyledSwipeable>
+				{/*
         <InfoBox bgColor={work.themeColor.hex} textColor={work.textColor.hex}>
           <p
             dangerouslySetInnerHTML={{
@@ -461,15 +484,15 @@ export default class SingleWork extends React.Component {
           <p>{pics.length}</p>
         </CounterBox>
 				*/}
-        <StyledModalVideo
-          channel="youtube"
-          isOpen={this.state.showVideo}
-          videoId={this.state.videoId}
-          onClose={() => this.setState({ showVideo: false })}
-        />
-      </Wrapper>
-    )
-  }
+				<StyledModalVideo
+					channel="youtube"
+					isOpen={this.state.showVideo}
+					videoId={this.state.videoId}
+					onClose={() => this.setState({showVideo: false})}
+				/>
+			</Wrapper>
+		)
+	}
 }
 
 export const query = graphql`
