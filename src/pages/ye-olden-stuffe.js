@@ -1,27 +1,22 @@
 import React from 'react'
-import { graphql } from 'gatsby'
-import styled from 'styled-components'
-import smoothscroll from 'smoothscroll-polyfill'
-import MediaQuery from 'react-responsive'
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
-import Header from './../components/Header'
-import PortfolioItem from './../components/PortfolioItem'
+import {graphql} from 'gatsby'
+
 import PortfolioScroller from './../components/PortfolioScroller'
 
-export default function Archive({ data, color, bg }) {
-  if (!data || !data.allDatoCmsPageArchive) return <div>Loading...</div>
-  return (
-    <PortfolioScroller
-      data={data}
-      items={data.allDatoCmsPageArchive.edges}
-      color={color}
-      bg={bg.archive.url}
-      toArchiveLink={false}
-      backTo="/oeuvre"
-      headerAction="backhome"
-      path="ye-olden-stuffe"
-    />
-  )
+export default function Archive({data, color, bg}) {
+	if (!data || !data.allDatoCmsPageArchive) return <div>Loading...</div>
+	return (
+		<PortfolioScroller
+			data={data}
+			items={data.allDatoCmsPageArchive.edges}
+			color={color}
+			bg={bg.archive.url}
+			toArchiveLink={false}
+			backTo="/oeuvre"
+			headerAction="backhome"
+			path="ye-olden-stuffe"
+		/>
+	)
 }
 
 export const query = graphql`
