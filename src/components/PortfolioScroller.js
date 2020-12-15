@@ -188,7 +188,7 @@ export default class PortfolioScroller extends React.Component {
 
 		return (
 			<PageWrapper bg={bg} ref={this.pwRef}>
-				<div>
+				<div style={{position: 'relative'}}>
 					<Header
 						backto={backTo}
 						action={headerAction}
