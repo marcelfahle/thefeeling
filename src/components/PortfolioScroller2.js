@@ -1,10 +1,19 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import smoothscroll from 'smoothscroll-polyfill'
-import MediaQuery from 'react-responsive'
+import { useMediaQuery } from 'react-responsive'
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
+
+const Desktop = ({ children }) => {
+  const isDesktop = useMediaQuery({ minWidth: 992 })
+  return isDesktop ? children : null
+}
+const Mobile = ({ children }) => {
+  const isMobile = useMediaQuery({ maxWidth: 991 })
+  return isMobile ? children : null
+}
 
 const PageWrapper = styled.div`
   background: black url('${(props) => props.bg}');
@@ -169,7 +178,7 @@ export default class PortfolioScroller extends React.Component {
           active={this.state.active}
         />
 
-        <MediaQuery minWidth={720}>
+        <Desktop>
           <Parallax
             className="parallaxer"
             ref={this.getRef}
@@ -204,8 +213,8 @@ export default class PortfolioScroller extends React.Component {
                 )
               })}
           </Parallax>
-        </MediaQuery>
-        <MediaQuery maxWidth={719}>
+        </Desktop>
+        <Mobile>
           <ListWrapper>
             {items &&
               items.map((e, i) => (
@@ -217,7 +226,7 @@ export default class PortfolioScroller extends React.Component {
                 />
               ))}
           </ListWrapper>
-        </MediaQuery>
+        </Mobile>
       </PageWrapper>
     )
   }
