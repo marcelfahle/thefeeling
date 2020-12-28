@@ -3,7 +3,10 @@ import { graphql } from 'gatsby'
 import PortfolioScroller from './../components/PortfolioScroller'
 
 export default function Oeuvre({ data, color, bg }) {
-  if (!data || !data.allDatoCmsPagePortfolio) return <div>Loading...</div>
+  if (!data || !data.allDatoCmsPagePortfolio) {
+    console.log('loading... ', data)
+    return <div>Loading...</div>
+  }
   return (
     <PortfolioScroller
       data={data}
