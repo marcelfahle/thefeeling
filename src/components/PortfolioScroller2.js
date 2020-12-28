@@ -23,7 +23,7 @@ const PageWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   padding-bottom: 44px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -54,10 +54,6 @@ export default class PortfolioScroller extends React.Component {
     totalHeight: 0,
   }
 
-  getRef = (node) => {
-    this.parallaxRef = node
-  }
-
   componentDidMount() {
     //setTimeout(
     //  function () {
@@ -68,6 +64,7 @@ export default class PortfolioScroller extends React.Component {
 
     //console.log('refs', this.parallaxRef, this.pwRef)
 
+    console.log('SCROLL ATTACH', this.parallaxRef, window, this.pwRef)
     if (this.parallaxRef && window) {
       this.parallaxRef.container.onscroll = this.handleScroll
     } else {
@@ -131,6 +128,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   handleScroll = (e) => {
+    console.log(e.target.scrollTop, window.scrollY)
     if ((e.target.scrollTop || window.scrollY) > 300) {
       this.setState({
         logoFlip: true,
@@ -182,7 +180,7 @@ export default class PortfolioScroller extends React.Component {
           <Desktop>
             <Parallax
               className="parallaxer"
-              ref={this.getRef}
+              ref={(ref) => (this.parallaxRef = ref)}
               pages={this.realPageNum(items)}
             >
               {items &&

@@ -31,16 +31,18 @@ const StyledHeader = styled.div`
   a {
     perspective: 600;
     display: block;
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
   }
 
   @media (orientation: landscape) and (max-height: 480px) {
     top: -180px;
     height: 0.1px;
   }
-  @media (min-width: 720px) {
+  @media (min-width: 992px) {
     left: ${(props) => (props.size === 'big' ? '50%' : '25px')};
     transform: ${(props) =>
       props.size === 'big' ? 'translateX(-50%)' : 'none'};
@@ -65,7 +67,7 @@ const Flipper = styled.div`
     transform: ${(props) =>
       props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
     /*left: ${(props) => (props.mini ? '25px' : '50%')};*/
-    @media (min-width: 720px) {
+    @media (min-width: 992px) {
       transform: rotateX(180deg);
       left: 4.5%;
     }

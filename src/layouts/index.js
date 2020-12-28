@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import styled, { createGlobalStyle } from 'styled-components'
 import { graphql, StaticQuery } from 'gatsby'
@@ -18,10 +18,11 @@ const GlobalStyle = createGlobalStyle`
 	}
 `
 
-const Wrapper = styled.div`
+const StyledWrapper = styled.div`
   margin: 0;
   padding: 0;
   height: 100%;
+  min-height: 100vh;
   width: 100%;
   text-align: center;
 `
@@ -59,6 +60,35 @@ const colors = [
   },
 ]
 const color = colors[Math.floor(Math.random() * colors.length)]
+
+const throttle = (func, delay) => {
+  let inProgress = false
+  return (...args) => {
+    if (inProgress) {
+      return
+    }
+    inProgress = true
+    setTimeout(() => {
+      func(...args) // Consider moving this line before the set timeout if you want the very first one to be immediate
+      inProgress = false
+    }, delay)
+  }
+}
+
+function Wrapper({ children }) {
+  useEffect(() => {
+    const handleResize = throttle(() => {
+      let vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    }, 500)
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  return <StyledWrapper>{children}</StyledWrapper>
+}
 
 export default ({ children }) => (
   <StaticQuery

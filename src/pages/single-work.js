@@ -23,8 +23,7 @@ const GlobalStyle = createGlobalStyle`
   html,body {
 		position: fixed;
 		width: 100vw;
-		min-height: 100vh;
-		min-height: -webkit-fill-available
+		height: calc(var(--vh, 1vh) * 100);
   }
 `
 
@@ -66,9 +65,10 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
   /* mobile viewport bug fix */
-  min-height: -webkit-fill-available;
+  /*min-height: -webkit-fill-available;*/
   overflow: auto;
   -webkit-overflow-scrolling: auto;
   z-index: 49;
