@@ -171,7 +171,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   render() {
-    console.log('active', active, 'props', this.props)
+    console.log('active', this.state.active, 'props', this.props)
     if (!this.props.data) return <div>Loading...</div>
 
     const {
