@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import PortfolioScroller from './../components/PortfolioScroller'
+import PortfolioScroller from './../components/PortfolioScroller2'
 
 export default function Oeuvre({ data, color, bg }) {
   if (!data || !data.allDatoCmsPagePortfolio) {

@@ -1,13 +1,10 @@
-import React from 'react'
-import { graphql } from 'gatsby'
+import * as React from 'react'
 import styled from 'styled-components'
 import smoothscroll from 'smoothscroll-polyfill'
 import MediaQuery from 'react-responsive'
-import Link from 'gatsby-link'
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
-import archiveButton from './../components/archive_white.svg'
 
 const PageWrapper = styled.div`
   background: black url('${(props) => props.bg}');
@@ -34,29 +31,6 @@ const ListWrapper = styled.div`
     padding-top: 0;
   }
 `
-const ToArchive = styled.div`
-  /*
-  position: absolute;
-  bottom: 150px;
-  left: 50%;
-  transform: translateX(-50%);
-  */
-
-  img {
-    width: 650px;
-  }
-`
-
-const ToArchiveMobile = styled.div`
-  margin-top: 100px;
-  padding-bottom: 200px;
-  img {
-    width: 80%;
-  }
-`
-
-//const getRandomInt = (min, max) =>
-//  Math.floor(Math.random() * (max - min + 1)) + min
 
 export default class PortfolioScroller extends React.Component {
   constructor(props) {
@@ -87,11 +61,14 @@ export default class PortfolioScroller extends React.Component {
 
     if (this.parallaxRef && window) {
       this.parallaxRef.container.onscroll = this.handleScroll
-      //window.addEventListener('resize', this.updateParallaxSize)
-      //this.updateParallaxSize()
     } else {
       this.pwRef.current.addEventListener('scroll', this.handleScroll)
     }
+
+    if (this.props.data && window && !this.state.height && this.parallaxRef) {
+      this.calculateHeight()
+    }
+
     if (window && window.location.hash) {
       const toScroll = parseInt(window.location.hash.replace('#', ''))
       smoothscroll.polyfill()
@@ -121,18 +98,7 @@ export default class PortfolioScroller extends React.Component {
 
   componentDidUpdate() {
     if (this.props.data && window && !this.state.height && this.parallaxRef) {
-      const wrapper = this.parallaxRef.container.childNodes[0]
-      //const wrapperHeight = wrapper.clientHeight
-      const winHeight = window.innerHeight
-      const items = this.props.items
-      var offset = 0
-      offset = items.reduce((current, e) => {
-        return current + e.node.yOffset / 100
-      }, 0)
-      const maxHeight = offset * winHeight + winHeight / 1.2
-      //const maxHeight = winHeight + wrapperHeight - offset * winHeight / 100
-      this.setState({ height: maxHeight })
-      //wrapper.style.maxHeight = `${maxHeight + winHeight / 2}px`
+      this.calculateHeight()
     }
   }
 
@@ -144,7 +110,16 @@ export default class PortfolioScroller extends React.Component {
     }
   }
 
-  updateParallaxSize = () => {}
+  calculateHeight = () => {
+    const winHeight = window.innerHeight
+    const items = this.props.items
+    var offset = 0
+    offset = items.reduce((current, e) => {
+      return current + e.node.yOffset / 100
+    }, 0)
+    const maxHeight = offset * winHeight + winHeight / 1.2
+    this.setState({ height: maxHeight })
+  }
 
   handleScroll = (e) => {
     if ((e.target.scrollTop || window.scrollY) > 300) {
@@ -159,19 +134,14 @@ export default class PortfolioScroller extends React.Component {
 
   realPageNum = (items) => {
     if (typeof window !== 'undefined' && window.innerHeight) {
-      console.log(
-        'realPageNum - have window and innerHeight',
-        Math.ceil(this.state.height / window.innerHeight)
-      )
       return Math.ceil(this.state.height / window.innerHeight)
     } else {
-      console.log('realPageNum fallback', items.length)
+      console.log('items', items.length)
       return items.length
     }
   }
 
   render() {
-    console.log('active', this.state.active, 'props', this.props)
     if (!this.props.data) return <div>Loading...</div>
 
     const {
@@ -180,49 +150,26 @@ export default class PortfolioScroller extends React.Component {
       bg,
       backTo = '/about',
       headerAction = 'toabout',
-      toArchiveLink = false,
       items,
     } = this.props
     let offset = 0
     let off = 0
 
-    //console.log(this.props)
-
-    // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
-    //
-
     return (
       <PageWrapper bg={bg} ref={this.pwRef}>
-        <div style={{ position: 'relative', height: '100%' }}>
-          <Header
-            backto={backTo}
-            action={headerAction}
-            siteTitle="THE FEELING"
-            mini={true}
-            flipped={this.state.logoFlip}
-            position="fixed"
-            color={color}
-            size="small"
-            active={this.state.active}
-          />
-        </div>
+        <Header
+          backto={backTo}
+          action={headerAction}
+          siteTitle="THE FEELING"
+          mini={true}
+          flipped={this.state.logoFlip}
+          position="fixed"
+          color={color}
+          size="small"
+          active={this.state.active}
+        />
 
         <MediaQuery minWidth={720}>
-          {/* attention, hack! 
-          with all the settings the boys can do in the CMS,
-          so moving things around in the parallax screen, 
-          many elements will overlap and that's why, the way the tota;l
-          height in react spring is calculated (screenHeight + pageNum)
-          is not accurate anymore, it's actually way less.
-
-          Fortunately, the pages prop of <Parallax /> is only used for that 
-          calculation. So we can put our own number in there based on the 
-          actual height. So, we pick the last element in the list, 
-          take that Y position and add one more screenheight, and then 
-          devide the total of that by screnheight. That way we get the 
-          actual fake pages.
-
-        */}
           <Parallax
             className="parallaxer"
             ref={this.getRef}
@@ -230,40 +177,9 @@ export default class PortfolioScroller extends React.Component {
           >
             {items &&
               items.map((e, i) => {
-                //const speed = e.node.speed / 30 || 0
                 const speed = e.node.speed / 100 || 0
-                //const fact = e.node.scrollPageHeight / 100 || 0.7
-                //const fact = 1
-                //const off = 0 + i * 0.5 - speed / 20 - e.node.yOffset
                 offset -= e.node.yOffset
                 off = i === 0 ? 0 : 0 - offset / 100
-
-                //console.log(
-                //  i,
-                //  e.node.title,
-                //  `speed: ${speed}`,
-                //  `orig yOffset: ${e.node.yOffset}`,
-                //  `acc offset: ${off}`,
-                //  `width: ${e.node.width}`
-                //)
-                var border = 'none'
-                switch (i) {
-                  case 0:
-                    border = '3px solid red'
-                    break
-                  case 1:
-                    border = '3px solid purple'
-                    break
-                  case 2:
-                    border = '3px solid yellow'
-                    break
-                  case 3:
-                    border = '3px solid black'
-                    break
-                  default:
-                    border = 'none'
-                    break
-                }
 
                 return (
                   <ParallaxLayer
@@ -277,8 +193,6 @@ export default class PortfolioScroller extends React.Component {
                       width: '100%',
                       pointerEvents: 'none',
                       border: 'none',
-                      //border: border,
-                      //borderTop: '3px solid blue',
                     }}
                   >
                     <PortfolioItem
@@ -289,16 +203,6 @@ export default class PortfolioScroller extends React.Component {
                   </ParallaxLayer>
                 )
               })}
-
-            {false && toArchiveLink && (
-              <ParallaxLayer key={items.length} offset={off + 1.2} speed={1.2}>
-                <ToArchive>
-                  <Link to="/ye-olden-stuffe">
-                    <img alt="Ye olden stuffe" src={archiveButton} />
-                  </Link>
-                </ToArchive>
-              </ParallaxLayer>
-            )}
           </Parallax>
         </MediaQuery>
         <MediaQuery maxWidth={719}>
@@ -313,11 +217,6 @@ export default class PortfolioScroller extends React.Component {
                 />
               ))}
           </ListWrapper>
-          {/* <ToArchiveMobile> */}
-          {/*   <Link to="/ye-olden-stuffe"> */}
-          {/*     <img alt="Ye olden stuffe" src={archiveButton} /> */}
-          {/*   </Link> */}
-          {/* </ToArchiveMobile> */}
         </MediaQuery>
       </PageWrapper>
     )
