@@ -178,55 +178,57 @@ export default class PortfolioScroller extends React.Component {
           active={this.state.active}
         />
 
-        <Desktop>
-          <Parallax
-            className="parallaxer"
-            ref={this.getRef}
-            pages={this.realPageNum(items)}
-          >
-            {items &&
-              items.map((e, i) => {
-                const speed = e.node.speed / 100 || 0
-                offset -= e.node.yOffset
-                off = i === 0 ? 0 : 0 - offset / 100
+        <div id="thisblows">
+          <Desktop>
+            <Parallax
+              className="parallaxer"
+              ref={this.getRef}
+              pages={this.realPageNum(items)}
+            >
+              {items &&
+                items.map((e, i) => {
+                  const speed = e.node.speed / 100 || 0
+                  offset -= e.node.yOffset
+                  off = i === 0 ? 0 : 0 - offset / 100
 
-                return (
-                  <ParallaxLayer
-                    key={i}
-                    offset={off}
-                    speed={speed}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '100%',
-                      pointerEvents: 'none',
-                      border: 'none',
-                    }}
-                  >
-                    <PortfolioItem
-                      path={this.props.path}
-                      lastPos={this.state.lastPos}
-                      data={e.node}
-                    />
-                  </ParallaxLayer>
-                )
-              })}
-          </Parallax>
-        </Desktop>
-        <Mobile>
-          <ListWrapper>
-            {items &&
-              items.map((e, i) => (
-                <PortfolioItem
-                  path={this.props.path}
-                  lastPos={this.state.lastPos}
-                  key={`e${i}`}
-                  data={e.node}
-                />
-              ))}
-          </ListWrapper>
-        </Mobile>
+                  return (
+                    <ParallaxLayer
+                      key={i}
+                      offset={off}
+                      speed={speed}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                        pointerEvents: 'none',
+                        border: 'none',
+                      }}
+                    >
+                      <PortfolioItem
+                        path={this.props.path}
+                        lastPos={this.state.lastPos}
+                        data={e.node}
+                      />
+                    </ParallaxLayer>
+                  )
+                })}
+            </Parallax>
+          </Desktop>
+          <Mobile>
+            <ListWrapper>
+              {items &&
+                items.map((e, i) => (
+                  <PortfolioItem
+                    path={this.props.path}
+                    lastPos={this.state.lastPos}
+                    key={`e${i}`}
+                    data={e.node}
+                  />
+                ))}
+            </ListWrapper>
+          </Mobile>
+        </div>
       </PageWrapper>
     )
   }
