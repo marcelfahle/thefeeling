@@ -1,22 +1,22 @@
 import React from 'react'
-import {graphql} from 'gatsby'
+import { graphql } from 'gatsby'
 
-import PortfolioScroller from './../components/PortfolioScroller'
+import PortfolioScroller from './../components/PortfolioScroller2'
 
-export default function Archive({data, color, bg}) {
-	if (!data || !data.allDatoCmsPageArchive) return <div>Loading...</div>
-	return (
-		<PortfolioScroller
-			data={data}
-			items={data.allDatoCmsPageArchive.edges}
-			color={color}
-			bg={bg.archive.url}
-			toArchiveLink={false}
-			backTo="/oeuvre"
-			headerAction="backhome"
-			path="ye-olden-stuffe"
-		/>
-	)
+export default function Archive({ data, color, bg }) {
+  if (!data || !data.allDatoCmsPageArchive) return <div>Loading...</div>
+  return (
+    <PortfolioScroller
+      data={data}
+      items={data.allDatoCmsPageArchive.edges}
+      color={color}
+      bg={bg.archive.url}
+      toArchiveLink={false}
+      backTo="/oeuvre"
+      headerAction="backhome"
+      path="ye-olden-stuffe"
+    />
+  )
 }
 
 export const query = graphql`
