@@ -49,10 +49,10 @@ const StartVideoButton = styled.div`
   height: 76px;
   position: absolute;
   left: calc(50% - 50px);
-  top: calc(50% - 12px);
+  top: calc(calc(var(--vh, 1vh) * 50) - 38px);
   z-index: 60;
   @media (orientation: landscape) and (max-height: 860px) {
-    top: calc(50% - 45px);
+    top: calc(calc(var(--vh, 1vh) * 50) - 38px);
   }
 `
 
