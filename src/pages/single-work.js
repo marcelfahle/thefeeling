@@ -51,8 +51,12 @@ const StartVideoButton = styled.div`
   left: calc(50% - 50px);
   top: calc(calc(var(--vh, 1vh) * 50) - 38px);
   z-index: 60;
-  @media (orientation: landscape) and (max-height: 860px) {
+  @media (orientation: landscape) and (max-height: 480px) {
     top: calc(calc(var(--vh, 1vh) * 50) - 38px);
+    z-index: 60;
+  }
+  @media (orientation: portrait) {
+    top: calc(calc(var(--vh, 1vh) * 50) - 12px);
   }
 `
 
@@ -440,8 +444,7 @@ export default class SingleWork extends React.Component {
                     onClick={(evt) => this.startVideo(e.video.url, evt)}
                   >
                     <svg
-                      height="100"
-                      width="100"
+                      viewBox="0 0 100 100"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
