@@ -56,7 +56,7 @@ const StartVideoButton = styled.div`
     z-index: 60;
   }
   @media (orientation: portrait) {
-    top: calc(calc(var(--vh, 1vh) * 50) - 12px);
+    top: calc(calc(var(--vh, 1vh) * 50) - 0px);
   }
 `
 
