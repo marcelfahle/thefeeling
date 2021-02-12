@@ -8,6 +8,7 @@ import Header from './../components/Header'
 import Smile from './../components/icons8-happy-96.png'
 import MouseLeft from './../components/mouse-left.png'
 import MouseRight from './../components/mouse-right.png'
+import MouseUp from './../components/mouse-up.png'
 //import CloseIconWhite from './../components/kreuz-white.svg'
 //import BackArrow from './../components/icons8-undo-96.png'
 //import PlayIcon from './../components/icons8-play-96.png'
@@ -45,14 +46,25 @@ const Image = styled.img`
 //const StyledSwipeable = styled(Swipeable)``
 
 const StartVideoButton = styled.div`
-  width: 76px;
-  height: 76px;
+  width: 152px;
+  height: 152px;
   position: absolute;
-  left: calc(50% - 38px);
-  top: calc(calc(var(--vh, 1vh) * 50) - 38px);
+  left: calc(50% - 76px);
+  top: calc(calc(var(--vh, 1vh) * 50) - 76px);
+  cursor: url(${MouseUp}), auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 60;
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    width: 50%;
+  }
   @media (orientation: landscape) and (max-height: 480px) {
-    top: calc(calc(var(--vh, 1vh) * 50) - 38px);
+    top: calc(calc(var(--vh, 1vh) * 50) - 76px);
     z-index: 60;
   }
   @media (orientation: portrait) {
@@ -89,6 +101,9 @@ const Wrapper = styled.div`
   }
   &.right {
     cursor: url(${MouseRight}), auto;
+  }
+  &.execute {
+    cursor: url(${MouseUp}), auto;
   }
 
   .modal-video-movie-wrap {
@@ -295,8 +310,16 @@ export default class SingleWork extends React.Component {
   onMouseMove = (e) => {
     const w = document.documentElement.clientWidth
     const mx = e.clientX
-
-    const dir = mx > w / 2 ? 'right' : 'left'
+    let dir
+    if (mx > w / 2) {
+      dir = 'right'
+    } else {
+      if (this.state.current > 0) {
+        dir = 'left'
+      } else {
+        dir = 'default'
+      }
+    }
 
     this.setState({ cursor: dir })
   }
