@@ -12,7 +12,7 @@ function IndexPage({ color }) {
     fetch(`https://app.boldvideo.io/api/playlists/geg8b`, {
       mode: 'no-cors',
       headers: {
-        Authorization: process.env.BOLD_API,
+        Authorization: process.env.GATSBY_BOLD_API,
         'Content-Type': 'application/json; charset=utf-8',
       },
     })
