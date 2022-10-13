@@ -406,6 +406,7 @@ export default class SingleWork extends React.Component {
         <Swipeable
           onSwipedLeft={(e) => this.handleSwipeLeft(subs, e)}
           onSwipedRight={(e) => this.handleSwipeRight(subs, e)}
+          preventScrollOnSwipe={true}
         >
           <Parallax
             className="container"
