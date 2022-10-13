@@ -7,7 +7,6 @@ function IndexPage({ color }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  console.log('env', process.env.GATSBY_BOLD_API)
 
   useEffect(() => {
     const transform = (data) =>
@@ -43,8 +42,6 @@ function IndexPage({ color }) {
     }
     getData()
   }, [])
-
-  console.log('data', data)
 
   return (
     <div>{data && <BackgroundVideoPlayer color={color} playlist={data} />}</div>
