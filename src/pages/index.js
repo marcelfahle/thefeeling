@@ -7,6 +7,7 @@ function IndexPage({ color }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  console.log('env', process.env.GATSBY_BOLD_API)
 
   useEffect(() => {
     fetch(`https://app.boldvideo.io/api/playlists/geg8b`, {
