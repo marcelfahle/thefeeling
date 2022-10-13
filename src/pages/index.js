@@ -12,6 +12,7 @@ function IndexPage({ color }) {
     fetch(`https://app.boldvideo.io/api/playlists/geg8b`, {
       headers: {
         Authorization: process.env.BOLD_API,
+        'Content-Type': 'application/json; charset=utf-8',
       },
     })
     const transform = (data) =>
