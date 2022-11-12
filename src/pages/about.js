@@ -6,10 +6,10 @@ import bg from './../components/quer_1.jpg'
 
 const PageWrapper = styled.div`
   position: absolute;
-	background: url('${props => props.bg || bg}') no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-	background-repeat: no-repeat;
+  background: url('${(props) => props.bg || bg}') no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   top: 0;
   left: 0;
   width: 100%;
@@ -83,7 +83,7 @@ const Block = styled.div`
   }
 `
 
-export default ({ bg, color }) => {
+const About = ({ bg, color }) => {
   const containerEl = useRef(null)
   const data = useStaticQuery(graphql`
     query AboutQuery {
@@ -101,23 +101,20 @@ export default ({ bg, color }) => {
   `)
   const [hasScrolled, setHasScrolled] = useState(false)
 
-  useEffect(
-    () => {
-      const handleScroll = () => {
-        const isScrolling = containerEl.current.scrollTop > 300
-        if (isScrolling !== hasScrolled) {
-          setHasScrolled(!hasScrolled)
-        }
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolling = containerEl.current.scrollTop > 300
+      if (isScrolling !== hasScrolled) {
+        setHasScrolled(!hasScrolled)
       }
-      containerEl.current.addEventListener('scroll', handleScroll, {
-        passive: true,
-      })
-      return () => {
-        containerEl.current.removeEventListener('scroll', handleScroll)
-      }
-    },
-    [hasScrolled]
-  )
+    }
+    containerEl.current.addEventListener('scroll', handleScroll, {
+      passive: true,
+    })
+    return () => {
+      containerEl.current.removeEventListener('scroll', handleScroll)
+    }
+  }, [hasScrolled])
 
   if (!data) return null
   return (
@@ -134,7 +131,7 @@ export default ({ bg, color }) => {
       />
       <Content>
         <div>
-          {data.datoCmsPageAbout.content.map(c => (
+          {data.datoCmsPageAbout.content.map((c) => (
             <>
               <div>
                 <Label>{c.label}</Label>
@@ -153,6 +150,8 @@ export default ({ bg, color }) => {
     </PageWrapper>
   )
 }
+
+export default About
 
 //class About extends React.Component {
 //  state = { logoFlip: false }

@@ -9,10 +9,10 @@ import Smile from './../components/icons8-happy-96.png'
 import MouseLeft from './../components/mouse-left.png'
 import MouseRight from './../components/mouse-right.png'
 import MouseUp from './../components/mouse-up.png'
+import BoldPlayer from './../components/bold-player';
 //import CloseIconWhite from './../components/kreuz-white.svg'
 //import BackArrow from './../components/icons8-undo-96.png'
 //import PlayIcon from './../components/icons8-play-96.png'
-import WatchIcon from './../components/play-button.png'
 //import { Transition } from 'react-spring'
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
@@ -45,7 +45,7 @@ const Image = styled.img`
 
 //const StyledSwipeable = styled(Swipeable)``
 
-const StartVideoButton = styled.div`
+const StartVideoButton2 = styled.div`
   width: 152px;
   height: 152px;
   position: absolute;
@@ -68,7 +68,27 @@ const StartVideoButton = styled.div`
     z-index: 60;
   }
   @media (orientation: portrait) {
-    top: calc(calc(var(--vh, 1vh) * 44) + 3px);
+    top: calc(calc(var(--vh, 1vh) * 51) - 76px);
+  }
+`
+const StartVideoButton = styled.div`
+  width: 152px;
+  height: 152px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: url(${MouseUp}), auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    width: 50%;
   }
 `
 
@@ -183,6 +203,7 @@ const ContentWrap = styled.div`
   align-items: center;
 `
 const Content = styled.div`
+  width: 100%;
   position: relative;
   @media (orientation: portrait) {
     margin-top: 75px;
@@ -262,6 +283,58 @@ const TextContent = styled.div`
   }*/
 `
 
+const VideoLayer = styled.div`
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+
+  .bold-player {
+    max-width: 91vw;
+    width: 100%;
+    max-height: calc(100vh - 160px);
+    @media (orientation: landscape) and (max-height: 480px) {
+      margin-top: 0;
+      max-height: calc(100vh - 100px);
+    }
+
+    mux-player {
+      width: 100%;
+      --controls-backdrop-color: rgb(0 0 0 / 0%);
+      --seek-live-button: none;
+      --seek-backward-button: none;
+      --seek-forward-button: none;
+      --mute-button: none;
+      --captions-button: none;
+      --airplay-button: none;
+      --pip-button: none;
+      --cast-button: none;
+      --playback-rate-button: none;
+      --volume-range: none;
+      --time-range: none;
+      --time-display: none;
+    }
+    track {
+      display: none !important;
+      opacity: 0;
+    }
+    mux-player::cue {
+      opacity: 0;
+      display: none !important;
+    }
+    mux-player::-webkit-media-text-track-display {
+      opacity: 0;
+      display: none !important;
+    }
+    video::-webkit-media-text-track-display {
+      color: #FAFAFA;
+      font-size: 1em;
+}
+  }
+`;
+
 //const CloseButton = styled(Link)`
 //  position: absolute;
 //  display: none;
@@ -339,11 +412,21 @@ export default class SingleWork extends React.Component {
     this.scroll(i + 1 >= pics.length ? 0 : i + 1)
   }
 
-  handleClick = (pics, i, e) => {
+  handleClick = (pics, i, e, content) => {
+    console.log('click', content, e.currentTarget, e.target, document.querySelector('media-play-button'))
+    if (content.boldVideoId && e.target === document.getElementById(content.boldVideoId)) return;
+
     const w = document.documentElement.clientWidth
     const mx = e.clientX
 
     const dir = mx > w / 2 ? 1 : i >= 1 ? -1 : 0
+
+    // stop video if there was one 
+    if (content.boldVideoId) {
+      const vid = document.getElementById(content.boldVideoId);
+      vid.pause();
+      vid.currentTime = 0;
+    }
 
     this.scroll(i >= pics.length - 1 ? 0 : i + dir)
   }
@@ -420,7 +503,7 @@ export default class SingleWork extends React.Component {
                 offset={i}
                 key={i}
                 speed={0}
-                onClick={(e) => this.handleClick(subs, i, e)}
+                onClick={(ev) => this.handleClick(subs, i, ev, e)}
               >
                 <ContentWrap>
                   <Content>
@@ -458,32 +541,41 @@ export default class SingleWork extends React.Component {
                         dangerouslySetInnerHTML={{ __html: e.text }}
                       />
                     )}
-                    {e.image && (
+                    {e.image && !e.boldVideoId && (
                       <Image src={e.image.url} opacity={e.opacity / 100} />
+                    )}
+                    {e.image && e.boldVideoId &&  (
+                      <VideoLayer>
+                        <BoldPlayer poster={e.image.url} videoId={e.boldVideoId} />
+                      </VideoLayer>
+                    )}
+                    {e.video && !e.boldVideoId && (
+                      <StartVideoButton
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          this.startVideo(e.video.url, evt);
+                        }}
+                      >
+                        <svg
+                          viewBox="0 0 100 100"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill={
+                              e.themeColor
+                                ? e.themeColor.hex
+                                : work.themeColor
+                                ? work.themeColor.hex
+                                : 'white'
+                            }
+                            d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
+                          />
+                        </svg>
+                      </StartVideoButton>
                     )}
                   </Content>
                 </ContentWrap>
-                {e.video && (
-                  <StartVideoButton
-                    onClick={(evt) => this.startVideo(e.video.url, evt)}
-                  >
-                    <svg
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill={
-                          e.themeColor
-                            ? e.themeColor.hex
-                            : work.themeColor
-                            ? work.themeColor.hex
-                            : 'white'
-                        }
-                        d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
-                      />
-                    </svg>
-                  </StartVideoButton>
-                )}
+
               </ParallaxLayer>
             ))}
           </Parallax>
@@ -533,6 +625,7 @@ export const query = graphql`
         baseFontSize
         baseFontSizeMobile
         opacity
+        boldVideoId
         video {
           url
           title
@@ -572,6 +665,7 @@ export const query = graphql`
         baseFontSize
         baseFontSizeMobile
         opacity
+        boldVideoId
         video {
           url
           title
