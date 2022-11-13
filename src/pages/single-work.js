@@ -315,7 +315,7 @@ const VideoLayer = styled.div`
       --volume-range: none;
       --time-range: none;
       --time-display: none;
-      --media-object-fit: cover;
+      --media-object-fit: contain;
       --bottom-play-button: none;
       --media-button-icon-width: 48px;
       --media-button-icon-height: 48px;
@@ -333,6 +333,9 @@ const VideoLayer = styled.div`
       display: none !important;
     }
     mux-player::part(gesture-layer) {
+      display: none;
+    }
+    mux-player::part(poster) #image {
       display: none;
     }
     mux-player::part(video) {
