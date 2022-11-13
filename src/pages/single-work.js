@@ -333,9 +333,12 @@ const VideoLayer = styled.div`
     mux-player::part(gesture-layer) {
       display: none;
     }
-    video::-webkit-media-text-track-display {
-      color: #fafafa;
-      font-size: 1em;
+    mux-player::part(video) {
+      min-width: auto;
+      min-height: auto;
+      width: 100%;
+      height: 100%;
+      max-height: calc(100vh - 160px);
     }
   }
 `
