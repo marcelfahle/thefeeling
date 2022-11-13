@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import MuxPlayer from '@mux/mux-player-react'
 
-export default function BoldPlayer({poster, videoId}) {
+export default function BoldPlayer({ poster, videoId }) {
+  const handleOnEnded = (e) => {
+    const video = e.target
+    const poster = video.shadowRoot
+      .querySelector(`media-theme-mux`)
+      .shadowRoot.querySelector('media-controller media-poster-image')
+
+    poster.removeAttribute('media-has-played')
+  }
 
   return (
     <div className="bold-player">
       <MuxPlayer
         streamType="on-demand"
-        id={videoId}
+        id={`id-${videoId}`}
         poster={poster}
         playbackId={videoId}
         defaultHiddenCaptions={true}
@@ -16,6 +24,7 @@ export default function BoldPlayer({poster, videoId}) {
           video_title: 'Test video title',
           viewer_user_id: 'user-id-007',
         }}
+        onEnded={handleOnEnded}
       />
     </div>
   )

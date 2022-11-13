@@ -9,7 +9,7 @@ import Smile from './../components/icons8-happy-96.png'
 import MouseLeft from './../components/mouse-left.png'
 import MouseRight from './../components/mouse-right.png'
 import MouseUp from './../components/mouse-up.png'
-import BoldPlayer from './../components/bold-player';
+import BoldPlayer from './../components/bold-player'
 //import CloseIconWhite from './../components/kreuz-white.svg'
 //import BackArrow from './../components/icons8-undo-96.png'
 //import PlayIcon from './../components/icons8-play-96.png'
@@ -284,15 +284,13 @@ const TextContent = styled.div`
 `
 
 const VideoLayer = styled.div`
-
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 
-
   .bold-player {
-    max-width: 91vw;
+    max-width: 80vw;
     width: 100%;
     max-height: calc(100vh - 160px);
     @media (orientation: landscape) and (max-height: 480px) {
@@ -315,6 +313,10 @@ const VideoLayer = styled.div`
       --volume-range: none;
       --time-range: none;
       --time-display: none;
+      --media-object-fit: fill;
+      --bottom-play-button: none;
+      --media-button-icon-width: 48px;
+      --media-button-icon-height: 48px;
     }
     track {
       display: none !important;
@@ -328,12 +330,15 @@ const VideoLayer = styled.div`
       opacity: 0;
       display: none !important;
     }
+    mux-player::part(gesture-layer) {
+      display: none;
+    }
     video::-webkit-media-text-track-display {
-      color: #FAFAFA;
+      color: #fafafa;
       font-size: 1em;
-}
+    }
   }
-`;
+`
 
 //const CloseButton = styled(Link)`
 //  position: absolute;
@@ -360,6 +365,15 @@ const VideoLayer = styled.div`
 //`
 
 const StyledModalVideo = styled(ModalVideo)``
+
+function isEventInElement(event, element) {
+  var rect = element.getBoundingClientRect()
+  var x = event.clientX
+  if (x < rect.left || x >= rect.right) return false
+  var y = event.clientY
+  if (y < rect.top || y >= rect.bottom) return false
+  return true
+}
 
 export default class SingleWork extends React.Component {
   constructor(props) {
@@ -413,19 +427,36 @@ export default class SingleWork extends React.Component {
   }
 
   handleClick = (pics, i, e, content) => {
-    console.log('click', content, e.currentTarget, e.target, document.querySelector('media-play-button'))
-    if (content.boldVideoId && e.target === document.getElementById(content.boldVideoId)) return;
+    if (content.boldVideoId) {
+      const playButton = document
+        .querySelector(`#id-${content.boldVideoId}`)
+        .shadowRoot.querySelector('media-theme-mux')
+        .shadowRoot.querySelector('media-controller media-play-button')
+
+      // add fullscreen button
+      const fsButton = document
+        .querySelector(`#id-${content.boldVideoId}`)
+        .shadowRoot.querySelector('media-theme-mux')
+        .shadowRoot.querySelector('media-controller media-fullscreen-button')
+      // .shadowRoot.querySelector('media-fullscreen-button')
+
+      if (
+        content.boldVideoId &&
+        (isEventInElement(e, playButton) || isEventInElement(e, fsButton))
+      )
+        return
+    }
 
     const w = document.documentElement.clientWidth
     const mx = e.clientX
 
     const dir = mx > w / 2 ? 1 : i >= 1 ? -1 : 0
 
-    // stop video if there was one 
+    // stop video if there was one
     if (content.boldVideoId) {
-      const vid = document.getElementById(content.boldVideoId);
-      vid.pause();
-      vid.currentTime = 0;
+      const vid = document.getElementById(`id-${content.boldVideoId}`)
+      vid.pause()
+      vid.currentTime = 0
     }
 
     this.scroll(i >= pics.length - 1 ? 0 : i + dir)
@@ -544,16 +575,19 @@ export default class SingleWork extends React.Component {
                     {e.image && !e.boldVideoId && (
                       <Image src={e.image.url} opacity={e.opacity / 100} />
                     )}
-                    {e.image && e.boldVideoId &&  (
+                    {e.image && e.boldVideoId && (
                       <VideoLayer>
-                        <BoldPlayer poster={e.image.url} videoId={e.boldVideoId} />
+                        <BoldPlayer
+                          poster={e.image.url}
+                          videoId={e.boldVideoId}
+                        />
                       </VideoLayer>
                     )}
                     {e.video && !e.boldVideoId && (
                       <StartVideoButton
                         onClick={(evt) => {
-                          evt.preventDefault();
-                          this.startVideo(e.video.url, evt);
+                          evt.preventDefault()
+                          this.startVideo(e.video.url, evt)
                         }}
                       >
                         <svg
@@ -575,7 +609,6 @@ export default class SingleWork extends React.Component {
                     )}
                   </Content>
                 </ContentWrap>
-
               </ParallaxLayer>
             ))}
           </Parallax>
