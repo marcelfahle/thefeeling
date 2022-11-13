@@ -291,7 +291,6 @@ const VideoLayer = styled.div`
 
   .bold-player {
     max-width: 80vw;
-    width: 100%;
     max-height: calc(100vh - 160px);
     @media (orientation: landscape) and (max-height: 480px) {
       margin-top: 0;
