@@ -288,10 +288,13 @@ const VideoLayer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
 
   .bold-player {
     max-width: 80vw;
     max-height: calc(100vh - 160px);
+    width: 100%;
+    height: 100%;
     @media (orientation: landscape) and (max-height: 480px) {
       margin-top: 0;
       max-height: calc(100vh - 100px);
@@ -312,7 +315,7 @@ const VideoLayer = styled.div`
       --volume-range: none;
       --time-range: none;
       --time-display: none;
-      --media-object-fit: fill;
+      --media-object-fit: contain;
       --bottom-play-button: none;
       --media-button-icon-width: 48px;
       --media-button-icon-height: 48px;
