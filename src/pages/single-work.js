@@ -315,7 +315,7 @@ const VideoLayer = styled.div`
       --volume-range: none;
       --time-range: none;
       --time-display: none;
-      --media-object-fit: contain;
+      --media-object-fit: cover;
       --bottom-play-button: none;
       --media-button-icon-width: 48px;
       --media-button-icon-height: 48px;
@@ -340,7 +340,7 @@ const VideoLayer = styled.div`
       min-height: auto;
       width: 100%;
       height: 100%;
-      max-height: calc(100vh - 160px);
+      max-height: calc(100vh - 200px);
     }
   }
 `
