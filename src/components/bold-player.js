@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import MuxPlayer from '@mux/mux-player-react'
 
 export default function BoldPlayer({ poster, videoId }) {
+  const [isFullscreen, setIsFullscreen] = React.useState(false);
+
+  // Watch for fullscreenchange
+  React.useEffect(() => {
+    function onFullscreenChange() {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    }
+
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
+
   const handleOnEnded = (e) => {
     const video = e.target
     const poster = video.shadowRoot
@@ -19,6 +32,7 @@ export default function BoldPlayer({ poster, videoId }) {
         poster={poster}
         playbackId={videoId}
         defaultHiddenCaptions={true}
+        className={isFullscreen && 'fullscreen'}
         metadata={{
           video_id: 'video-id-54321',
           video_title: 'Test video title',

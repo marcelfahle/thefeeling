@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import styled, { css } from 'styled-components'
-import { isSafari } from 'react-device-detect'
+import { isSafari, isIOS } from 'react-device-detect'
 import { Swipeable } from './../components/swipeable'
 import ModalVideo from 'react-modal-video'
 import Header from './../components/Header'
@@ -294,8 +294,8 @@ const VideoLayer = styled.div`
   .bold-player {
     max-width: 80vw;
     max-height: calc(100vh - 160px);
-    width: 100%;
     height: 100%;
+    min-width: ${isSafari ? '60vw' : '0'};
     @media (orientation: landscape) and (max-height: 480px) {
       margin-top: 0;
       max-height: calc(100vh - 100px);
@@ -314,13 +314,19 @@ const VideoLayer = styled.div`
       --cast-button: none;
       --playback-rate-button: none;
       --volume-range: none;
-      --fullscreen-button: ${isSafari ? 'none' : 'white'};
       --time-range: none;
       --time-display: none;
       --media-object-fit: cover;
       --bottom-play-button: none;
       --media-button-icon-width: 48px;
       --media-button-icon-height: 48px;
+      --fullscreen-button: ${isSafari && !isIOS ? 'none' : 'white'};
+    }
+    mux-player.fullscreen {
+      border: 5px solid blue;
+    }
+    mux-player:not(:fullscreen) {
+      max-height: calc(100vh - 160px);
     }
     track {
       display: none !important;
@@ -340,16 +346,17 @@ const VideoLayer = styled.div`
     mux-player::part(poster) img {
       object-fit: cover !important;
     }
-    ::slotted(#image) {
-      object-fit: cover !important;
-    }
+
     mux-player::part(video) {
       min-width: auto;
       min-height: auto;
       width: 100%;
       height: 100%;
-      max-height: calc(100vh - 200px);
+      max-height: calc(100vh - 160px);
       object-fit: contain;
+    }
+    mux-player.fullscreen::part(video) {
+      max-height: 100vh;
     }
   }
 `
