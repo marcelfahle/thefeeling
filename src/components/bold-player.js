@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import MuxPlayer from '@mux/mux-player-react'
 
-export default function BoldPlayer({ poster, videoId }) {
+export default function BoldPlayer({ poster, video }) {
   const [isFullscreen, setIsFullscreen] = React.useState(false);
 
   // Watch for fullscreenchange
@@ -28,15 +28,15 @@ export default function BoldPlayer({ poster, videoId }) {
     <div className="bold-player">
       <MuxPlayer
         streamType="on-demand"
-        id={`id-${videoId}`}
+        id={`id-${video.id}`}
         poster={poster}
-        playbackId={videoId}
+        playbackId={video.playback_id}
         defaultHiddenCaptions={true}
         className={isFullscreen && 'fullscreen'}
         metadata={{
-          video_id: 'video-id-54321',
-          video_title: 'Test video title',
-          viewer_user_id: 'user-id-007',
+          video_id: video.id,
+          video_title: video.title,
+          viewer_user_id: 'the-feeling',
         }}
         onEnded={handleOnEnded}
       />

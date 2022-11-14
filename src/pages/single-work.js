@@ -406,13 +406,66 @@ export default class SingleWork extends React.Component {
       videoId: null,
       lastPos: '#0',
       orientation: null,
+      boldVideos: null,
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (window && window.location.hash) {
       this.setState({ lastPos: window.location.hash })
     }
+
+    // dirty
+    var type
+    if (this.props.data.work) {
+      type = 'work'
+    } else {
+      type = 'archive'
+    }
+    const subs = this.props.data[type].subPages
+
+    const boldVideoIds = subs
+      .map((sub) => (sub.boldVideoId ? sub.boldVideoId : null))
+      .filter((sub) => sub)
+
+
+    console.log('bold Ids', boldVideoIds)
+    const videos = await this.loadBoldVideos(boldVideoIds)
+    return this.setState({boldVideos: videos.reduce((acc, v) => ({...acc, [v.id]: v}), {})});
+  }
+
+  loadBoldVideos = async (ids) => {
+    let results;
+    const headers = {
+      Authorization: process.env.GATSBY_BOLD_API,
+      'Content-Type': 'application/json; charset=utf-8',
+    };
+
+    try {
+      const resp =  await Promise.all(
+        ids.map(id =>{
+          return fetch(`https://app.boldvideo.io/api/videos/${id}`, { headers })
+        })
+      )
+      const filteredResp = resp.filter(res => res.status === 200);
+
+      console.log(filteredResp)
+      results = Promise.all(
+
+        filteredResp.map(async(res) => {
+          
+          const video = await res.json();
+          console.log(video)
+          return video.data 
+        })
+      );
+
+
+    } catch (err) {
+      console.log('Error fetching Bold Videos', err)
+    }
+    console.log('results', results)
+    return results
   }
 
   onMouseMove = (e) => {
@@ -598,10 +651,12 @@ export default class SingleWork extends React.Component {
                     )}
                     {e.image && e.boldVideoId && (
                       <VideoLayer>
-                        <BoldPlayer
+
+                      {this.state.boldVideos && this.state.boldVideos[e.boldVideoId] && <BoldPlayer
                           poster={e.image.url}
                           videoId={e.boldVideoId}
-                        />
+                          video={this.state.boldVideos[e.boldVideoId]}
+                        />}
                       </VideoLayer>
                     )}
                     {e.video && !e.boldVideoId && (
