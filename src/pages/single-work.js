@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import styled, { css } from 'styled-components'
+import { isSafari } from 'react-device-detect'
 import { Swipeable } from './../components/swipeable'
 import ModalVideo from 'react-modal-video'
 import Header from './../components/Header'
@@ -313,9 +314,10 @@ const VideoLayer = styled.div`
       --cast-button: none;
       --playback-rate-button: none;
       --volume-range: none;
+      --fullscreen-button: ${isSafari ? 'none' : 'white'};
       --time-range: none;
       --time-display: none;
-      --media-object-fit: contain;
+      --media-object-fit: cover;
       --bottom-play-button: none;
       --media-button-icon-width: 48px;
       --media-button-icon-height: 48px;
@@ -335,8 +337,11 @@ const VideoLayer = styled.div`
     mux-player::part(gesture-layer) {
       display: none;
     }
-    mux-player::part(poster) #image {
-      display: none;
+    mux-player::part(poster) img {
+      object-fit: cover !important;
+    }
+    ::slotted(#image) {
+      object-fit: cover !important;
     }
     mux-player::part(video) {
       min-width: auto;
@@ -344,6 +349,7 @@ const VideoLayer = styled.div`
       width: 100%;
       height: 100%;
       max-height: calc(100vh - 200px);
+      object-fit: contain;
     }
   }
 `
