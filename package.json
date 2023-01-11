@@ -13,7 +13,7 @@
     "gatsby-plugin-styled-components": "3.10.0",
     "gatsby-source-datocms": "2.6.18",
     "gatsby-source-filesystem": "2.11.1",
-    "gatsby-transformer-remark": "2.16.1",
+    "gatsby-transformer-remark": "5.25.1",
     "react": "^16.8.6",
     "react-device-detect": "^2.2.2",
     "react-div-100vh": "^0.5.6",
