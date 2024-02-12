@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Helmet from 'react-helmet'
 import styled, { createGlobalStyle } from 'styled-components'
 import { graphql, StaticQuery } from 'gatsby'
+import { HelmetDatoCms } from 'gatsby-source-datocms'
 
 //import 'react-modal-video/scss/modal-video.scss';
 
@@ -99,6 +100,11 @@ export default ({ children }) => (
             title
           }
         }
+        datoCmsSite {
+          faviconMetaTags {
+            tags
+          }
+        }
         bg: datoCmsBackground {
           oeuvre {
             url
@@ -118,23 +124,26 @@ export default ({ children }) => (
         }
       }
     `}
-    render={(data) => (
-      <Wrapper>
-        <GlobalStyle />
-        <Helmet
-          title={data.site.siteMetadata.title}
-          meta={[
-            { name: 'description', content: '' },
-            { name: 'keywords', content: '' },
-            { name: 'viewport', content: 'width=device-width, minimal-ui' },
-          ]}
-        />
-        {/*children(Object.assign({}, { data }, { bg: data.bg, color: color }))*/}
-        {React.Children.map(children, (child) =>
-          React.cloneElement(child, { bg: data.bg, color: color })
-        )}
-      </Wrapper>
-    )}
+    render={(data) => {
+      return (
+        <Wrapper>
+          <GlobalStyle />
+          <HelmetDatoCms favicon={data.datoCmsSite.faviconMetaTags} />
+          <Helmet
+            title={data.site.siteMetadata.title}
+            meta={[
+              { name: 'description', content: '' },
+              { name: 'keywords', content: '' },
+              { name: 'viewport', content: 'width=device-width, minimal-ui' },
+            ]}
+          />
+          {/*children(Object.assign({}, { data }, { bg: data.bg, color: color }))*/}
+          {React.Children.map(children, (child) =>
+            React.cloneElement(child, { bg: data.bg, color: color })
+          )}
+        </Wrapper>
+      )
+    }}
   />
 )
 
