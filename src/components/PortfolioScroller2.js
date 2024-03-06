@@ -1,17 +1,24 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import smoothscroll from 'smoothscroll-polyfill'
-import { useMediaQuery } from 'react-responsive'
+import MediaQuery, { useMediaQuery } from 'react-responsive'
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 
+const handleDesktopChange = matches => {
+  console.log('media query change', matches)
+}
+const handleMobileChange = matches => {
+  console.log('media query change', matches)
+}
+
 const Desktop = ({ children }) => {
-  const isDesktop = useMediaQuery({ minWidth: 992 })
+  const isDesktop = useMediaQuery({ minWidth: 992 }, undefined, handleDesktopChange)
   return isDesktop ? children : null
 }
 const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery({ maxWidth: 991 })
+  const isMobile = useMediaQuery({ maxWidth: 991 }, undefined, handleMobileChange)
   return isMobile ? children : null
 }
 
@@ -37,7 +44,8 @@ const ListWrapper = styled.div`
     padding-top: 140px;
   }
   @media (min-width: 720px) {
-    padding-top: 0;
+    /* padding-top: 0; */
+    padding-top: 140px;
   }
 `
 
@@ -55,16 +63,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   componentDidMount() {
-    //setTimeout(
-    //  function () {
-    //    this.setState({ active: true })
-    //  }.bind(this),
-    //  300
-    //)
 
-    //console.log('refs', this.parallaxRef, this.pwRef)
-
-    console.log('SCROLL ATTACH', this.parallaxRef, window, this.pwRef)
     if (this.parallaxRef && window) {
       this.parallaxRef.container.onscroll = this.handleScroll
     } else {
@@ -80,7 +79,7 @@ export default class PortfolioScroller extends React.Component {
       smoothscroll.polyfill()
       if (this.parallaxRef) {
         setTimeout(
-          function () {
+          function() {
             this.parallaxRef.container.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -90,7 +89,7 @@ export default class PortfolioScroller extends React.Component {
         )
       } else {
         setTimeout(
-          function () {
+          function() {
             this.pwRef.current.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -140,11 +139,18 @@ export default class PortfolioScroller extends React.Component {
   }
 
   realPageNum = (items) => {
+    console.log('REAL PAGE NUM', items)
     if (typeof window !== 'undefined' && window.innerHeight) {
       return Math.ceil(this.state.height / window.innerHeight)
     } else {
       console.log('items', items.length)
       return items.length
+    }
+  }
+
+  handleDesktopChange = matches => {
+    if (matches) {
+      this.forceUpdate()
     }
   }
 
@@ -176,8 +182,8 @@ export default class PortfolioScroller extends React.Component {
           active={this.state.active}
         />
 
-        <div id="thisblows">
-          <Desktop>
+        <div id="">
+          <MediaQuery minWidth={992} onChange={this.handleDesktopChange}>
             <Parallax
               className="parallaxer"
               ref={(ref) => (this.parallaxRef = ref)}
@@ -212,8 +218,8 @@ export default class PortfolioScroller extends React.Component {
                   )
                 })}
             </Parallax>
-          </Desktop>
-          <Mobile>
+          </MediaQuery>
+          <MediaQuery maxWidth={991}>
             <ListWrapper>
               {items &&
                 items.map((e, i) => (
@@ -225,7 +231,7 @@ export default class PortfolioScroller extends React.Component {
                   />
                 ))}
             </ListWrapper>
-          </Mobile>
+          </MediaQuery>
         </div>
       </PageWrapper>
     )

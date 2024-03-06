@@ -97,7 +97,7 @@ export default class PortfolioScroller extends React.Component {
       smoothscroll.polyfill()
       if (this.parallaxRef) {
         setTimeout(
-          function () {
+          function() {
             this.parallaxRef.container.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -107,7 +107,7 @@ export default class PortfolioScroller extends React.Component {
         )
       } else {
         setTimeout(
-          function () {
+          function() {
             this.pwRef.current.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -144,7 +144,7 @@ export default class PortfolioScroller extends React.Component {
     }
   }
 
-  updateParallaxSize = () => {}
+  updateParallaxSize = () => { }
 
   handleScroll = (e) => {
     if ((e.target.scrollTop || window.scrollY) > 300) {
@@ -158,6 +158,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   realPageNum = (items) => {
+    console.log('REAL PAGE NUM', items)
     if (typeof window !== 'undefined' && window.innerHeight) {
       console.log(
         'realPageNum - have window and innerHeight',
@@ -224,7 +225,7 @@ export default class PortfolioScroller extends React.Component {
 
         */}
           <Parallax
-            className="parallaxer"
+            className="parallaxer heyoo"
             ref={this.getRef}
             pages={this.realPageNum(items)}
           >

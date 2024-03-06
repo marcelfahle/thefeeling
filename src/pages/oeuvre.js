@@ -8,16 +8,18 @@ export default function Oeuvre({ data, color, bg }) {
     return <div>Loading...</div>
   }
   return (
-    <PortfolioScroller
-      data={data}
-      items={data.allDatoCmsPagePortfolio.edges}
-      color={color}
-      bg={bg.oeuvre.url}
-      toArchiveLink={true}
-      backTo="/about"
-      headerAction="toabout"
-      path="oeuvre"
-    />
+    <div>
+      <PortfolioScroller
+        data={data}
+        items={data.allDatoCmsPagePortfolio.edges}
+        color={color}
+        bg={bg.oeuvre.url}
+        toArchiveLink={true}
+        backTo="/about"
+        headerAction="toabout"
+        path="oeuvre"
+      />
+    </div>
   )
 }
 
@@ -37,6 +39,7 @@ export const query = graphql`
           imageOpacity
           previewImage {
             url
+            format
           }
           previewText
           previewTextNode {

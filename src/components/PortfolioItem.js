@@ -9,7 +9,7 @@ const Item = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   //margin-bottom: 30px;
   //border: 2px solid red;
   @media (min-width: 720px) {
@@ -29,13 +29,13 @@ const FirstImage = styled.img`
   transition: all 0.8 ease;
   opacity: ${props => props.opacity};
   margin: 0 auto;
-  /*border: 2px solid green; */
+  /* border: 2px solid green; */
   @media (min-width: 720px) {
     width: 100%;
     /*
     left: ${props => (!props.left || props.left ? `${props.left}%` : 0)};
     max-width: ${props =>
-      !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
+    !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
       */
   }
 `
@@ -64,7 +64,7 @@ const TextElement = styled.div`
   left: ${props => (props.left ? `${props.left}%` : 'auto')};
   max-width: calc(
     ${props =>
-      !props.width || props.width === 100 ? '100%' : props.width + '%'} - 40px
+    !props.width || props.width === 100 ? '100%' : props.width + '%'} - 40px
   ${props => (props.hasImage ? `height: calc(100% - 40px)` : '')};
   max-width: ${props =>
     !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
@@ -141,14 +141,30 @@ const NoLink = styled.span`
 
 const hasImage = data => data.previewImage && data.previewImage.url
 
-const Img = ({ data }) => (
-  <FirstImage
+const Img = ({ data }) => {
+
+  const processImageUrl = (url, format) => {
+    if (format === 'gif') {
+      // Remove URL parameters / optimizations if it's a GIF
+      // customer requirements is to preserve transparency in gifs on mobile
+      const urlObj = new URL(url);
+      const cleanUrl = `${urlObj.origin}${urlObj.pathname}`;
+      return cleanUrl;
+    }
+    // Return the original URL if not a GIF
+    return url;
+  };
+
+  // Process the image URL based on its format
+  const processedUrl = processImageUrl(data.previewImage.url, data.previewImage.format);
+
+  return <FirstImage
     mwidth={data.width}
     left={data.xPosition}
     opacity={data.imageOpacity ? data.imageOpacity / 100 : 1}
-    src={data.previewImage.url}
+    src={processedUrl}
   />
-)
+}
 
 const createMarkup = html => {
   return { __html: html }
@@ -174,8 +190,8 @@ const Txt = ({ data }) => (
 export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
   <Item>
     {data.subPages &&
-    data.subPages[0] &&
-    data.subPages[0].externalLink !== '' ? (
+      data.subPages[0] &&
+      data.subPages[0].externalLink !== '' ? (
       <ExternalLink
         left={data.xPosition}
         mwidth={data.width}

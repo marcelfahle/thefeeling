@@ -13,7 +13,8 @@ const StyledHeader = styled.div`
   width: 100%;
   display: block;
   width: calc(100vw - 50px);
-  padding-top: 12.6%;
+  /* padding-top: 12.6%; */
+  aspect-ratio: 13/2;
   max-width: 500px;
   top: 25px;
   left: 50%;
@@ -45,7 +46,7 @@ const StyledHeader = styled.div`
   @media (min-width: 992px) {
     left: ${(props) => (props.size === 'big' ? '50%' : '25px')};
     transform: ${(props) =>
-      props.size === 'big' ? 'translateX(-50%)' : 'none'};
+    props.size === 'big' ? 'translateX(-50%)' : 'none'};
     width: ${(props) => (props.size === 'big' ? '500px' : '350px')};
     padding-top: 0;
     height: 55px;
@@ -65,11 +66,11 @@ const Flipper = styled.div`
 
   &.flipped {
     transform: ${(props) =>
-      props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
+    props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
     /*left: ${(props) => (props.mini ? '25px' : '50%')};*/
     @media (min-width: 992px) {
       transform: rotateX(180deg);
-      left: 4.5%;
+      /* left: 4.5%; */
     }
   }
 
@@ -84,7 +85,7 @@ const Flipper = styled.div`
   }
 
   @media (min-width: 720px) {
-    left: 4.5%;
+    /* left: 4.5%; */
     transform: none;
   }
 `
@@ -99,7 +100,7 @@ const Wrapper = styled.div`
   pointer-events: none;
 
   @media (min-width: 720px) {
-    left: 4.5%;
+    /* left: 4.5%; */
     transform: none;
     max-width: 500px;
     width: ${(props) => (props.size === 'big' ? 'calc(100% - 50px)' : '350px')};

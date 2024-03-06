@@ -16,10 +16,21 @@ import BoldPlayer from './../components/bold-player'
 //import PlayIcon from './../components/icons8-play-96.png'
 //import { Transition } from 'react-spring'
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
+import { useMediaQuery } from 'react-responsive'
 import './../../node_modules/react-modal-video/css/modal-video.min.css'
 import bg from './../layouts/bg-home.jpg'
 
 import { createGlobalStyle } from 'styled-components'
+
+
+const Desktop = ({ children }) => {
+  const isDesktop = useMediaQuery({ minWidth: 992 })
+  return isDesktop ? children : null
+}
+const Mobile = ({ children }) => {
+  const isMobile = useMediaQuery({ maxWidth: 991 })
+  return isMobile ? children : null
+}
 
 const GlobalStyle = createGlobalStyle`
   html,body {
@@ -94,7 +105,7 @@ const StartVideoButton = styled.div`
 `
 
 const Wrapper = styled.div`
-  position: relative;
+  /* position: relative; */
   background: black;
   background: url('${(props) => props.bg || bg}') no-repeat;
   background-attachment: fixed;
@@ -136,63 +147,6 @@ const Wrapper = styled.div`
   }
 `
 
-//const InfoBox = styled.div`
-//  position: absolute;
-//  background: ${props => props.bgColor || 'black'};
-//  color: ${props => props.textColor || 'white'};
-//  margin-left: 25px;
-//  bottom: 25px;
-//  text-align: left;
-//  padding: 6px 10px;
-//  font-size: 15px;
-//  line-height: 1.2;
-//  letter-spacing: 1px;
-//  max-width: 50%;
-//  p {
-//    margin: 0;
-//    padding: 0;
-//  }
-//
-//  @media (min-width: 720px) {
-//    font-size: 15px;
-//    bottom: 35px;
-//    margin-left: 4.5%;
-//  }
-//
-//  transition: bottom 0.8s ease;
-//  @media (orientation: landscape) {
-//    bottom: -100px;
-//  }
-//`
-//const CounterBox = styled.div`
-//  position: absolute;
-//  background: ${props => props.bgColor || 'black'};
-//  color: ${props => props.textColor || 'white'};
-//  width: 60px;
-//  right: 25px;
-//  bottom: 25px;
-//  text-align: center;
-//  padding: 6px 10px;
-//  line-height: 1.2;
-//  letter-spacing: 1px;
-//  font-size: 14px;
-//  transition: bottom 0.8s ease;
-//  p {
-//    margin: 0;
-//    padding: 0;
-//  }
-//
-//  @media (min-width: 720px) {
-//    width: 100px;
-//    font-size: 15px;
-//    bottom: 35px;
-//    margin-left: 4.5%;
-//  }
-//
-//  @media (orientation: landscape) {
-//    bottom: -100px;
-//  }
-//`
 const ContentWrap = styled.div`
   position: absolute;
   top: 0;
@@ -203,11 +157,28 @@ const ContentWrap = styled.div`
   justify-content: center;
   align-items: center;
 `
+const ContentWrapMobile = styled.div`
+  /* padding-top: 140px; */
+  /* padding-bottom: 140px; */
+  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin-bottom: 30px;
+`
 const Content = styled.div`
   width: 100%;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media (orientation: portrait) {
-    margin-top: 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 `
 const TextFieldBaseStyles = css`
@@ -263,8 +234,8 @@ const TextContent = styled.div`
   min-width: 240px;
   width: 100%;
   max-width: calc(91% - 40px);
-  margin-left: 50%;
-  transform: translateX(-50%);
+  /* margin-left: 50%; */
+  /* transform: translateX(-50%); */
   z-index: 21;
 
   p:first-child {
@@ -431,7 +402,12 @@ export default class SingleWork extends React.Component {
 
     console.log('bold Ids', boldVideoIds)
     const videos = await this.loadBoldVideos(boldVideoIds)
-    return this.setState({boldVideos: videos.reduce((acc, v) => ({...acc, [v.id]: v}), {})});
+    return this.setState({ boldVideos: videos.reduce((acc, v) => ({ ...acc, [v.id]: v }), {}) });
+  }
+
+  handleWindowSizeChange = () => {
+    this.setState({ width: window.innerWidth })
+
   }
 
   loadBoldVideos = async (ids) => {
@@ -442,8 +418,8 @@ export default class SingleWork extends React.Component {
     };
 
     try {
-      const resp =  await Promise.all(
-        ids.map(id =>{
+      const resp = await Promise.all(
+        ids.map(id => {
           return fetch(`https://app.boldvideo.io/api/videos/${id}`, { headers })
         })
       )
@@ -452,11 +428,11 @@ export default class SingleWork extends React.Component {
       console.log(filteredResp)
       results = Promise.all(
 
-        filteredResp.map(async(res) => {
-          
+        filteredResp.map(async (res) => {
+
           const video = await res.json();
           console.log(video)
-          return video.data 
+          return video.data
         })
       );
 
@@ -548,6 +524,85 @@ export default class SingleWork extends React.Component {
     this.setState({ videoId: this.youtube_parser(url), showVideo: true })
   }
 
+  renderContent = (item) => {
+    return (
+      <Content>
+        {item.text && item.text !== '' && !item.image && (
+          <TextContent
+            baseFontSize={item.baseFontSize}
+            baseFontSizeMobile={item.baseFontSizeMobile}
+            bgColor={
+              item.themeColor
+                ? item.themeColor.hex
+                : work.themeColor
+                  ? work.themeColor.hex
+                  : 'rgba(0,0,0,0)'
+            }
+            textColor={
+              item.textColor
+                ? item.textColor.hex
+                : work.textColor
+                  ? work.textColor.hex
+                  : 'white'
+            }
+            dangerouslySetInnerHTML={{ __html: item.text }}
+          />
+        )}
+        {item.text && item.text !== '' && item.image && (
+          <TextOverImageContent
+            baseFontSize={item.baseFontSize}
+            baseFontSizeMobile={item.baseFontSizeMobile}
+            bgColor={
+              item.themeColor ? item.themeColor.hex : work.themeColor.hex
+            }
+            textColor={
+              item.textColor ? item.textColor.hex : work.textColor.hex
+            }
+            dangerouslySetInnerHTML={{ __html: item.text }}
+          />
+        )}
+        {item.image && !item.boldVideoId && (
+          <Image src={item.image.url} opacity={item.opacity / 100} />
+        )}
+        {item.image && item.boldVideoId && (
+          <VideoLayer>
+
+            {this.state.boldVideos && this.state.boldVideos[item.boldVideoId] && <BoldPlayer
+              poster={item.image.url}
+              videoId={item.boldVideoId}
+              video={this.state.boldVideos[item.boldVideoId]}
+            />}
+          </VideoLayer>
+        )}
+        {item.video && !item.boldVideoId && (
+          <StartVideoButton
+            onClick={(evt) => {
+              evt.preventDefault()
+              this.startVideo(item.video.url, evt)
+            }}
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill={
+                  item.themeColor
+                    ? item.themeColor.hex
+                    : work.themeColor
+                      ? work.themeColor.hex
+                      : 'white'
+                }
+                d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
+              />
+            </svg>
+          </StartVideoButton>
+        )}
+      </Content>
+
+    )
+  }
+
   render() {
     var isArchive = false
     var bg, type
@@ -573,6 +628,8 @@ export default class SingleWork extends React.Component {
 
     const subs = this.props.data[type].subPages
 
+
+
     return (
       <Wrapper
         bg={bg}
@@ -587,109 +644,46 @@ export default class SingleWork extends React.Component {
           siteTitle="THE FEELING"
           mini={true}
           color={color}
-          position="absolute"
+          position="fixed"
           flipped
         />
 
-        <Swipeable
-          onSwipedLeft={(e) => this.handleSwipeLeft(subs, e)}
-          onSwipedRight={(e) => this.handleSwipeRight(subs, e)}
-          preventScrollOnSwipe={true}
-        >
-          <Parallax
-            className="container"
-            ref="parallax"
-            pages={subs.length}
-            horizontal
-            scrolling={false}
+        <Desktop>
+          <Swipeable
+            onSwipedLeft={(e) => this.handleSwipeLeft(subs, e)}
+            onSwipedRight={(e) => this.handleSwipeRight(subs, e)}
+            preventScrollOnSwipe={true}
           >
-            {subs.map((e, i) => (
-              <ParallaxLayer
-                offset={i}
-                key={i}
-                speed={0}
-                onClick={(ev) => this.handleClick(subs, i, ev, e)}
-              >
-                <ContentWrap>
-                  <Content>
-                    {e.text && e.text !== '' && !e.image && (
-                      <TextContent
-                        baseFontSize={e.baseFontSize}
-                        baseFontSizeMobile={e.baseFontSizeMobile}
-                        bgColor={
-                          e.themeColor
-                            ? e.themeColor.hex
-                            : work.themeColor
-                            ? work.themeColor.hex
-                            : 'rgba(0,0,0,0)'
-                        }
-                        textColor={
-                          e.textColor
-                            ? e.textColor.hex
-                            : work.textColor
-                            ? work.textColor.hex
-                            : 'white'
-                        }
-                        dangerouslySetInnerHTML={{ __html: e.text }}
-                      />
-                    )}
-                    {e.text && e.text !== '' && e.image && (
-                      <TextOverImageContent
-                        baseFontSize={e.baseFontSize}
-                        baseFontSizeMobile={e.baseFontSizeMobile}
-                        bgColor={
-                          e.themeColor ? e.themeColor.hex : work.themeColor.hex
-                        }
-                        textColor={
-                          e.textColor ? e.textColor.hex : work.textColor.hex
-                        }
-                        dangerouslySetInnerHTML={{ __html: e.text }}
-                      />
-                    )}
-                    {e.image && !e.boldVideoId && (
-                      <Image src={e.image.url} opacity={e.opacity / 100} />
-                    )}
-                    {e.image && e.boldVideoId && (
-                      <VideoLayer>
+            <Parallax
+              className="container"
+              ref="parallax"
+              pages={subs.length}
+              horizontal
+              scrolling={false}
+            >
+              {subs.map((item, i) => (
+                <ParallaxLayer
+                  offset={i}
+                  key={item.id}
+                  speed={0}
+                  onClick={(ev) => this.handleClick(subs, i, ev, item)}
+                >
+                  <ContentWrap>
+                    {this.renderContent(item)}
+                  </ContentWrap>
+                </ParallaxLayer>
+              ))}
+            </Parallax>
+          </Swipeable>
+        </Desktop>
+        <Mobile>
+          <div style={{ paddingTop: 100 }} >
+            {subs.map((item) => <ContentWrapMobile>{this.renderContent(item)}</ContentWrapMobile>)}
+          </div>
+        </Mobile>
 
-                      {this.state.boldVideos && this.state.boldVideos[e.boldVideoId] && <BoldPlayer
-                          poster={e.image.url}
-                          videoId={e.boldVideoId}
-                          video={this.state.boldVideos[e.boldVideoId]}
-                        />}
-                      </VideoLayer>
-                    )}
-                    {e.video && !e.boldVideoId && (
-                      <StartVideoButton
-                        onClick={(evt) => {
-                          evt.preventDefault()
-                          this.startVideo(e.video.url, evt)
-                        }}
-                      >
-                        <svg
-                          viewBox="0 0 100 100"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill={
-                              e.themeColor
-                                ? e.themeColor.hex
-                                : work.themeColor
-                                ? work.themeColor.hex
-                                : 'white'
-                            }
-                            d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
-                          />
-                        </svg>
-                      </StartVideoButton>
-                    )}
-                  </Content>
-                </ContentWrap>
-              </ParallaxLayer>
-            ))}
-          </Parallax>
-        </Swipeable>
         {/*
+
         <InfoBox bgColor={work.themeColor.hex} textColor={work.textColor.hex}>
           <p
             dangerouslySetInnerHTML={{
@@ -729,6 +723,7 @@ export const query = graphql`
       }
 
       subPages {
+        id
         text
         externalLink
         baseFontSize
@@ -769,6 +764,7 @@ export const query = graphql`
       }
 
       subPages {
+        id
         text
         externalLink
         baseFontSize
