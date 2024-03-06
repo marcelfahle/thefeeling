@@ -524,7 +524,7 @@ export default class SingleWork extends React.Component {
     this.setState({ videoId: this.youtube_parser(url), showVideo: true })
   }
 
-  renderContent = (item) => {
+  renderContent = (item, work) => {
     return (
       <Content>
         {item.text && item.text !== '' && !item.image && (
@@ -669,7 +669,7 @@ export default class SingleWork extends React.Component {
                   onClick={(ev) => this.handleClick(subs, i, ev, item)}
                 >
                   <ContentWrap>
-                    {this.renderContent(item)}
+                    {this.renderContent(item, work)}
                   </ContentWrap>
                 </ParallaxLayer>
               ))}
@@ -678,7 +678,7 @@ export default class SingleWork extends React.Component {
         </Desktop>
         <Mobile>
           <div style={{ paddingTop: 100 }} >
-            {subs.map((item) => <ContentWrapMobile>{this.renderContent(item)}</ContentWrapMobile>)}
+            {subs.map((item) => <ContentWrapMobile>{this.renderContent(item, work)}</ContentWrapMobile>)}
           </div>
         </Mobile>
 
