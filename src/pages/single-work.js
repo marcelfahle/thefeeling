@@ -22,7 +22,6 @@ import bg from './../layouts/bg-home.jpg'
 
 import { createGlobalStyle } from 'styled-components'
 
-
 const Desktop = ({ children }) => {
   const isDesktop = useMediaQuery({ minWidth: 992 })
   return isDesktop ? children : null
@@ -160,7 +159,7 @@ const ContentWrap = styled.div`
 const ContentWrapMobile = styled.div`
   /* padding-top: 140px; */
   /* padding-bottom: 140px; */
-  
+
   position: relative;
   display: flex;
   flex-direction: column;
@@ -263,7 +262,7 @@ const VideoLayer = styled.div`
   height: 100%;
 
   .bold-player {
-    max-width: 80vw;
+    max-width: 91%;
     max-height: calc(100vh - 160px);
     height: 100%;
     min-width: ${isSafari ? '60vw' : '0'};
@@ -399,44 +398,40 @@ export default class SingleWork extends React.Component {
       .map((sub) => (sub.boldVideoId ? sub.boldVideoId : null))
       .filter((sub) => sub)
 
-
     console.log('bold Ids', boldVideoIds)
     const videos = await this.loadBoldVideos(boldVideoIds)
-    return this.setState({ boldVideos: videos.reduce((acc, v) => ({ ...acc, [v.id]: v }), {}) });
+    return this.setState({
+      boldVideos: videos.reduce((acc, v) => ({ ...acc, [v.id]: v }), {}),
+    })
   }
 
   handleWindowSizeChange = () => {
     this.setState({ width: window.innerWidth })
-
   }
 
   loadBoldVideos = async (ids) => {
-    let results;
+    let results
     const headers = {
       Authorization: process.env.GATSBY_BOLD_API,
       'Content-Type': 'application/json; charset=utf-8',
-    };
+    }
 
     try {
       const resp = await Promise.all(
-        ids.map(id => {
+        ids.map((id) => {
           return fetch(`https://app.boldvideo.io/api/videos/${id}`, { headers })
         })
       )
-      const filteredResp = resp.filter(res => res.status === 200);
+      const filteredResp = resp.filter((res) => res.status === 200)
 
       console.log(filteredResp)
       results = Promise.all(
-
         filteredResp.map(async (res) => {
-
-          const video = await res.json();
+          const video = await res.json()
           console.log(video)
           return video.data
         })
-      );
-
-
+      )
     } catch (err) {
       console.log('Error fetching Bold Videos', err)
     }
@@ -535,15 +530,15 @@ export default class SingleWork extends React.Component {
               item.themeColor
                 ? item.themeColor.hex
                 : work.themeColor
-                  ? work.themeColor.hex
-                  : 'rgba(0,0,0,0)'
+                ? work.themeColor.hex
+                : 'rgba(0,0,0,0)'
             }
             textColor={
               item.textColor
                 ? item.textColor.hex
                 : work.textColor
-                  ? work.textColor.hex
-                  : 'white'
+                ? work.textColor.hex
+                : 'white'
             }
             dangerouslySetInnerHTML={{ __html: item.text }}
           />
@@ -555,9 +550,7 @@ export default class SingleWork extends React.Component {
             bgColor={
               item.themeColor ? item.themeColor.hex : work.themeColor.hex
             }
-            textColor={
-              item.textColor ? item.textColor.hex : work.textColor.hex
-            }
+            textColor={item.textColor ? item.textColor.hex : work.textColor.hex}
             dangerouslySetInnerHTML={{ __html: item.text }}
           />
         )}
@@ -566,12 +559,14 @@ export default class SingleWork extends React.Component {
         )}
         {item.image && item.boldVideoId && (
           <VideoLayer>
-
-            {this.state.boldVideos && this.state.boldVideos[item.boldVideoId] && <BoldPlayer
-              poster={item.image.url}
-              videoId={item.boldVideoId}
-              video={this.state.boldVideos[item.boldVideoId]}
-            />}
+            {this.state.boldVideos &&
+              this.state.boldVideos[item.boldVideoId] && (
+                <BoldPlayer
+                  poster={item.image.url}
+                  videoId={item.boldVideoId}
+                  video={this.state.boldVideos[item.boldVideoId]}
+                />
+              )}
           </VideoLayer>
         )}
         {item.video && !item.boldVideoId && (
@@ -581,17 +576,14 @@ export default class SingleWork extends React.Component {
               this.startVideo(item.video.url, evt)
             }}
           >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill={
                   item.themeColor
                     ? item.themeColor.hex
                     : work.themeColor
-                      ? work.themeColor.hex
-                      : 'white'
+                    ? work.themeColor.hex
+                    : 'white'
                 }
                 d="M50 5C25.2 5 5 25.1 5 50c0 24.8 20.2 45 45 45s45-20.2 45-45C95 25.1 74.8 5 50 5zm18.2 46.7L40 69.1c-1.3.8-3-.1-3-1.7V32.6c0-1.6 1.7-2.5 3-1.7l28.2 17.4c1.2.8 1.2 2.6 0 3.4z"
               />
@@ -599,7 +591,6 @@ export default class SingleWork extends React.Component {
           </StartVideoButton>
         )}
       </Content>
-
     )
   }
 
@@ -627,8 +618,6 @@ export default class SingleWork extends React.Component {
     const lp = this.state.lastPos
 
     const subs = this.props.data[type].subPages
-
-
 
     return (
       <Wrapper
@@ -668,17 +657,19 @@ export default class SingleWork extends React.Component {
                   speed={0}
                   onClick={(ev) => this.handleClick(subs, i, ev, item)}
                 >
-                  <ContentWrap>
-                    {this.renderContent(item, work)}
-                  </ContentWrap>
+                  <ContentWrap>{this.renderContent(item, work)}</ContentWrap>
                 </ParallaxLayer>
               ))}
             </Parallax>
           </Swipeable>
         </Desktop>
         <Mobile>
-          <div style={{ paddingTop: 100 }} >
-            {subs.map((item) => <ContentWrapMobile>{this.renderContent(item, work)}</ContentWrapMobile>)}
+          <div style={{ paddingTop: 100 }}>
+            {subs.map((item) => (
+              <ContentWrapMobile>
+                {this.renderContent(item, work)}
+              </ContentWrapMobile>
+            ))}
           </div>
         </Mobile>
 
