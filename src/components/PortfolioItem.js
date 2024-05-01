@@ -19,7 +19,7 @@ const Item = styled.div`
 `
 
 const FirstImage = styled.img`
-/*
+  /*
   width: calc(100vw - 50px);
   max-width: 500px;
   left: 25px;
@@ -27,15 +27,15 @@ const FirstImage = styled.img`
   */
   width: 100%;
   transition: all 0.8 ease;
-  opacity: ${props => props.opacity};
+  opacity: ${(props) => props.opacity};
   margin: 0 auto;
   /* border: 2px solid green; */
   @media (min-width: 720px) {
     width: 100%;
     /*
-    left: ${props => (!props.left || props.left ? `${props.left}%` : 0)};
-    max-width: ${props =>
-    !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
+    left: ${(props) => (!props.left || props.left ? `${props.left}%` : 0)};
+    max-width: ${(props) =>
+      !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
       */
   }
 `
@@ -47,7 +47,7 @@ const TextElement = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  ${props =>
+  ${(props) =>
     !props.hasImage
       ? `
           position: relative;
@@ -59,21 +59,21 @@ const TextElement = styled.div`
           width: calc(100% - 40px);
           bottom: 5px;
   `};
-/*
+  /*
   top: 0;
-  left: ${props => (props.left ? `${props.left}%` : 'auto')};
+  left: ${(props) => (props.left ? `${props.left}%` : 'auto')};
   max-width: calc(
-    ${props =>
+    ${(props) =>
     !props.width || props.width === 100 ? '100%' : props.width + '%'} - 40px
-  ${props => (props.hasImage ? `height: calc(100% - 40px)` : '')};
-  max-width: ${props =>
+  ${(props) => (props.hasImage ? `height: calc(100% - 40px)` : '')};
+  max-width: ${(props) =>
     !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
   */
   overflow: hidden;
-  font-size: ${props => props.baseFontSizeMobile}px;
-	@media (min-width: 720px) {
-		font-size: ${props => props.baseFontSize}px;
-	}
+  font-size: ${(props) => props.baseFontSizeMobile}px;
+  @media (min-width: 720px) {
+    font-size: ${(props) => props.baseFontSize}px;
+  }
   p {
     font-size: 1em;
   }
@@ -118,14 +118,19 @@ const linkStyles = css`
   top: 0;
   width: 100%;
   position: relative;
-  left: ${props => (props.left ? `${props.left}%` : 'auto')};
-  max-width: ${props =>
+  left: ${(props) => (props.left ? `${props.left}%` : 'auto')};
+  max-width: ${(props) =>
     !props.mwidth || props.mwidth === 100 ? '100%' : props.mwidth + '%'};
 
   @media (max-width: 720px) {
     margin: 0 auto;
     left: auto;
     max-width: 80%;
+  }
+  @media (max-width: 550px) {
+    margin: 0 auto;
+    left: auto;
+    max-width: 91%;
   }
 `
 
@@ -136,37 +141,41 @@ const ExternalLink = styled.a`
   ${linkStyles};
 `
 const NoLink = styled.span`
-  ${linkStyles} //border:5px solid red;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ${linkStyles};
 `
 
-const hasImage = data => data.previewImage && data.previewImage.url
+const hasImage = (data) => data.previewImage && data.previewImage.url
 
 const Img = ({ data }) => {
-
   const processImageUrl = (url, format) => {
     if (format === 'gif') {
       // Remove URL parameters / optimizations if it's a GIF
       // customer requirements is to preserve transparency in gifs on mobile
-      const urlObj = new URL(url);
-      const cleanUrl = `${urlObj.origin}${urlObj.pathname}`;
-      return cleanUrl;
+      const urlObj = new URL(url)
+      const cleanUrl = `${urlObj.origin}${urlObj.pathname}`
+      return cleanUrl
     }
     // Return the original URL if not a GIF
-    return url;
-  };
+    return url
+  }
 
   // Process the image URL based on its format
-  const processedUrl = processImageUrl(data.previewImage.url, data.previewImage.format);
+  const processedUrl = processImageUrl(
+    data.previewImage.url,
+    data.previewImage.format
+  )
 
-  return <FirstImage
-    mwidth={data.width}
-    left={data.xPosition}
-    opacity={data.imageOpacity ? data.imageOpacity / 100 : 1}
-    src={processedUrl}
-  />
+  return (
+    <FirstImage
+      mwidth={data.width}
+      left={data.xPosition}
+      opacity={data.imageOpacity ? data.imageOpacity / 100 : 1}
+      src={processedUrl}
+    />
+  )
 }
 
-const createMarkup = html => {
+const createMarkup = (html) => {
   return { __html: html }
 }
 
@@ -190,8 +199,8 @@ const Txt = ({ data }) => (
 export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
   <Item>
     {data.subPages &&
-      data.subPages[0] &&
-      data.subPages[0].externalLink !== '' ? (
+    data.subPages[0] &&
+    data.subPages[0].externalLink !== '' ? (
       <ExternalLink
         left={data.xPosition}
         mwidth={data.width}

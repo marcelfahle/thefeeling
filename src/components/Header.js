@@ -12,7 +12,7 @@ const StyledHeader = styled.div`
   position: ${(props) => props.pos};
   width: 100%;
   display: block;
-  width: calc(100vw - 50px);
+  width: 91%;
   /* padding-top: 12.6%; */
   aspect-ratio: 13/2;
   max-width: 500px;
@@ -46,7 +46,7 @@ const StyledHeader = styled.div`
   @media (min-width: 992px) {
     left: ${(props) => (props.size === 'big' ? '50%' : '25px')};
     transform: ${(props) =>
-    props.size === 'big' ? 'translateX(-50%)' : 'none'};
+      props.size === 'big' ? 'translateX(-50%)' : 'none'};
     width: ${(props) => (props.size === 'big' ? '500px' : '350px')};
     padding-top: 0;
     height: 55px;
@@ -66,7 +66,7 @@ const Flipper = styled.div`
 
   &.flipped {
     transform: ${(props) =>
-    props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
+      props.mini ? 'rotateX(180deg)' : 'translateX(-50%) rotateX(180deg)'};
     /*left: ${(props) => (props.mini ? '25px' : '50%')};*/
     @media (min-width: 992px) {
       transform: rotateX(180deg);

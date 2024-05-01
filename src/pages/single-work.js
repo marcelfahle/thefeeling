@@ -156,6 +156,12 @@ const ContentWrap = styled.div`
   justify-content: center;
   align-items: center;
 `
+const MobileContainer = styled.div`
+  margin-top: 26vw;
+  @media (min-width: 550px) {
+    margin-top: 130px;
+  }
+`
 const ContentWrapMobile = styled.div`
   /* padding-top: 140px; */
   /* padding-bottom: 140px; */
@@ -358,6 +364,7 @@ const VideoLayer = styled.div`
 const StyledModalVideo = styled(ModalVideo)``
 
 function isEventInElement(event, element) {
+  if (!element) return false
   var rect = element.getBoundingClientRect()
   var x = event.clientX
   if (x < rect.left || x >= rect.right) return false
@@ -461,33 +468,36 @@ export default class SingleWork extends React.Component {
     this.refs.parallax.scrollTo(to)
   }
 
-  handleSwipeRight = (pics, e) => {
+  handleSwipeRight = (_pics, _e) => {
     const i = this.state.current
     this.scroll(i > 1 ? i - 1 : 0)
   }
 
-  handleSwipeLeft = (pics, e) => {
+  handleSwipeLeft = (pics, _e) => {
     const i = this.state.current
     this.scroll(i + 1 >= pics.length ? 0 : i + 1)
   }
 
   handleClick = (pics, i, e, content) => {
     if (content.boldVideoId) {
+      const vid = document.getElementById(`id-${content.boldVideoId}`)
       const playButton = document
         .querySelector(`#id-${content.boldVideoId}`)
-        .shadowRoot.querySelector('media-theme-mux')
-        .shadowRoot.querySelector('media-controller media-play-button')
+        ?.shadowRoot.querySelector('media-theme-mux')
+        ?.shadowRoot.querySelector('media-controller media-play-button')
 
       // add fullscreen button
       const fsButton = document
         .querySelector(`#id-${content.boldVideoId}`)
-        .shadowRoot.querySelector('media-theme-mux')
-        .shadowRoot.querySelector('media-controller media-fullscreen-button')
+        ?.shadowRoot.querySelector('media-theme-mux')
+        ?.shadowRoot.querySelector('media-controller media-fullscreen-button')
       // .shadowRoot.querySelector('media-fullscreen-button')
 
       if (
         content.boldVideoId &&
-        (isEventInElement(e, playButton) || isEventInElement(e, fsButton))
+        ((vid && isEventInElement(e, vid)) ||
+          isEventInElement(e, playButton) ||
+          isEventInElement(e, fsButton))
       )
         return
     }
@@ -520,6 +530,7 @@ export default class SingleWork extends React.Component {
   }
 
   renderContent = (item, work) => {
+    console.log('item', item)
     return (
       <Content>
         {item.text && item.text !== '' && !item.image && (
@@ -565,6 +576,13 @@ export default class SingleWork extends React.Component {
                   poster={item.image.url}
                   videoId={item.boldVideoId}
                   video={this.state.boldVideos[item.boldVideoId]}
+                  color={
+                    item.themeColor
+                      ? item.themeColor.hex
+                      : work.themeColor
+                      ? work.themeColor.hex
+                      : 'white'
+                  }
                 />
               )}
           </VideoLayer>
@@ -664,13 +682,13 @@ export default class SingleWork extends React.Component {
           </Swipeable>
         </Desktop>
         <Mobile>
-          <div style={{ paddingTop: 100 }}>
+          <MobileContainer>
             {subs.map((item) => (
-              <ContentWrapMobile>
+              <ContentWrapMobile key={item.id}>
                 {this.renderContent(item, work)}
               </ContentWrapMobile>
             ))}
-          </div>
+          </MobileContainer>
         </Mobile>
 
         {/*
