@@ -20,6 +20,9 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: 2.5.1
+      deepmerge:
+        specifier: 4.3.1
+        version: 4.3.1
       gatsby:
         specifier: ^3.0.0
         version: 3.15.0(@types/node@25.7.0)(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@16.14.0(react@16.14.0))(react@16.14.0)(typescript@6.0.3)
@@ -35,6 +38,9 @@ importers:
       gatsby-plugin-styled-components:
         specifier: 3.10.0
         version: 3.10.0(babel-plugin-styled-components@2.1.4(@babel/core@7.29.0)(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@16.14.0(react@16.14.0))(react-is@17.0.2)(react@16.14.0)))(gatsby@3.15.0(@types/node@25.7.0)(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@16.14.0(react@16.14.0))(react@16.14.0)(typescript@6.0.3))(styled-components@5.3.11(@babel/core@7.29.0)(react-dom@16.14.0(react@16.14.0))(react-is@17.0.2)(react@16.14.0))
+      gatsby-react-router-scroll:
+        specifier: 4.15.0
+        version: 4.15.0(@gatsbyjs/reach-router@1.3.9(patch_hash=27edd1ea6d5c1002117eb8ac2e8c0afdab4fccbffc4af898aeeb2525f42966e1)(react-dom@16.14.0(react@16.14.0))(react@16.14.0))(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       gatsby-source-datocms:
         specifier: 2.6.18
         version: 2.6.18(gatsby@3.15.0(@types/node@25.7.0)(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@16.14.0(react@16.14.0))(react@16.14.0)(typescript@6.0.3))(react-helmet@6.1.0(react@16.14.0))(react@16.14.0)
@@ -44,6 +50,12 @@ importers:
       gatsby-transformer-remark:
         specifier: 2.16.1
         version: 2.16.1(gatsby@3.15.0(@types/node@25.7.0)(babel-eslint@10.1.0(eslint@7.32.0))(react-dom@16.14.0(react@16.14.0))(react@16.14.0)(typescript@6.0.3))
+      mitt:
+        specifier: 1.2.0
+        version: 1.2.0
+      prop-types:
+        specifier: 15.8.1
+        version: 15.8.1
       react:
         specifier: ^16.8.6
         version: 16.14.0
@@ -71,6 +83,9 @@ importers:
       react-swipeable:
         specifier: ^7.0.0
         version: 7.0.2(react@16.14.0)
+      shallow-compare:
+        specifier: 1.2.2
+        version: 1.2.2
       smoothscroll-polyfill:
         specifier: ^0.4.3
         version: 0.4.4
