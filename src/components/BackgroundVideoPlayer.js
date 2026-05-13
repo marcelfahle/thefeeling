@@ -6,7 +6,9 @@ import './BackgroundVideoPlayer.css'
 import videojsPlaylistPlugin from 'videojs-playlist'
 import Header from './Header'
 
-videojs.registerPlugin('playlist', videojsPlaylistPlugin)
+if (!videojs.getPlugin('playlist')) {
+  videojs.registerPlugin('playlist', videojsPlaylistPlugin)
+}
 
 const GlobalStyle = createGlobalStyle`
 	.video-js > div,
@@ -20,7 +22,7 @@ const Wrapper = styled.div`
   background: black;
   position: fixed;
   width: 100vw;
-  height: 100wh;
+  height: 100vh;
   top: 0;
   right: 0;
   bottom: 0;
@@ -98,12 +100,7 @@ class VideoPlayer extends React.Component {
     //  preload: 'none',
     //  sources: pl,
     //}
-    //console.log('component did mount')
-    //console.log('playlist', pl)
-
-    this.player = videojs(this.videoNode, { controls: false }, () => {
-      //console.log('player ready.', this, this.player)
-    })
+    this.player = videojs(this.videoNode, { controls: false }, () => {})
     this.player.on('play', () => videojs.log('play'))
     //this.player.on('ended', () => this.player.playlist.next())
     //this.player.on('playlistitem', (e, f) => videojs.log('playlistitem', e, f))
@@ -119,11 +116,11 @@ class VideoPlayer extends React.Component {
     }
   }
 
-  shuffle = arr =>
+  shuffle = (arr) =>
     arr
-      .map(a => [Math.random(), a])
+      .map((a) => [Math.random(), a])
       .sort((a, b) => a[0] - b[0])
-      .map(a => a[1])
+      .map((a) => a[1])
 
   render() {
     const { color } = this.props
@@ -137,7 +134,7 @@ class VideoPlayer extends React.Component {
           muted
           autoPlay
           controls={false}
-          ref={node => (this.videoNode = node)}
+          ref={(node) => (this.videoNode = node)}
           className="video-js"
         />
       </Wrapper>
