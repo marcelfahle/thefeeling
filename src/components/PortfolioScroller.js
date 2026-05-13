@@ -83,8 +83,6 @@ export default class PortfolioScroller extends React.Component {
     //  300
     //)
 
-    //console.log('refs', this.parallaxRef, this.pwRef)
-
     if (this.parallaxRef && window) {
       this.parallaxRef.container.onscroll = this.handleScroll
       //window.addEventListener('resize', this.updateParallaxSize)
@@ -97,7 +95,7 @@ export default class PortfolioScroller extends React.Component {
       smoothscroll.polyfill()
       if (this.parallaxRef) {
         setTimeout(
-          function() {
+          function () {
             this.parallaxRef.container.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -107,7 +105,7 @@ export default class PortfolioScroller extends React.Component {
         )
       } else {
         setTimeout(
-          function() {
+          function () {
             this.pwRef.current.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -144,7 +142,7 @@ export default class PortfolioScroller extends React.Component {
     }
   }
 
-  updateParallaxSize = () => { }
+  updateParallaxSize = () => {}
 
   handleScroll = (e) => {
     if ((e.target.scrollTop || window.scrollY) > 300) {
@@ -158,21 +156,14 @@ export default class PortfolioScroller extends React.Component {
   }
 
   realPageNum = (items) => {
-    console.log('REAL PAGE NUM', items)
     if (typeof window !== 'undefined' && window.innerHeight) {
-      console.log(
-        'realPageNum - have window and innerHeight',
-        Math.ceil(this.state.height / window.innerHeight)
-      )
       return Math.ceil(this.state.height / window.innerHeight)
     } else {
-      console.log('realPageNum fallback', items.length)
       return items.length
     }
   }
 
   render() {
-    console.log('active', this.state.active, 'props', this.props)
     if (!this.props.data) return <div>Loading...</div>
 
     const {
@@ -186,9 +177,6 @@ export default class PortfolioScroller extends React.Component {
     } = this.props
     let offset = 0
     let off = 0
-
-    //console.log(this.props)
-
     // e.node.pictures[0].resolutions.aspectRatio > 1 ? i * 0.6 : i * 1
     //
 
@@ -239,14 +227,6 @@ export default class PortfolioScroller extends React.Component {
                 offset -= e.node.yOffset
                 off = i === 0 ? 0 : 0 - offset / 100
 
-                //console.log(
-                //  i,
-                //  e.node.title,
-                //  `speed: ${speed}`,
-                //  `orig yOffset: ${e.node.yOffset}`,
-                //  `acc offset: ${off}`,
-                //  `width: ${e.node.width}`
-                //)
                 var border = 'none'
                 switch (i) {
                   case 0:
