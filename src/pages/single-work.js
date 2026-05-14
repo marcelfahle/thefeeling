@@ -268,28 +268,17 @@ const VideoLayer = styled.div`
   height: 100%;
 
   .bold-player {
-    position: relative;
-    width: min(
-      91vw,
-      calc((calc(var(--vh, 1vh) * 100) - 160px) * var(--video-aspect-ratio))
-    );
+    max-width: 91%;
     max-height: calc(100vh - 160px);
-    aspect-ratio: var(--video-aspect-ratio);
+    height: 100%;
     min-width: ${isSafari ? '60vw' : '0'};
     @media (orientation: landscape) and (max-height: 480px) {
       margin-top: 0;
-      width: min(
-        91vw,
-        calc((calc(var(--vh, 1vh) * 100) - 100px) * var(--video-aspect-ratio))
-      );
       max-height: calc(100vh - 100px);
     }
 
     mux-player {
-      display: block;
       width: 100%;
-      height: 100%;
-      aspect-ratio: var(--video-aspect-ratio);
       --controls-backdrop-color: rgb(0 0 0 / 0%);
       --seek-live-button: none;
       --seek-backward-button: none;
@@ -327,6 +316,9 @@ const VideoLayer = styled.div`
       opacity: 0;
       display: none !important;
     }
+    mux-player::part(gesture-layer) {
+      display: none;
+    }
     mux-player::part(poster) img {
       object-fit: cover !important;
     }
@@ -337,40 +329,10 @@ const VideoLayer = styled.div`
       width: 100%;
       height: 100%;
       max-height: calc(100vh - 160px);
-      object-fit: cover;
+      object-fit: contain;
     }
     mux-player.fullscreen::part(video) {
       max-height: 100vh;
-    }
-
-    .bold-player__play {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: clamp(74px, 8vw, 152px);
-      aspect-ratio: 1;
-      border: 0;
-      border-radius: 50%;
-      background: black;
-      color: var(--video-accent-color, white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      z-index: 10;
-      cursor: url(${MouseUp}), auto !important;
-    }
-
-    .bold-player__play:hover {
-      opacity: 0.82;
-    }
-
-    .bold-player__play svg {
-      width: 55%;
-      height: 55%;
-      margin-left: 7%;
-      fill: currentColor;
     }
   }
 `
@@ -401,11 +363,6 @@ const VideoLayer = styled.div`
 
 const StyledModalVideo = styled(ModalVideo)``
 
-const BOLD_VIDEO_FUNCTION =
-  process.env.NODE_ENV === 'development'
-    ? '/api/bold-video'
-    : '/.netlify/functions/bold-video'
-
 function isEventInElement(event, element) {
   if (!element) return false
   var rect = element.getBoundingClientRect()
@@ -414,44 +371,6 @@ function isEventInElement(event, element) {
   var y = event.clientY
   if (y < rect.top || y >= rect.bottom) return false
   return true
-}
-
-function getEventPath(event) {
-  return event.composedPath ? event.composedPath() : []
-}
-
-function isElementInteractive(element) {
-  if (!element || !element.closest) return false
-
-  return Boolean(
-    element.closest(
-      '.bold-player, mux-player, button, a, [role="button"], [data-interactive="true"]'
-    )
-  )
-}
-
-function isEventOnInteractiveElement(event) {
-  const path = getEventPath(event)
-
-  if (path.some(isElementInteractive)) return true
-
-  if (!document.elementsFromPoint) return false
-
-  return document
-    .elementsFromPoint(event.clientX, event.clientY)
-    .some(isElementInteractive)
-}
-
-function getMediaAspectRatio(item) {
-  if (item.video && item.video.width && item.video.height) {
-    return item.video.width / item.video.height
-  }
-
-  if (item.image && item.image.resolutions) {
-    return item.image.resolutions.aspectRatio
-  }
-
-  return 16 / 9
 }
 
 export default class SingleWork extends React.Component {
@@ -486,6 +405,7 @@ export default class SingleWork extends React.Component {
       .map((sub) => (sub.boldVideoId ? sub.boldVideoId : null))
       .filter((sub) => sub)
 
+    console.log('bold Ids', boldVideoIds)
     const videos = await this.loadBoldVideos(boldVideoIds)
     return this.setState({
       boldVideos: videos.reduce((acc, v) => ({ ...acc, [v.id]: v }), {}),
@@ -497,33 +417,36 @@ export default class SingleWork extends React.Component {
   }
 
   loadBoldVideos = async (ids) => {
-    if (!ids.length) return []
+    let results
+    const headers = {
+      Authorization: process.env.GATSBY_BOLD_API,
+      'Content-Type': 'application/json; charset=utf-8',
+    }
 
     try {
       const resp = await Promise.all(
         ids.map((id) => {
-          return fetch(`${BOLD_VIDEO_FUNCTION}?id=${encodeURIComponent(id)}`)
+          return fetch(`https://app.boldvideo.io/api/videos/${id}`, { headers })
         })
       )
       const filteredResp = resp.filter((res) => res.status === 200)
 
-      return Promise.all(
+      console.log(filteredResp)
+      results = Promise.all(
         filteredResp.map(async (res) => {
           const video = await res.json()
+          console.log(video)
           return video.data
         })
       )
     } catch (err) {
-      return []
+      console.log('Error fetching Bold Videos', err)
     }
+    console.log('results', results)
+    return results
   }
 
   onMouseMove = (e) => {
-    if (isEventOnInteractiveElement(e)) {
-      this.setState({ cursor: 'execute' })
-      return
-    }
-
     const w = document.documentElement.clientWidth
     const mx = e.clientX
     let dir
@@ -556,8 +479,6 @@ export default class SingleWork extends React.Component {
   }
 
   handleClick = (pics, i, e, content) => {
-    if (isEventOnInteractiveElement(e)) return
-
     if (content.boldVideoId) {
       const vid = document.getElementById(`id-${content.boldVideoId}`)
       const playButton = document
@@ -597,8 +518,7 @@ export default class SingleWork extends React.Component {
   }
 
   youtube_parser = (url) => {
-    var regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
     var match = url.match(regExp)
     return match && match[7].length == 11 ? match[7] : false
   }
@@ -610,6 +530,7 @@ export default class SingleWork extends React.Component {
   }
 
   renderContent = (item, work) => {
+    console.log('item', item)
     return (
       <Content>
         {item.text && item.text !== '' && !item.image && (
@@ -655,7 +576,6 @@ export default class SingleWork extends React.Component {
                   poster={item.image.url}
                   videoId={item.boldVideoId}
                   video={this.state.boldVideos[item.boldVideoId]}
-                  aspectRatio={getMediaAspectRatio(item)}
                   color={
                     item.themeColor
                       ? item.themeColor.hex

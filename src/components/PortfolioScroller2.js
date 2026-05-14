@@ -6,23 +6,19 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons'
 import Header from './../components/Header'
 import PortfolioItem from './../components/PortfolioItem'
 
-const handleDesktopChange = () => {}
-const handleMobileChange = () => {}
+const handleDesktopChange = matches => {
+  console.log('media query change', matches)
+}
+const handleMobileChange = matches => {
+  console.log('media query change', matches)
+}
 
 const Desktop = ({ children }) => {
-  const isDesktop = useMediaQuery(
-    { minWidth: 992 },
-    undefined,
-    handleDesktopChange
-  )
+  const isDesktop = useMediaQuery({ minWidth: 992 }, undefined, handleDesktopChange)
   return isDesktop ? children : null
 }
 const Mobile = ({ children }) => {
-  const isMobile = useMediaQuery(
-    { maxWidth: 991 },
-    undefined,
-    handleMobileChange
-  )
+  const isMobile = useMediaQuery({ maxWidth: 991 }, undefined, handleMobileChange)
   return isMobile ? children : null
 }
 
@@ -67,6 +63,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   componentDidMount() {
+
     if (this.parallaxRef && window) {
       this.parallaxRef.container.onscroll = this.handleScroll
     } else {
@@ -82,7 +79,7 @@ export default class PortfolioScroller extends React.Component {
       smoothscroll.polyfill()
       if (this.parallaxRef) {
         setTimeout(
-          function () {
+          function() {
             this.parallaxRef.container.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -92,7 +89,7 @@ export default class PortfolioScroller extends React.Component {
         )
       } else {
         setTimeout(
-          function () {
+          function() {
             this.pwRef.current.scroll({
               top: toScroll,
               behavior: 'smooth',
@@ -130,6 +127,7 @@ export default class PortfolioScroller extends React.Component {
   }
 
   handleScroll = (e) => {
+    console.log(e.target.scrollTop, window.scrollY)
     if ((e.target.scrollTop || window.scrollY) > 300) {
       this.setState({
         logoFlip: true,
@@ -141,14 +139,16 @@ export default class PortfolioScroller extends React.Component {
   }
 
   realPageNum = (items) => {
+    console.log('REAL PAGE NUM', items)
     if (typeof window !== 'undefined' && window.innerHeight) {
       return Math.ceil(this.state.height / window.innerHeight)
     } else {
+      console.log('items', items.length)
       return items.length
     }
   }
 
-  handleDesktopChange = (matches) => {
+  handleDesktopChange = matches => {
     if (matches) {
       this.forceUpdate()
     }

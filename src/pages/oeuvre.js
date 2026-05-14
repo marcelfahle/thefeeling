@@ -4,6 +4,7 @@ import PortfolioScroller from './../components/PortfolioScroller2'
 
 export default function Oeuvre({ data, color, bg }) {
   if (!data || !data.allDatoCmsPagePortfolio) {
+    console.log('loading... ', data)
     return <div>Loading...</div>
   }
   return (

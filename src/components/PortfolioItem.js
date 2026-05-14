@@ -40,44 +40,6 @@ const FirstImage = styled.img`
   }
 `
 
-const TitleLabel = styled.span`
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  box-sizing: border-box;
-  max-width: 70%;
-  min-height: 34px;
-  padding: 7px 10px 8px;
-  background: #ffed00;
-  color: #000;
-  font-family: Georgia, serif;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.05;
-  text-align: left;
-  overflow-wrap: break-word;
-  hyphens: auto;
-
-  @media (min-width: 720px) {
-    left: 14px;
-    bottom: 14px;
-    min-height: 44px;
-    padding: 9px 13px 10px;
-    font-size: 16px;
-  }
-
-  @supports (font-size: clamp(1px, 2vw, 3px)) {
-    left: clamp(10px, 1.25vw, 18px);
-    bottom: clamp(10px, 1.25vw, 18px);
-    min-height: clamp(34px, 3.2vw, 56px);
-    padding: clamp(7px, 0.8vw, 12px) clamp(10px, 1.1vw, 16px);
-    font-size: clamp(13px, 1.1vw, 20px);
-  }
-`
-
 const TextElement = styled.div`
   padding: 20px;
   top: 0;
@@ -184,13 +146,6 @@ const NoLink = styled.span`
 
 const hasImage = (data) => data.previewImage && data.previewImage.url
 
-const hiddenTitleLabelSlugs = ['ye-olden-stuffe', 'fin']
-
-const shouldShowTitleLabel = (data) =>
-  hasImage(data) &&
-  data.title &&
-  hiddenTitleLabelSlugs.indexOf(data.slug) === -1
-
 const Img = ({ data }) => {
   const processImageUrl = (url, format) => {
     if (format === 'gif') {
@@ -216,7 +171,6 @@ const Img = ({ data }) => {
       left={data.xPosition}
       opacity={data.imageOpacity ? data.imageOpacity / 100 : 1}
       src={processedUrl}
-      alt={data.title || ''}
     />
   )
 }
@@ -242,9 +196,6 @@ const Txt = ({ data }) => (
   />
 )
 
-const Title = ({ data }) =>
-  shouldShowTitleLabel(data) ? <TitleLabel>{data.title}</TitleLabel> : null
-
 export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
   <Item>
     {data.subPages &&
@@ -255,21 +206,17 @@ export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
         mwidth={data.width}
         href={data.subPages[0].externalLink}
         target="_blank"
-        rel="noopener noreferrer"
       >
         {hasImage(data) ? <Img data={data} /> : null}
-        <Title data={data} />
         {data.previewText && data.previewText !== '' && <Txt data={data} />}
       </ExternalLink>
     ) : data.slug === 'ye-olden-stuffe' ? (
       <Link left={data.xPosition} mwidth={data.width} to={`/${data.slug}`}>
         {hasImage(data) ? <Img data={data} /> : null}
-        <Title data={data} />
       </Link>
     ) : data.subPages && data.subPages.length === 0 ? (
       <NoLink left={data.xPosition} mwidth={data.width} target="_blank">
         {hasImage(data) ? <Img data={data} /> : null}
-        <Title data={data} />
         {data.previewText && data.previewText !== '' && <Txt data={data} />}
       </NoLink>
     ) : (
@@ -279,7 +226,6 @@ export default ({ data, lastPos = 0, path = 'oeuvre' }) => (
         to={`/${path}/${data.slug}#${lastPos}`}
       >
         {hasImage(data) ? <Img data={data} /> : null}
-        <Title data={data} />
         {data.previewText && data.previewText !== '' && <Txt data={data} />}
       </Link>
     )}
