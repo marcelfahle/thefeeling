@@ -4,6 +4,7 @@ import { executeQuery } from '@/lib/datocms/executeQuery'
 import { LayoutQuery } from '@/lib/datocms/queries'
 import { paletteBootScript, paletteCss } from '@/lib/palette/palette'
 import { getPreview } from '@/lib/preview/isPreview'
+import { ORG, SITE_NAME, TAGLINE, siteUrl } from '@/lib/seo/site'
 import PaletteRouter from '@/components/PaletteRouter'
 import PreviewChrome from '@/components/preview/PreviewChrome'
 import { PreviewProvider } from '@/components/preview/PreviewContext'
@@ -13,9 +14,15 @@ export async function generateMetadata(): Promise<Metadata> {
   const { _site } = await executeQuery(LayoutQuery)
   return {
     ...toNextMetadata(_site.faviconMetaTags),
-    title: 'THE FEELING',
-    description: '',
-    keywords: '',
+    metadataBase: siteUrl(),
+    title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
+    description: TAGLINE,
+    applicationName: SITE_NAME,
+    authors: [{ name: SITE_NAME, url: '/' }],
+    creator: SITE_NAME,
+    publisher: ORG.legalName,
+    category: 'Advertising & brand design',
+    formatDetection: { telephone: false, email: false, address: false },
   }
 }
 

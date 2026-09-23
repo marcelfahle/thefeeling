@@ -44,7 +44,8 @@ throwaway `page_archive` record, as the plan describes.
    then delete it in DatoCMS → Project settings → Webhooks / Build triggers.
    Old hook: `______________________`
 4. Vercel env (Production): `DATOCMS_ENVIRONMENT` empty; published/drafts/layout tokens from
-   `.env.datocms`; `NEXT_PUBLIC_…` none. Redeploy.
+   `.env.datocms`; **`SITE_URL=https://thefeeling.de`** (this switches on indexing, canonical URLs,
+   robots.txt allow rules and the sitemap; without it every host is `noindex`). Redeploy.
 5. Vercel → Domains: add `thefeeling.de` and `www.thefeeling.de` (www → apex redirect, like today).
 6. DNS: point `thefeeling.de` to Vercel (A `76.76.21.21` or the record Vercel shows) and
    `www` CNAME `cname.vercel-dns.com`. Wait for the certificate.
@@ -53,14 +54,17 @@ throwaway `page_archive` record, as the plan describes.
 8. Merge `v2` into `master`; set the Vercel production branch to `master`
    (`vercel api /v9/projects/the-feeling/branch -X PATCH -f branch=master`).
 9. Netlify: stop auto-publishing, keep the site for two weeks as rollback.
+10. Search: add `thefeeling.de` to Google Search Console and Bing Webmaster Tools, submit
+    `https://thefeeling.de/sitemap.xml`, and run a couple of project URLs through
+    https://search.google.com/test/rich-results and https://www.opengraph.xyz.
 
 ## 2. After cutover
 
-10. Rotate the Bold API key (the old one is public in the Gatsby bundle): create a new key in Bold,
+11. Rotate the Bold API key (the old one is public in the Gatsby bundle): create a new key in Bold,
     `vercel env add BOLD_API_KEY production --force`, redeploy, revoke the old key.
-11. After Netlify is retired: revoke the old `DATO_API` token that Gatsby and `cmd.txt` used.
+12. After Netlify is retired: revoke the old `DATO_API` token that Gatsby and `cmd.txt` used.
     Ask the client to delete `~/Documents/TheFeeling-Website` and the `thefeeling` alias in `~/.zshrc`.
-12. Delete the `nextjs-preview` sandbox or keep it for schema work.
+13. Delete the `nextjs-preview` sandbox or keep it for schema work.
 
 ## Rollback
 

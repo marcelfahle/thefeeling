@@ -191,7 +191,12 @@ export const PortfolioWorkQuery = graphql(
       work: pagePortfolio(filter: { slug: { eq: $slug } }) {
         id
         _editingUrl
+        _updatedAt
+        _firstPublishedAt
         title
+        previewImage {
+          url
+        }
         themeColor {
           red
           green
@@ -224,7 +229,12 @@ export const ArchiveWorkQuery = graphql(
       work: pageArchive(filter: { slug: { eq: $slug } }) {
         id
         _editingUrl
+        _updatedAt
+        _firstPublishedAt
         title
+        previewImage {
+          url
+        }
         themeColor {
           red
           green
@@ -316,3 +326,81 @@ export type CollageItem = ResultOf<typeof PortfolioCollageItemFragment>
 export type SubPage = ResultOf<typeof SubPageFragment>
 export type WorkResult = ResultOf<typeof PortfolioWorkQuery>
 export type AboutResult = ResultOf<typeof AboutQuery>
+
+export const SeoProjectFragment = graphql(`
+  fragment SeoProject on PagePortfolioRecord @_unmask {
+    slug
+    title
+    _updatedAt
+    _firstPublishedAt
+    previewImage {
+      url
+    }
+    subPages {
+      text
+      externalLink
+      boldVideoId
+      image {
+        url
+      }
+    }
+  }
+`)
+
+export const SeoArchiveProjectFragment = graphql(`
+  fragment SeoArchiveProject on PageArchiveRecord @_unmask {
+    slug
+    title
+    _updatedAt
+    _firstPublishedAt
+    previewImage {
+      url
+    }
+    subPages {
+      text
+      externalLink
+      boldVideoId
+      image {
+        url
+      }
+    }
+  }
+`)
+
+/** Everything the SEO layer needs (sitemap, llms.txt, JSON-LD, crawler fallback). */
+export const SeoIndexQuery = graphql(
+  `
+    query SeoIndexQuery {
+      portfolio: allPagePortfolios(orderBy: position_ASC, first: 500) {
+        ...SeoProject
+      }
+      archive: allPageArchives(orderBy: position_ASC, first: 500) {
+        ...SeoArchiveProject
+      }
+      pageAbout {
+        _updatedAt
+        content {
+          ... on BlockRecord {
+            label
+            body(markdown: false)
+          }
+        }
+      }
+      background {
+        oeuvre {
+          url
+        }
+        archive {
+          url
+        }
+        about {
+          url
+        }
+      }
+    }
+  `,
+  [SeoProjectFragment, SeoArchiveProjectFragment]
+)
+
+export type SeoIndex = ResultOf<typeof SeoIndexQuery>
+export type SeoProject = SeoIndex['portfolio'][number]

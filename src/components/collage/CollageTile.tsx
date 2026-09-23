@@ -45,7 +45,7 @@ function Img({ d }: { d: CollageItem }) {
         } as React.CSSProperties
       }
       src={imageUrl(s(img.url)!, img.format)}
-      alt=""
+      alt={d.title ? stripStega(d.title) : ''}
       draggable={false}
     />
   )
