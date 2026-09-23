@@ -7,6 +7,27 @@ export type BoldVideo = {
   id: string
   playback_id: string
   title: string | null
+  description: string | null
+  duration: number | null
+  thumbnail: string | null
+  published_at: string | null
+  /** width / height of the encoded video (from the Mux HLS manifest), null if unknown */
+  aspect: number | null
+}
+
+/** Bold has no dimensions; the Mux master playlist lists RESOLUTION=WxH per rendition. */
+async function muxAspect(playbackId: string): Promise<number | null> {
+  try {
+    const res = await fetch(`https://stream.mux.com/${playbackId}.m3u8`, {
+      cache: 'force-cache',
+      next: { tags: ['bold'], revalidate: 86400 },
+    })
+    if (!res.ok) return null
+    const m = /RESOLUTION=(\d+)x(\d+)/.exec(await res.text())
+    return m ? Number(m[1]) / Number(m[2]) : null
+  } catch {
+    return null
+  }
 }
 
 function init(): RequestInit {
@@ -46,11 +67,16 @@ export async function getBoldVideos(ids: string[]): Promise<Record<string, BoldV
       try {
         const res = await fetch(`${BASE}/videos/${encodeURIComponent(id)}`, init())
         if (res.status !== 200) return null
-        const { data } = (await res.json()) as { data: BoldVideo }
+        const { data } = (await res.json()) as { data: Omit<BoldVideo, 'aspect'> }
         return {
           id: data.id,
           playback_id: data.playback_id,
           title: data.title ?? null,
+          description: data.description ?? null,
+          duration: data.duration ?? null,
+          thumbnail: data.thumbnail ?? null,
+          published_at: data.published_at ?? null,
+          aspect: await muxAspect(data.playback_id),
         }
       } catch {
         return null

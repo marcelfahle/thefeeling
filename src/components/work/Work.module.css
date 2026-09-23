@@ -186,22 +186,30 @@
   height: 100%;
 }
 .videoLayer :global(.bold-player) {
-  max-width: 91%;
-  max-height: calc(100vh - 160px);
-  height: 100%;
-  min-width: 0;
-}
-:global(html[data-safari]) .videoLayer :global(.bold-player) {
-  min-width: 60vw;
+  /* as large as the slide allows (like the images: 91% wide, viewport minus header), keeping the clip's shape */
+  --max-h: calc(var(--vh, 1vh) * 100 - 160px);
+  --max-w: 91vw;
+  aspect-ratio: var(--aspect, 16/9);
+  height: min(var(--max-h), calc(var(--max-w) / var(--aspect, 1.7778)));
+  width: auto;
+  max-width: var(--max-w);
 }
 @media (orientation: landscape) and (max-height: 480px) {
   .videoLayer :global(.bold-player) {
     margin-top: 0;
-    max-height: calc(100vh - 100px);
+    --max-h: calc(var(--vh, 1vh) * 100 - 100px);
+  }
+}
+@media (max-width: 991px) {
+  /* stacked mobile layout: full column width, height follows the clip */
+  .videoLayer :global(.bold-player) {
+    --max-h: calc(var(--vh, 1vh) * 100 - 140px);
   }
 }
 .videoLayer :global(mux-player) {
+  display: block;
   width: 100%;
+  height: 100%;
   --controls-backdrop-color: rgb(0 0 0 / 0%);
   --seek-live-button: none;
   --seek-backward-button: none;
@@ -228,7 +236,7 @@
   border: 5px solid blue;
 }
 .videoLayer :global(mux-player:not(:fullscreen)) {
-  max-height: calc(100vh - 160px);
+  max-height: 100%;
 }
 .videoLayer track {
   display: none !important;
@@ -250,7 +258,6 @@
   min-height: auto;
   width: 100%;
   height: 100%;
-  max-height: calc(100vh - 160px);
   object-fit: contain;
 }
 .videoLayer :global(mux-player.fullscreen)::part(video) {

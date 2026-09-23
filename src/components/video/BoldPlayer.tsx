@@ -5,7 +5,18 @@ import { useEffect, useState } from 'react'
 import type { BoldVideo } from '@/lib/bold'
 
 /** Port of bold-player.js */
-export default function BoldPlayer({ poster, video, color }: { poster: string; video: BoldVideo; color: string }) {
+export default function BoldPlayer({
+  poster,
+  video,
+  color,
+  aspect,
+}: {
+  poster: string
+  video: BoldVideo
+  color: string
+  /** width / height of the clip */
+  aspect: number
+}) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   // bumping the key remounts the player so the poster shows again after the end
   const [round, setRound] = useState(0)
@@ -17,7 +28,7 @@ export default function BoldPlayer({ poster, video, color }: { poster: string; v
   }, [])
 
   return (
-    <div className="bold-player">
+    <div className="bold-player" style={{ '--aspect': aspect } as React.CSSProperties}>
       <MuxPlayer
         key={round}
         streamType="on-demand"

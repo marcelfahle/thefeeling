@@ -24,7 +24,7 @@ describe('youtubeId', () => {
   it('extracts the id', () => expect(youtubeId('https://youtu.be/2FuLzqgWuHQ')).toBe('2FuLzqgWuHQ'))
 })
 
-const img = { url: 'x' }
+const img = { url: 'x', width: 100, height: 100 }
 const vid = {
   url: 'https://youtu.be/2FuLzqgWuHQ',
   provider: 'youtube',

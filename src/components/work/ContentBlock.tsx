@@ -74,7 +74,14 @@ export default function ContentBlock({
       )}
       {parts.boldPlayer && (
         <div className={styles.videoLayer}>
-          {video && <BoldPlayer poster={stripStega(item.image!.url)} video={video} color={accent} />}
+          {video && (
+            <BoldPlayer
+              poster={stripStega(item.image!.url)}
+              video={video}
+              color={accent}
+              aspect={video.aspect ?? 16 / 9}
+            />
+          )}
         </div>
       )}
       {parts.youtubeButton && (

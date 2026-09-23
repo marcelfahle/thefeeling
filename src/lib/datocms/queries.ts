@@ -178,6 +178,8 @@ export const SubPageFragment = graphql(`
     }
     image {
       url
+      width
+      height
     }
   }
 `)
