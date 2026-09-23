@@ -1,0 +1,71 @@
+/* about.js:7-86 */
+.page {
+  position: absolute;
+  background-image: var(--bg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.content {
+  width: calc(100% - 50px);
+  left: 0;
+  margin-top: 130px;
+  margin-left: 25px;
+  margin-right: 25px;
+  overflow-x: hidden;
+}
+@media (min-width: 720px) {
+  .content {
+    margin-left: 100px;
+    max-width: calc(100% - 125px);
+  }
+  .content > div {
+    text-align: left;
+  }
+}
+@media (min-width: 960px) {
+  .content > div > div {
+    display: inline-block;
+    flex-grow: 1;
+    vertical-align: top;
+  }
+  .content > div > div:nth-child(odd) {
+    width: 300px;
+    margin-top: 24px;
+  }
+  .content > div > div:nth-child(even) {
+    width: calc(100% - 320px);
+  }
+}
+.label {
+  background: #ffed00;
+  color: black;
+  display: inline-block;
+  font-size: 24px;
+  padding: 1px 24px;
+  margin-bottom: 25px;
+  margin-left: 0;
+}
+.block {
+  background: #ffed00;
+  color: black;
+  width: 100%;
+  max-width: 640px;
+  text-align: left;
+  font-size: 24px;
+  padding: 1px 24px;
+  box-sizing: border-box;
+  margin-bottom: 50px;
+}
+.block a {
+  color: black;
+}
+.block:last-child {
+  margin-bottom: 100px;
+}

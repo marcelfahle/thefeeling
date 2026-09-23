@@ -1,0 +1,258 @@
+/* single-work.js:106-147 (Wrapper) */
+.wrapper {
+  background: var(--bg) no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
+  overflow: auto;
+  -webkit-overflow-scrolling: auto;
+  z-index: 49;
+}
+.container > div > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.default {
+  cursor: url('../../assets/icons8-happy-96.png'), auto;
+}
+.left {
+  cursor: url('../../assets/mouse-left.png'), auto;
+}
+.right {
+  cursor: url('../../assets/mouse-right.png'), auto;
+}
+.execute {
+  cursor: url('../../assets/mouse-up.png'), auto;
+}
+
+/* :149-158 */
+.contentWrap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* :159-164 */
+.mobileContainer {
+  margin-top: 26vw;
+}
+@media (min-width: 550px) {
+  .mobileContainer {
+    margin-top: 130px;
+  }
+}
+/* :165-175 */
+.contentWrapMobile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+/* :176-188 */
+.content {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (orientation: portrait) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* :42-55 */
+.image {
+  height: auto;
+  max-width: 91%;
+  max-height: calc(100vh - 160px);
+  user-select: none;
+  opacity: var(--opacity, 1);
+  margin-bottom: -5px;
+  transition: bottom 0.8s ease;
+}
+@media (orientation: landscape) and (max-height: 480px) {
+  .image {
+    margin-top: 0;
+    max-height: calc(100vh - 100px);
+  }
+}
+
+/* :85-104 */
+.startVideo {
+  width: 152px;
+  height: 152px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: url('../../assets/mouse-up.png'), auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+.startVideo:hover {
+  opacity: 0.7;
+}
+.startVideo svg {
+  width: 50%;
+}
+
+/* :189-225 */
+.textBase {
+  background: var(--tf-bg, black);
+  color: var(--tf-fg, white);
+  padding: 20px;
+  text-align: left;
+  font-size: var(--fs-m);
+  user-select: none;
+}
+@media (min-width: 720px) and (min-height: 760px) {
+  .textBase {
+    font-size: var(--fs);
+  }
+}
+.textBase p {
+  font-size: 1em;
+}
+.textBase h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+.textBase h2 {
+  font-size: 1.5em;
+  margin: 0.75em 0;
+}
+.textBase h3 {
+  font-size: 1.17em;
+  margin: 0.83em 0;
+}
+.textBase h4 {
+  margin: 1.12em 0;
+}
+.textBase h5 {
+  font-size: 0.83em;
+  margin: 1.5em 0;
+}
+.textBase h6 {
+  font-size: 0.75em;
+  margin: 1.67em 0;
+}
+/* :226-236 */
+.textOverImage {
+  width: calc(100% - 10px);
+  height: calc(100% - 12px);
+  position: absolute;
+  z-index: 20;
+  overflow: hidden;
+}
+.textOverImage p {
+  margin-top: 0;
+}
+/* :237-261 */
+.textContent {
+  min-width: 240px;
+  width: 100%;
+  max-width: calc(91% - 40px);
+  z-index: 21;
+}
+.textContent p:first-child {
+  margin-top: 0;
+}
+.textContent p:last-child {
+  margin-bottom: 0;
+}
+
+/* :263-338 */
+.videoLayer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.videoLayer :global(.bold-player) {
+  max-width: 91%;
+  max-height: calc(100vh - 160px);
+  height: 100%;
+  min-width: 0;
+}
+:global(html[data-safari]) .videoLayer :global(.bold-player) {
+  min-width: 60vw;
+}
+@media (orientation: landscape) and (max-height: 480px) {
+  .videoLayer :global(.bold-player) {
+    margin-top: 0;
+    max-height: calc(100vh - 100px);
+  }
+}
+.videoLayer :global(mux-player) {
+  width: 100%;
+  --controls-backdrop-color: rgb(0 0 0 / 0%);
+  --seek-live-button: none;
+  --seek-backward-button: none;
+  --seek-forward-button: none;
+  --mute-button: none;
+  --captions-button: none;
+  --airplay-button: none;
+  --pip-button: none;
+  --cast-button: none;
+  --playback-rate-button: none;
+  --volume-range: none;
+  --time-range: none;
+  --time-display: none;
+  --media-object-fit: cover;
+  --bottom-play-button: none;
+  --media-button-icon-width: 48px;
+  --media-button-icon-height: 48px;
+  --fullscreen-button: white;
+}
+:global(html[data-safari]:not([data-ios])) .videoLayer :global(mux-player) {
+  --fullscreen-button: none;
+}
+.videoLayer :global(mux-player.fullscreen) {
+  border: 5px solid blue;
+}
+.videoLayer :global(mux-player:not(:fullscreen)) {
+  max-height: calc(100vh - 160px);
+}
+.videoLayer track {
+  display: none !important;
+  opacity: 0;
+}
+.videoLayer :global(mux-player)::cue {
+  opacity: 0;
+  display: none !important;
+}
+.videoLayer :global(mux-player)::-webkit-media-text-track-display {
+  opacity: 0;
+  display: none !important;
+}
+.videoLayer :global(mux-player)::part(gesture-layer) {
+  display: none;
+}
+.videoLayer :global(mux-player)::part(video) {
+  min-width: auto;
+  min-height: auto;
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 160px);
+  object-fit: contain;
+}
+.videoLayer :global(mux-player.fullscreen)::part(video) {
+  max-height: 100vh;
+}

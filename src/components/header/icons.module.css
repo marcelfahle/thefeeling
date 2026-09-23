@@ -1,0 +1,6 @@
+/* Logo.js / Home.js / BackToArchive.js / AboutButton.js */
+.icon rect,
+.icon polygon,
+.icon path {
+  transition: fill 0.4s ease;
+}

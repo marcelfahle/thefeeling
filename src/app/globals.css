@@ -1,0 +1,32 @@
+/* layouts/index.js:9-29 */
+:root {
+  --vh: 1vh;
+}
+@supports (height: 100dvh) {
+  :root {
+    --vh: 1dvh;
+  }
+}
+html,
+body {
+  height: -webkit-fill-available;
+}
+body {
+  margin: 0;
+}
+.site {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+}
+
+/* single-work.js:34-40 — detail pages lock the document */
+html[data-lock],
+html[data-lock] body {
+  position: fixed;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+}

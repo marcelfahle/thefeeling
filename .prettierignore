@@ -1,0 +1,4 @@
+src/lib/datocms/schema.graphql
+src/lib/datocms/graphql-env.d.ts
+pnpm-lock.yaml
+thoughts

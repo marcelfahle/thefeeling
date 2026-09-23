@@ -1,47 +1,53 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
-  "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "dependencies": {
-    "@mux/mux-player-react": "^2.5.0",
-    "classnames": "^2.2.5",
-    "gatsby": "^3.0.0",
-    "gatsby-link": "2.11.0",
-    "gatsby-plugin-layout": "1.10.0",
-    "gatsby-plugin-react-helmet": "3.10.0",
-    "gatsby-plugin-styled-components": "3.10.0",
-    "gatsby-source-datocms": "2.6.18",
-    "gatsby-source-filesystem": "2.11.1",
-    "gatsby-transformer-remark": "2.16.1",
-    "react": "^16.8.6",
-    "react-device-detect": "^2.2.2",
-    "react-div-100vh": "^0.5.6",
-    "react-dom": "^16.8.6",
-    "react-helmet": "^6.1.0",
-    "react-modal-video": "^1.2.6",
-    "react-responsive": "^8.2.0",
-    "react-spring": "^8.0.27",
-    "react-swipeable": "^7.0.0",
-    "smoothscroll-polyfill": "^0.4.3",
-    "styled-components": "^5.2.1",
-    "video.js": "^7.10.2",
-    "videojs-playlist": "^4.2.0"
+  "name": "thefeeling",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=24"
   },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write 'src/**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "gql:schema": "gql.tada generate-schema https://graphql.datocms.com --header \"Authorization: Bearer $DATOCMS_PUBLISHED_CDA_TOKEN\" --output src/lib/datocms/schema.graphql",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@0no-co/graphql.web": "^1.3.4",
+    "@datocms/cda-client": "^0.3.2",
+    "@datocms/cma-client-node": "^6.1.3",
+    "@datocms/rest-client-utils": "^6.1.4",
+    "@mux/mux-player-react": "^3.13.4",
+    "@react-spring/parallax": "^10.1.2",
+    "@react-spring/web": "^10.1.2",
+    "clsx": "^2.1.1",
+    "gql.tada": "^1.11.3",
+    "next": "^16.3.6",
+    "react": "^19.3.0",
+    "react-datocms": "^8.1.2",
+    "react-dom": "^19.3.0",
+    "react-swipeable": "^7.0.2",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "prettier": "^2.2.1",
-    "redux-devtools": "^3.4.1"
+    "@datocms/cli": "^4.0.29",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.13.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "dotenv": "^18.0.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.6",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.1"
   }
 }
