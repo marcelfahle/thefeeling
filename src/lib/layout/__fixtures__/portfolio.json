@@ -1,219 +1,219 @@
 [
- {
-  "slug": "intro",
-  "yOffset": 0,
-  "speed": -15,
-  "xPosition": 0,
-  "width": 100
- },
- {
-  "slug": "stadt-bochum-social-media",
-  "yOffset": 50,
-  "speed": 0,
-  "xPosition": 70,
-  "width": 20
- },
- {
-  "slug": "more2",
-  "yOffset": 40,
-  "speed": 35,
-  "xPosition": 8,
-  "width": 35
- },
- {
-  "slug": "stolpersteine",
-  "yOffset": 35,
-  "speed": 0,
-  "xPosition": 48,
-  "width": 18
- },
- {
-  "slug": "donqi",
-  "yOffset": 65,
-  "speed": 70,
-  "xPosition": 20,
-  "width": 26
- },
- {
-  "slug": "veralia",
-  "yOffset": 10,
-  "speed": 40,
-  "xPosition": 50,
-  "width": 40
- },
- {
-  "slug": "intro2",
-  "yOffset": 40,
-  "speed": -15,
-  "xPosition": 0,
-  "width": 100
- },
- {
-  "slug": "onsanto",
-  "yOffset": 62,
-  "speed": 10,
-  "xPosition": 15,
-  "width": 40
- },
- {
-  "slug": "heimatmysterium",
-  "yOffset": 50,
-  "speed": 50,
-  "xPosition": 65,
-  "width": 18
- },
- {
-  "slug": "autoabo-v1",
-  "yOffset": 40,
-  "speed": 0,
-  "xPosition": 45,
-  "width": 45
- },
- {
-  "slug": "spd-fraktion",
-  "yOffset": 0,
-  "speed": 65,
-  "xPosition": 15,
-  "width": 18
- },
- {
-  "slug": "reference",
-  "yOffset": 50,
-  "speed": 0,
-  "xPosition": 0,
-  "width": 100
- },
- {
-  "slug": "autoabo-v2",
-  "yOffset": 30,
-  "speed": 80,
-  "xPosition": 58,
-  "width": 45
- },
- {
-  "slug": "ringlockschuppen",
-  "yOffset": 25,
-  "speed": 10,
-  "xPosition": 5,
-  "width": 40
- },
- {
-  "slug": "stargazer",
-  "yOffset": 63,
-  "speed": 50,
-  "xPosition": 30,
-  "width": 35
- },
- {
-  "slug": "starthere",
-  "yOffset": 25,
-  "speed": 40,
-  "xPosition": 10,
-  "width": 18
- },
- {
-  "slug": "igbce",
-  "yOffset": 35,
-  "speed": -20,
-  "xPosition": 45,
-  "width": 45
- },
- {
-  "slug": "reference2",
-  "yOffset": 40,
-  "speed": 0,
-  "xPosition": 0,
-  "width": 100
- },
- {
-  "slug": "berliner-senat",
-  "yOffset": 65,
-  "speed": 55,
-  "xPosition": 10,
-  "width": 35
- },
- {
-  "slug": "journey",
-  "yOffset": 40,
-  "speed": -10,
-  "xPosition": 38,
-  "width": 55
- },
- {
-  "slug": "cook",
-  "yOffset": 35,
-  "speed": 20,
-  "xPosition": 5,
-  "width": 45
- },
- {
-  "slug": "weeco",
-  "yOffset": 50,
-  "speed": 80,
-  "xPosition": 55,
-  "width": 45
- },
- {
-  "slug": "dus-parking",
-  "yOffset": 25,
-  "speed": 30,
-  "xPosition": 45,
-  "width": 20
- },
- {
-  "slug": "text5",
-  "yOffset": 25,
-  "speed": -35,
-  "xPosition": 0,
-  "width": 100
- },
- {
-  "slug": "dus-reisemarkt",
-  "yOffset": 45,
-  "speed": -10,
-  "xPosition": 10,
-  "width": 25
- },
- {
-  "slug": "goldhahn",
-  "yOffset": 25,
-  "speed": -10,
-  "xPosition": 67,
-  "width": 25
- },
- {
-  "slug": "soccerdaze",
-  "yOffset": 45,
-  "speed": 20,
-  "xPosition": 10,
-  "width": 40
- },
- {
-  "slug": "spd-wirtschaftsforum",
-  "yOffset": 35,
-  "speed": 0,
-  "xPosition": 50,
-  "width": 20
- },
- {
-  "slug": "ism",
-  "yOffset": 45,
-  "speed": 20,
-  "xPosition": 20,
-  "width": 19
- },
- {
-  "slug": "ye-olden-stuffe",
-  "yOffset": 40,
-  "speed": -30,
-  "xPosition": 35,
-  "width": 30
- },
- {
-  "slug": "invisible-block",
-  "yOffset": 30,
-  "speed": 0,
-  "xPosition": 0,
-  "width": 100
- }
+  {
+    "slug": "intro",
+    "yOffset": 0,
+    "speed": -15,
+    "xPosition": 0,
+    "width": 100
+  },
+  {
+    "slug": "stadt-bochum-social-media",
+    "yOffset": 50,
+    "speed": 0,
+    "xPosition": 70,
+    "width": 20
+  },
+  {
+    "slug": "more2",
+    "yOffset": 40,
+    "speed": 35,
+    "xPosition": 8,
+    "width": 35
+  },
+  {
+    "slug": "stolpersteine",
+    "yOffset": 35,
+    "speed": 0,
+    "xPosition": 48,
+    "width": 18
+  },
+  {
+    "slug": "donqi",
+    "yOffset": 65,
+    "speed": 70,
+    "xPosition": 20,
+    "width": 26
+  },
+  {
+    "slug": "veralia",
+    "yOffset": 10,
+    "speed": 40,
+    "xPosition": 50,
+    "width": 40
+  },
+  {
+    "slug": "intro2",
+    "yOffset": 40,
+    "speed": -15,
+    "xPosition": 0,
+    "width": 100
+  },
+  {
+    "slug": "onsanto",
+    "yOffset": 62,
+    "speed": 10,
+    "xPosition": 15,
+    "width": 40
+  },
+  {
+    "slug": "heimatmysterium",
+    "yOffset": 50,
+    "speed": 50,
+    "xPosition": 65,
+    "width": 18
+  },
+  {
+    "slug": "autoabo-v1",
+    "yOffset": 40,
+    "speed": 0,
+    "xPosition": 45,
+    "width": 45
+  },
+  {
+    "slug": "spd-fraktion",
+    "yOffset": 0,
+    "speed": 65,
+    "xPosition": 15,
+    "width": 18
+  },
+  {
+    "slug": "reference",
+    "yOffset": 50,
+    "speed": 0,
+    "xPosition": 0,
+    "width": 100
+  },
+  {
+    "slug": "autoabo-v2",
+    "yOffset": 30,
+    "speed": 80,
+    "xPosition": 58,
+    "width": 45
+  },
+  {
+    "slug": "ringlockschuppen",
+    "yOffset": 25,
+    "speed": 10,
+    "xPosition": 5,
+    "width": 40
+  },
+  {
+    "slug": "stargazer",
+    "yOffset": 63,
+    "speed": 50,
+    "xPosition": 30,
+    "width": 35
+  },
+  {
+    "slug": "starthere",
+    "yOffset": 25,
+    "speed": 40,
+    "xPosition": 10,
+    "width": 18
+  },
+  {
+    "slug": "igbce",
+    "yOffset": 35,
+    "speed": -20,
+    "xPosition": 45,
+    "width": 45
+  },
+  {
+    "slug": "reference2",
+    "yOffset": 40,
+    "speed": 0,
+    "xPosition": 0,
+    "width": 100
+  },
+  {
+    "slug": "berliner-senat",
+    "yOffset": 65,
+    "speed": 55,
+    "xPosition": 10,
+    "width": 35
+  },
+  {
+    "slug": "journey",
+    "yOffset": 40,
+    "speed": -10,
+    "xPosition": 38,
+    "width": 55
+  },
+  {
+    "slug": "cook",
+    "yOffset": 35,
+    "speed": 20,
+    "xPosition": 5,
+    "width": 45
+  },
+  {
+    "slug": "weeco",
+    "yOffset": 50,
+    "speed": 80,
+    "xPosition": 55,
+    "width": 45
+  },
+  {
+    "slug": "dus-parking",
+    "yOffset": 25,
+    "speed": 30,
+    "xPosition": 45,
+    "width": 20
+  },
+  {
+    "slug": "text5",
+    "yOffset": 25,
+    "speed": -35,
+    "xPosition": 0,
+    "width": 100
+  },
+  {
+    "slug": "dus-reisemarkt",
+    "yOffset": 45,
+    "speed": -10,
+    "xPosition": 10,
+    "width": 25
+  },
+  {
+    "slug": "goldhahn",
+    "yOffset": 25,
+    "speed": -10,
+    "xPosition": 67,
+    "width": 25
+  },
+  {
+    "slug": "soccerdaze",
+    "yOffset": 45,
+    "speed": 20,
+    "xPosition": 10,
+    "width": 40
+  },
+  {
+    "slug": "spd-wirtschaftsforum",
+    "yOffset": 35,
+    "speed": 0,
+    "xPosition": 50,
+    "width": 20
+  },
+  {
+    "slug": "ism",
+    "yOffset": 45,
+    "speed": 20,
+    "xPosition": 20,
+    "width": 19
+  },
+  {
+    "slug": "ye-olden-stuffe",
+    "yOffset": 40,
+    "speed": -30,
+    "xPosition": 35,
+    "width": 30
+  },
+  {
+    "slug": "invisible-block",
+    "yOffset": 30,
+    "speed": 0,
+    "xPosition": 0,
+    "width": 100
+  }
 ]

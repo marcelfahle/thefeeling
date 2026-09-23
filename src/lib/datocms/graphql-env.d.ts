@@ -121,7 +121,7 @@ export type introspection_types = {
     'VideoMp4Res': { name: 'VideoMp4Res'; enumValues: 'low' | 'medium' | 'high'; };
     'VideoRecord': { kind: 'OBJECT'; name: 'VideoRecord'; fields: { '_createdAt': { name: '_createdAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; '_editingUrl': { name: '_editingUrl'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; '_firstPublishedAt': { name: '_firstPublishedAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; '_isValid': { name: '_isValid'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BooleanType'; ofType: null; }; } }; '_modelApiKey': { name: '_modelApiKey'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; '_publicationScheduledAt': { name: '_publicationScheduledAt'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; } }; '_publishedAt': { name: '_publishedAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; '_seoMetaTags': { name: '_seoMetaTags'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'Tag'; ofType: null; }; }; }; } }; '_status': { name: '_status'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'ItemStatus'; ofType: null; }; } }; '_unpublishingScheduledAt': { name: '_unpublishingScheduledAt'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; } }; '_updatedAt': { name: '_updatedAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; 'createdAt': { name: 'createdAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ItemId'; ofType: null; }; } }; 'logoColors': { name: 'logoColors'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; 'updatedAt': { name: 'updatedAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; 'videoId': { name: 'videoId'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; 'videoUrl': { name: 'videoUrl'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; }; };
     'focalPoint': { kind: 'OBJECT'; name: 'focalPoint'; fields: { 'x': { name: 'x'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'FloatType'; ofType: null; }; } }; 'y': { name: 'y'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'FloatType'; ofType: null; }; } }; }; };
-}
+};
 
 /** An IntrospectionQuery representation of your schema.
  *
@@ -132,14 +132,14 @@ export type introspection_types = {
  * instead save to a .ts instead of a .d.ts file.
  */
 export type introspection = {
-  name: never
-  query: 'Query'
-  mutation: never
-  subscription: never
-  types: introspection_types
-}
+  name: never;
+  query: 'Query';
+  mutation: never;
+  subscription: never;
+  types: introspection_types;
+};
 
-import * as gqlTada from 'gql.tada'
+import * as gqlTada from 'gql.tada';
 
 declare module 'gql.tada' {
   interface setupSchema {

@@ -7,7 +7,7 @@ import { useIsDesktop } from '@/hooks/useMediaQuery'
 import type { CollageItem } from '@/lib/datocms/queries'
 import { layerOffsets, layerSpeed, pageCount } from '@/lib/layout/math'
 import { usePreview } from '@/components/preview/PreviewContext'
-import LayoutEditor from '@/components/preview/LayoutEditor'
+import { useLayoutEditor } from '@/components/preview/useLayoutEditor'
 import CollageTile, { type CollageKind } from './CollageTile'
 import styles from './Collage.module.css'
 
@@ -23,7 +23,7 @@ const HEADER: Record<CollageKind, { backTo: string; action: HeaderAction }> = {
 }
 
 /** Port of PortfolioScroller2.js */
-export default function Collage({ items, kind, bg }: Props) {
+export default function Collage({ items: source, kind, bg }: Props) {
   const isDesktop = useIsDesktop()
   const preview = usePreview()
   const pageRef = useRef<HTMLDivElement>(null)
@@ -33,6 +33,9 @@ export default function Collage({ items, kind, bg }: Props) {
   const [focusId, setFocusId] = useState<string | null>(null)
 
   const layoutMode = preview.layoutMode && isDesktop === true
+  const layout = useLayoutEditor(source, layoutMode, parallaxRef)
+  // unsaved layout edits stay visible (and savable) even after leaving layout mode
+  const items = isDesktop === true ? layout.items : source
   const { setOnCollage } = preview
   useEffect(() => {
     setOnCollage(true)
@@ -101,33 +104,34 @@ export default function Collage({ items, kind, bg }: Props) {
     <div className={styles.page} ref={pageRef} style={{ '--bg': bg ? `url('${bg}')` : 'none' } as React.CSSProperties}>
       <Header backto={header.backTo} action={header.action} flipped={logoFlip} position="fixed" size="small" />
       <div id="">
-        {isDesktop === true &&
-          (layoutMode ? (
-            <LayoutEditor items={items} kind={kind} parallaxRef={parallaxRef} />
-          ) : (
-            <Parallax className="parallaxer" ref={parallaxRef} pages={pages}>
-              {items.map((it, i) => {
-                const speed = preview.motion ? layerSpeed(it.speed) : 0
-                return (
-                  // ParallaxLayer memoizes offset/speed at mount: remount when they change
-                  <ParallaxLayer
-                    key={`${it.id}:${offsets[i]}:${speed}`}
-                    offset={offsets[i]}
-                    speed={speed}
-                    className={styles.layer}
+        {isDesktop === true && (
+          <Parallax className="parallaxer" ref={parallaxRef} pages={pages}>
+            {items.map((it, i) => {
+              const speed = preview.motion && !layoutMode ? layerSpeed(it.speed) : 0
+              return (
+                // ParallaxLayer memoizes offset/speed at mount: remount when they change
+                <ParallaxLayer
+                  key={`${it.id}:${offsets[i]}:${speed}`}
+                  offset={offsets[i]}
+                  speed={speed}
+                  className={styles.layer}
+                >
+                  <CollageTile
+                    data={it}
+                    kind={kind}
+                    lastPos={lastPos}
+                    editingUrl={layoutMode ? undefined : editUrl(it)}
+                    focused={focusId === it.id}
+                    editable={layoutMode ? layout.tileProps(it, i) : undefined}
                   >
-                    <CollageTile
-                      data={it}
-                      kind={kind}
-                      lastPos={lastPos}
-                      editingUrl={editUrl(it)}
-                      focused={focusId === it.id}
-                    />
-                  </ParallaxLayer>
-                )
-              })}
-            </Parallax>
-          ))}
+                    {layoutMode && layout.tileChrome(it, i)}
+                  </CollageTile>
+                </ParallaxLayer>
+              )
+            })}
+          </Parallax>
+        )}
+        {isDesktop === true && preview.role === 'editor' && layout.overlay}
         {isDesktop === false && (
           <div className={styles.list}>
             {items.map((it) => (

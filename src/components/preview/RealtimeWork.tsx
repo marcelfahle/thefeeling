@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { stripStega } from 'react-datocms/stega'
-import { getBoldVideosAction } from '@/app/actions/preview'
+import { getBoldVideosAction } from '@/actions/preview'
 import WorkPager, { type WorkData } from '@/components/work/WorkPager'
 import type { BoldVideo } from '@/lib/bold'
 import type { Subscription } from '@/lib/datocms/subscription'
