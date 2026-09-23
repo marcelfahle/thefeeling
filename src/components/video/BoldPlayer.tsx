@@ -1,6 +1,6 @@
 'use client'
 
-import MuxPlayer from '@mux/mux-player-react/lazy'
+import MuxPlayer from '@mux/mux-player-react'
 import { useEffect, useState } from 'react'
 import type { BoldVideo } from '@/lib/bold'
 
@@ -20,7 +20,6 @@ export default function BoldPlayer({ poster, video, color }: { poster: string; v
     <div className="bold-player">
       <MuxPlayer
         key={round}
-        loading="viewport"
         streamType="on-demand"
         {...{ id: `id-${video.id}` }}
         poster={poster}

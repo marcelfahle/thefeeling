@@ -1,0 +1,70 @@
+# Cutover runbook: Gatsby/Netlify → Next.js/Vercel
+
+Current state (2026-09-23):
+
+| | |
+|---|---|
+| Vercel project | `marcelfahles-projects/the-feeling`, production branch **`v2`** (temporary) |
+| Production URL | https://the-feeling-omega.vercel.app |
+| Live site | https://thefeeling.de on Netlify (Gatsby, branch `master`) |
+| DatoCMS | project 5427, admin https://the-feeling.admin.datocms.com, only env `master` (primary) |
+| Deployment protection | preview deployments only (production + custom domains are public) |
+
+Everything below needs a **full-access CMA token** (DatoCMS → Project settings → API tokens →
+"Full-access API token"). Put it in your shell only, never in `.env.local` or Vercel:
+
+```sh
+export DATOCMS_CMA_TOKEN=…
+```
+
+## 0. Before cutover: rehearse on a sandbox
+
+```sh
+pnpm datocms:setup --fork=nextjs-preview                    # fork primary (plan permitting)
+pnpm datocms:setup --drafts --environment=nextjs-preview
+pnpm datocms:setup --plugin --environment=nextjs-preview --base-url=https://the-feeling-omega.vercel.app
+pnpm datocms:setup --tokens                                 # roles + 3 tokens → .env.datocms
+```
+
+Then in Vercel set `DATOCMS_ENVIRONMENT=nextjs-preview` (Production, while `v2` is the production
+branch), copy the three tokens from `.env.datocms` into Vercel + `.env.local`, redeploy, and walk
+through the preview checklist in the plan (Phase 5–7 manual verification) inside the sandbox.
+
+If the DatoCMS plan has no sandbox environments, skip the fork and test on primary with a
+throwaway `page_archive` record, as the plan describes.
+
+## 1. Cutover (about 30 minutes, announce a content freeze)
+
+1. Tell the client: no edits in DatoCMS for 30 minutes.
+2. Drafts on primary: `pnpm datocms:setup --drafts`
+   (existing records stay published; from now on Save ≠ Publish).
+3. Plugin + webhook on primary:
+   `pnpm datocms:setup --plugin --webhook --base-url=https://thefeeling.de`
+   The script prints any other webhooks. **Note the old Netlify build hook URL here** for rollback,
+   then delete it in DatoCMS → Project settings → Webhooks / Build triggers.
+   Old hook: `______________________`
+4. Vercel env (Production): `DATOCMS_ENVIRONMENT` empty; published/drafts/layout tokens from
+   `.env.datocms`; `NEXT_PUBLIC_…` none. Redeploy.
+5. Vercel → Domains: add `thefeeling.de` and `www.thefeeling.de` (www → apex redirect, like today).
+6. DNS: point `thefeeling.de` to Vercel (A `76.76.21.21` or the record Vercel shows) and
+   `www` CNAME `cname.vercel-dns.com`. Wait for the certificate.
+7. Verify: `E2E_BASE=https://thefeeling.de pnpm e2e smoke preview`, then publish a small change in
+   DatoCMS and confirm it is live within seconds.
+8. Merge `v2` into `master`; set the Vercel production branch to `master`
+   (`vercel api /v9/projects/the-feeling/branch -X PATCH -f branch=master`).
+9. Netlify: stop auto-publishing, keep the site for two weeks as rollback.
+
+## 2. After cutover
+
+10. Rotate the Bold API key (the old one is public in the Gatsby bundle): create a new key in Bold,
+    `vercel env add BOLD_API_KEY production --force`, redeploy, revoke the old key.
+11. After Netlify is retired: revoke the old `DATO_API` token that Gatsby and `cmd.txt` used.
+    Ask the client to delete `~/Documents/TheFeeling-Website` and the `thefeeling` alias in `~/.zshrc`.
+12. Delete the `nextjs-preview` sandbox or keep it for schema work.
+
+## Rollback
+
+1. DNS back to Netlify.
+2. Re-add the old build hook in DatoCMS (URL noted in step 3).
+3. Optional: `draft_mode_active: false` on the 4 models. Gatsby only reads published content, so
+   it keeps working with drafts on.
