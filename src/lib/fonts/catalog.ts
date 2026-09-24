@@ -3,6 +3,8 @@
  *
  * To change the selection: edit ENABLED below, run `pnpm fonts:fetch`, commit, deploy.
  * The editor plugin and the site both read the generated files, so DatoCMS needs no changes.
+ * The team picks on /typo (every CATALOG font, self-hosted, noindex).
+ * Don't remove a font that texts already use: those texts would fall back to Helvetica/Times.
  */
 
 export type FontRole = 'grotesk' | 'serif' | 'display' | 'mono'

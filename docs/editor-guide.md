@@ -1,15 +1,17 @@
 # THE FEELING — editing the website / Website bearbeiten
 
-*English below.*
+_English below._
 
 ## Deutsch
 
 ### Speichern vs. Veröffentlichen
+
 - **Speichern** legt einen Entwurf an. Er ist nur in der Vorschau sichtbar, nicht auf thefeeling.de.
 - **Veröffentlichen** bringt die Änderung live. Nach wenigen Sekunden ist sie auf der Website.
 - Status „Aktualisiert“ (updated) heißt: Es gibt gespeicherte, noch nicht veröffentlichte Änderungen.
 
 ### Vorschau in DatoCMS
+
 - Rechts im Datensatz: **Web Previews** mit Links „(draft)“ und „(published)“.
   - „Project page“ öffnet die Projektseite, „On the collage“ springt zur Kachel in der Collage
     und hebt sie kurz gelb hervor.
@@ -20,6 +22,7 @@
   mobiles Layout), Phone 390.
 
 ### Vorschau-Leiste (unten links)
+
 - **Draft preview** mit grünem Punkt = Live-Verbindung steht.
 - **N unpublished**: Liste aller Datensätze mit unveröffentlichten Änderungen.
 - **Motion on/off**: Parallax anhalten; alle Kacheln stehen an ihrer Ruheposition.
@@ -28,6 +31,7 @@
 - **Pop out**: dieselbe Vorschau in einem eigenen Tab.
 
 ### Layout-Modus
+
 - Kachel ziehen = Position (x) und Höhe (y) ändern. Die Kacheln darunter bleiben stehen.
 - Mit **Shift** ziehen = alle Kacheln darunter wandern mit.
 - Griff rechts ziehen = Breite ändern.
@@ -40,14 +44,25 @@
 - „Changed elsewhere“: Der Datensatz wurde inzwischen woanders gespeichert. „reload“ klicken
   und die Änderung neu machen.
 
+### Schriften und Größen im Text
+- In Projekt-Texten und Collage-Texten gibt es im Editor die Menüs **Schrift** (Font) und **Größe**.
+- Text markieren → Schrift wählen. „Standard“ ist die bisherige Schrift der Website.
+- Größen S / M / L / XL / XXL richten sich nach der Grundgröße des Blocks (Desktop und Mobil).
+  XL ist also auf dem Handy entsprechend kleiner und bleibt im Verhältnis.
+- Eingefügter Text (aus Word, Pages, Webseiten) verliert fremde Schriften und Größen, fett und
+  kursiv bleiben erhalten.
+- Welche Schriften es gibt, wird auf https://thefeeling.de/typo ausgewählt (interne Seite).
+
 ## English
 
 ### Save vs. Publish
+
 - **Save** creates a draft. It shows in the preview only, not on thefeeling.de.
 - **Publish** makes it live within seconds.
 - Status "updated" means there are saved changes that are not published yet.
 
 ### Previewing in DatoCMS
+
 - In the record sidebar, **Web Previews** lists "(draft)" and "(published)" links.
   - "Project page" opens the project; "On the collage" jumps to the tile and highlights it.
 - The **Visual** tab shows the whole site inside DatoCMS. Clicking a tile, text or image opens
@@ -57,6 +72,7 @@
   Phone 390.
 
 ### Preview toolbar (bottom left)
+
 - **Draft preview** with a green dot means the live connection is up.
 - **N unpublished** lists every record with unpublished changes.
 - **Motion on/off** stops the parallax so every tile sits at its resting position.
@@ -66,6 +82,7 @@
 - **Pop out** opens the same preview in its own tab.
 
 ### Layout mode
+
 - Drag a tile to change its position (x) and height (y). Tiles below stay where they are.
 - **Shift**-drag moves every tile below along with it.
 - Drag the handle on the right edge to change the width.
@@ -77,3 +94,12 @@
   The record history shows "Layout writer" as the author.
 - "Changed elsewhere" means someone saved that record in the meantime. Click "reload" and redo
   the change.
+
+### Fonts and sizes in text
+- Project texts and collage texts have **Font** and **Size** menus in the editor.
+- Select text → pick a font. "Standard" is the site's existing font.
+- Sizes S / M / L / XL / XXL are relative to the block's base size (desktop and mobile), so XL
+  scales down on phones and stays in proportion.
+- Pasted text (from Word, Pages, websites) loses foreign fonts and sizes; bold and italic stay.
+- The available fonts are chosen on https://thefeeling.de/typo (an internal page).
+

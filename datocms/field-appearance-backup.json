@@ -1,0 +1,48 @@
+{
+  "121176": {
+    "addons": [],
+    "editor": "wysiwyg",
+    "parameters": {
+      "toolbar": [
+        "format",
+        "bold",
+        "italic",
+        "strikethrough",
+        "ordered_list",
+        "unordered_list",
+        "quote",
+        "link",
+        "show_source",
+        "fullscreen",
+        "align_left",
+        "align_center",
+        "align_right",
+        "align_justify"
+      ]
+    }
+  },
+  "163376": {
+    "addons": [],
+    "editor": "wysiwyg",
+    "parameters": {
+      "toolbar": [
+        "format",
+        "bold",
+        "italic",
+        "strikethrough",
+        "ordered_list",
+        "unordered_list",
+        "quote",
+        "table",
+        "link",
+        "image",
+        "show_source",
+        "fullscreen",
+        "align_left",
+        "align_right",
+        "align_center",
+        "align_justify"
+      ]
+    }
+  }
+}
