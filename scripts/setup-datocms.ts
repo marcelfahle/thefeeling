@@ -35,8 +35,8 @@ const { values } = parseArgs({
   },
 })
 
-const token = process.env.DATOCMS_CMA_TOKEN
-if (!token) throw new Error('Set DATOCMS_CMA_TOKEN to a full-access CMA token')
+const token = process.env.DATOCMS_CMA_TOKEN ?? process.env.DATO_CMA_TOKEN
+if (!token) throw new Error('Set DATOCMS_CMA_TOKEN (or DATO_CMA_TOKEN) to a full-access CMA token')
 const all = !values.fork && !values.drafts && !values.plugin && !values.webhook && !values.tokens
 const baseUrl = values['base-url']?.replace(/\/$/, '')
 const env = values.environment
@@ -133,11 +133,13 @@ async function tokens() {
   const reader = await role('Website (read)', {
     name: 'Website (read)',
     ...readAll,
+    negative_item_type_permissions: [],
     positive_item_type_permissions: [{ action: 'read', environment: envRef, item_type: null, on_creator: 'anyone' }],
   })
   const writer = await role('Layout writer', {
     name: 'Layout writer',
     ...readAll,
+    negative_item_type_permissions: [],
     positive_item_type_permissions: [portfolio, archive].flatMap((it) => [
       { action: 'read' as const, environment: envRef, item_type: it.id, on_creator: 'anyone' as const },
       {
@@ -162,14 +164,27 @@ async function tokens() {
     const t = found ? await root.accessTokens.update(found.id, body) : await root.accessTokens.create(body)
     return t.token ?? (await root.accessTokens.regenerateToken(t.id)).token
   }
-  const published = await accessToken('Website (published)', { cda: true, preview: false, cma: false }, reader.id)
-  const drafts = await accessToken('Website (drafts)', { cda: true, preview: true, cma: false }, reader.id)
-  const layout = await accessToken('Layout writer', { cda: false, preview: false, cma: true }, writer.id)
-  writeFileSync(
-    '.env.datocms',
-    `DATOCMS_PUBLISHED_CDA_TOKEN=${published}\nDATOCMS_DRAFT_CDA_TOKEN=${drafts}\nDATOCMS_LAYOUT_CMA_TOKEN=${layout}\n`,
-    { mode: 0o600 }
-  )
+  // Legacy plans cap API tokens (3 on this project): create what fits, fall back for the rest.
+  const tryToken = async (...args: Parameters<typeof accessToken>) => {
+    try {
+      return await accessToken(...args)
+    } catch (e) {
+      if (!String(e).includes('PLAN_UPGRADE_REQUIRED')) throw e
+      console.log(`  ! plan limit: "${args[0]}" not created`)
+      return null
+    }
+  }
+  const published = await tryToken('Website (published)', { cda: true, preview: false, cma: false }, reader.id)
+  const drafts = await tryToken('Website (drafts)', { cda: true, preview: true, cma: false }, reader.id)
+  const layout = await tryToken('Layout writer', { cda: false, preview: false, cma: true }, writer.id)
+  const lines = [
+    published && `DATOCMS_PUBLISHED_CDA_TOKEN=${published}`,
+    drafts ? `DATOCMS_DRAFT_CDA_TOKEN=${drafts}` : '# DATOCMS_DRAFT_CDA_TOKEN: use the built-in "Read-only API token"',
+    layout
+      ? `DATOCMS_LAYOUT_CMA_TOKEN=${layout}`
+      : '# DATOCMS_LAYOUT_CMA_TOKEN: use the built-in "Full-access API token" (server-only)',
+  ].filter(Boolean)
+  writeFileSync('.env.datocms', lines.join('\n') + '\n', { mode: 0o600 })
   console.log('• roles + tokens ready; values written to .env.datocms (gitignored)')
 }
 

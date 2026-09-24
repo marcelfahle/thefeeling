@@ -10,14 +10,26 @@ Current state (2026-09-23):
 | DatoCMS | project 5427, admin https://the-feeling.admin.datocms.com, only env `master` (primary) |
 | Deployment protection | preview deployments only (production + custom domains are public) |
 
-Everything below needs a **full-access CMA token** (DatoCMS → Project settings → API tokens →
-"Full-access API token"). Put it in your shell only, never in `.env.local` or Vercel:
+Everything below needs the **full-access CMA token** as `DATO_CMA_TOKEN` in `.env.local`
+(the setup script loads it).
 
-```sh
-export DATOCMS_CMA_TOKEN=…
-```
+### What the legacy DatoCMS plan allows (checked 2026-09-24)
 
-## 0. Before cutover: rehearse on a sandbox
+- **No sandbox environments** (`PLAN_UPGRADE_REQUIRED`), so every schema change happens on primary.
+- **Three API tokens:** the built-in "Full-access" and "Read-only" plus one more, now
+  "Website (published)" (CDA only, role "Website (read)"). Tokens in use:
+  - `DATOCMS_PUBLISHED_CDA_TOKEN`: "Website (published)", read-only, no drafts, no CMA;
+  - `DATOCMS_DRAFT_CDA_TOKEN`: the built-in "Read-only API token" (the old `DATO_API`, which
+    Gatsby also uses). Keep it after cutover; it's the preview token;
+  - `DATOCMS_LAYOUT_CMA_TOKEN`: the built-in "Full-access API token", server-only, used only by
+    the layout-save action (editor session + model and field checks).
+- **No stega Visual Editing:** click-to-edit is record-level.
+- The old deploy hooks are **build triggers** "Production" and "Staging" (Netlify adapter), not
+  webhooks.
+- Already done on primary: webhook "Invalidate website cache" → currently the Vercel URL
+  (re-run `--webhook --base-url=https://thefeeling.de` at cutover).
+
+## 0. Before cutover: rehearse on a sandbox (not possible on the legacy plan; kept for later)
 
 ```sh
 pnpm datocms:setup --fork=nextjs-preview                    # fork primary (plan permitting)
@@ -40,9 +52,8 @@ throwaway `page_archive` record, as the plan describes.
    (existing records stay published; from now on Save ≠ Publish).
 3. Plugin + webhook on primary:
    `pnpm datocms:setup --plugin --webhook --base-url=https://thefeeling.de`
-   The script prints any other webhooks. **Note the old Netlify build hook URL here** for rollback,
-   then delete it in DatoCMS → Project settings → Webhooks / Build triggers.
-   Old hook: `______________________`
+   Then in DatoCMS → Project settings → Build triggers, **disable** (don't delete) "Production" and
+   "Staging" (Netlify). Re-enabling them is the rollback.
 4. Vercel env (Production): `DATOCMS_ENVIRONMENT` empty; published/drafts/layout tokens from
    `.env.datocms`; **`SITE_URL=https://thefeeling.de`** (this switches on indexing, canonical URLs,
    robots.txt allow rules and the sitemap; without it every host is `noindex`). Redeploy.
@@ -69,6 +80,6 @@ throwaway `page_archive` record, as the plan describes.
 ## Rollback
 
 1. DNS back to Netlify.
-2. Re-add the old build hook in DatoCMS (URL noted in step 3).
+2. Re-enable the "Production" build trigger in DatoCMS.
 3. Optional: `draft_mode_active: false` on the 4 models. Gatsby only reads published content, so
    it keeps working with drafts on.
