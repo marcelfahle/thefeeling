@@ -10,6 +10,7 @@ import { usePreview } from '@/components/preview/PreviewContext'
 import { useLayoutEditor } from '@/components/preview/useLayoutEditor'
 import CollageTile, { type CollageKind } from './CollageTile'
 import styles from './Collage.module.css'
+import { editLink } from '@/lib/datocms/editLink'
 
 type Props = {
   items: CollageItem[]
@@ -98,7 +99,7 @@ export default function Collage({ items: source, kind, bg }: Props) {
   const yOffsets = items.map((it) => it.yOffset)
   const offsets = layerOffsets(yOffsets)
   const pages = pageCount(yOffsets)
-  const editUrl = (it: CollageItem) => (preview.enabled ? (it._editingUrl ?? undefined) : undefined)
+  const editUrl = (it: CollageItem) => (preview.enabled ? editLink(it._editingUrl, 'preview_text') : undefined)
 
   return (
     <div className={styles.page} ref={pageRef} style={{ '--bg': bg ? `url('${bg}')` : 'none' } as React.CSSProperties}>

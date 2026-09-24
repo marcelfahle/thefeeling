@@ -5,6 +5,7 @@ import Header from '@/components/header/Header'
 import type { AboutResult } from '@/lib/datocms/queries'
 import fallbackBg from '@/assets/quer_1.jpg'
 import styles from './About.module.css'
+import { editLink } from '@/lib/datocms/editLink'
 
 /** Port of pages/about.js */
 export default function About({ data }: { data: AboutResult }) {
@@ -24,7 +25,7 @@ export default function About({ data }: { data: AboutResult }) {
     <div className={styles.page} ref={ref} style={{ '--bg': `url('${bg}')` } as React.CSSProperties}>
       <Header backto="/oeuvre" action="backhome" size="small" position="fixed" flipped={hasScrolled} />
       <div className={styles.content}>
-        <div data-datocms-content-link-url={data.pageAbout?._editingUrl ?? undefined}>
+        <div data-datocms-content-link-url={editLink(data.pageAbout?._editingUrl, 'content')}>
           {data.pageAbout?.content.map((c) => (
             <Fragment key={c.id}>
               <div>

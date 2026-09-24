@@ -15,6 +15,7 @@ import { usePreview } from '@/components/preview/PreviewContext'
 import fallbackBg from '@/assets/bg-home.jpg'
 import ContentBlock from './ContentBlock'
 import styles from './Work.module.css'
+import { editLink } from '@/lib/datocms/editLink'
 
 export type WorkData = {
   id: string
@@ -110,7 +111,7 @@ export default function WorkPager({ work, archive, bg, boldVideos }: Props) {
 
   const startVideo = useCallback((url: string) => setVideoId(youtubeId(url) || null), [])
   const closeVideo = useCallback(() => setVideoId(null), [])
-  const editingUrl = preview.enabled ? (work._editingUrl ?? undefined) : undefined
+  const editingUrl = preview.enabled ? editLink(work._editingUrl, 'sub_pages') : undefined
 
   // memoized so cursor changes don't re-render the pager mid-animation
   const desktop = useMemo(
