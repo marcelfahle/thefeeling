@@ -9,6 +9,8 @@
  *   --plugin           install/configure the Web Previews plugin (needs --base-url)
  *   --webhook          create/update the "Invalidate website cache" webhook (needs --base-url)
  *   --tokens           create the roles + API tokens the site uses, write them to .env.datocms
+ *   --editor=on|off    swap the rich-text fields to THE FEELING editor (Font/Size menus) or back
+ *                      to the stock DatoCMS editor (needs --base-url for "on"); not part of "all"
  * Options:
  *   --environment=<id> environment for --drafts/--plugin (default: primary)
  *   --base-url=<url>   deployed site origin, e.g. https://thefeeling.de
@@ -17,7 +19,7 @@
  */
 import { buildClient, type Client } from '@datocms/cma-client-node'
 import { config } from 'dotenv'
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { parseArgs } from 'node:util'
 import { enableDrafts } from '../datocms/enableDrafts'
 
@@ -30,6 +32,7 @@ const { values } = parseArgs({
     plugin: { type: 'boolean' },
     webhook: { type: 'boolean' },
     tokens: { type: 'boolean' },
+    editor: { type: 'string' }, // on | off
     environment: { type: 'string' },
     'base-url': { type: 'string' },
   },
@@ -37,7 +40,7 @@ const { values } = parseArgs({
 
 const token = process.env.DATOCMS_CMA_TOKEN ?? process.env.DATO_CMA_TOKEN
 if (!token) throw new Error('Set DATOCMS_CMA_TOKEN (or DATO_CMA_TOKEN) to a full-access CMA token')
-const all = !values.fork && !values.drafts && !values.plugin && !values.webhook && !values.tokens
+const all = !values.fork && !values.drafts && !values.plugin && !values.webhook && !values.tokens && !values.editor
 const baseUrl = values['base-url']?.replace(/\/$/, '')
 const env = values.environment
 
@@ -188,6 +191,61 @@ async function tokens() {
   console.log('• roles + tokens ready; values written to .env.datocms (gitignored)')
 }
 
+/** HTML fields that get the Font/Size editor. */
+const EDITOR_FIELDS = [
+  ['content', 'text'],
+  ['page_portfolio', 'preview_text'],
+] as const
+const EDITOR_PLUGIN = 'THE FEELING editor'
+const APPEARANCE_BACKUP = 'datocms/field-appearance-backup.json'
+
+async function editor(mode: string) {
+  const fields = await Promise.all(
+    EDITOR_FIELDS.map(async ([model, apiKey]) => {
+      const f = (await client.fields.list(model)).find((x) => x.api_key === apiKey)
+      if (!f) throw new Error(`field ${model}.${apiKey} not found`)
+      return f
+    })
+  )
+  if (mode === 'off') {
+    const backup = JSON.parse(readFileSync(APPEARANCE_BACKUP, 'utf8')) as Record<string, unknown>
+    for (const f of fields) {
+      await client.fields.update(f.id, { appearance: backup[f.id] as never })
+      console.log(`• ${f.api_key}: back to the stock editor`)
+    }
+    return
+  }
+  if (!baseUrl) throw new Error('--editor=on needs --base-url')
+  const url = `${baseUrl}/datocms-editor/index.html`
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}; deploy the site first`)
+  // keep the stock appearance so --editor=off can restore it
+  if (!existsSync(APPEARANCE_BACKUP)) {
+    const current = Object.fromEntries(fields.map((f) => [f.id, f.appearance]))
+    if (fields.every((f) => f.appearance.editor === 'wysiwyg')) {
+      writeFileSync(APPEARANCE_BACKUP, JSON.stringify(current, null, 2) + '\n')
+      console.log(`• saved stock editor settings to ${APPEARANCE_BACKUP}`)
+    }
+  }
+  const existing = (await client.plugins.list()).find((p) => p.name === EDITOR_PLUGIN)
+  const plugin = existing
+    ? await client.plugins.update(existing.id, { url })
+    : await client.plugins.create({
+        name: EDITOR_PLUGIN,
+        description: 'Text editor with Font and Size menus (fonts come from the website)',
+        url,
+        permissions: ['currentUserAccessToken'],
+      })
+  console.log(`• ${existing ? 'updated' : 'installed'} plugin "${EDITOR_PLUGIN}" → ${url}`)
+  for (const f of fields) {
+    await client.fields.update(f.id, {
+      appearance: { editor: plugin.id, field_extension: 'tf-editor', parameters: {}, addons: [] },
+    })
+    console.log(`• ${f.api_key}: now uses the Font/Size editor`)
+  }
+}
+
+if (values.editor) await editor(values.editor)
 if (all || values.fork) if (values.fork) await fork(values.fork)
 if (all || values.drafts) {
   console.log(`• drafts on ${env ?? 'primary'}`)

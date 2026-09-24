@@ -24,3 +24,6 @@ cmd.txt
 
 # DatoCMS exports (large, contain all content)
 /backups
+
+# built by `pnpm build:editor` (part of `pnpm build`)
+/public/datocms-editor

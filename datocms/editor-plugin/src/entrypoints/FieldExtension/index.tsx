@@ -1,0 +1,267 @@
+import { buildClient } from '@datocms/cma-client-browser';
+import { Editor as ReactEditor } from '@tinymce/tinymce-react';
+import type { RenderFieldExtensionCtx, Upload } from 'datocms-plugin-sdk';
+import { Canvas } from 'datocms-react-ui';
+import get from 'lodash/get';
+import { useEffect, useRef, useState } from 'react';
+import type { Editor } from 'tinymce';
+import tinymce from 'tinymce/tinymce';
+import imgixThumbUrl from '../../utils/imgixThumbUrl';
+
+(
+  window as unknown as Window & { tinymce: typeof tinymce }
+).tinymce = tinymce;
+
+import 'tinymce/icons/default';
+import 'tinymce/models/dom';
+import 'tinymce/themes/silver';
+import 'tinymce/skins/ui/oxide/skin';
+import 'tinymce/skins/ui/oxide/content';
+import 'tinymce/skins/ui/oxide-dark/skin';
+import 'tinymce/skins/ui/oxide-dark/content';
+import 'tinymce/skins/content/default/content';
+import 'tinymce/skins/content/dark/content';
+import 'tinymce/plugins/image';
+import 'tinymce/plugins/advlist';
+import 'tinymce/plugins/code';
+import 'tinymce/plugins/link';
+import 'tinymce/plugins/lists';
+import 'tinymce/plugins/table';
+import 'tinymce/plugins/autoresize';
+
+import { editorInit, loadConfig, type EditorConfig } from '../../editorConfig';
+
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function randomId(length = 8) {
+  let str = '';
+  for (let i = 0; i < length; i++) {
+    str += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return str;
+}
+
+const id = randomId();
+
+function log(step: string, object?: Record<string, unknown>) {
+  if (localStorage.getItem('DEBUG')) {
+    console.log({ id, step, ...(object || {}) });
+  }
+}
+
+type Props = {
+  ctx: RenderFieldExtensionCtx;
+};
+
+function buildImgTagForFile(
+  file: Upload,
+  locale: string,
+  ctx: RenderFieldExtensionCtx,
+) {
+  // `default_field_metadata` is field-keyed (`{ alt: { en } }`): the locale sits
+  // one level below each metadata field, not above it.
+  const { alt, title } = file.attributes.default_field_metadata;
+  const localizedAlt = alt[locale];
+  const localizedTitle = title[locale];
+
+  let text = '<img ';
+
+  if (localizedAlt) {
+    text += `alt="${localizedAlt}" `;
+  }
+
+  if (localizedTitle) {
+    text += `title="${localizedTitle}" `;
+  }
+
+  text += `src="${imgixThumbUrl({ imageishThing: file, ctx })}" />`;
+  return text;
+}
+
+async function uploadBlobToClient(
+  ctx: RenderFieldExtensionCtx,
+  blobInfo: { blob(): Blob; filename(): string },
+  progress: (percent: number) => void,
+) {
+  const apiToken = ctx.currentUserAccessToken;
+  if (!apiToken) {
+    throw new Error('No access token available');
+  }
+  const client = buildClient({
+    apiToken,
+    environment: ctx.environment,
+    baseUrl: ctx.cmaBaseUrl,
+  });
+  const upload = await client.uploads.createFromFileOrBlob({
+    fileOrBlob: blobInfo.blob(),
+    filename: blobInfo.filename(),
+    onProgress(info) {
+      if (info.type === 'UPLOADING_FILE') {
+        progress(Math.round(info.payload.progress * 100));
+      }
+    },
+  });
+  return upload.url;
+}
+
+function registerEditorImageButtons(
+  editor: Editor,
+  ctx: RenderFieldExtensionCtx,
+) {
+  const handleDatoImages = () => {
+    ctx.selectUpload({ multiple: true }).then((files) => {
+      if (!files) return;
+      for (const file of files) {
+        editor.insertContent(buildImgTagForFile(file, ctx.locale, ctx));
+      }
+    });
+  };
+
+  editor.ui.registry.addButton('customimage', {
+    icon: 'image',
+    tooltip: 'Insert image...',
+    onAction: handleDatoImages,
+  });
+
+  editor.ui.registry.addButton('replaceimage', {
+    icon: 'browse',
+    tooltip: 'Replace image',
+    onAction: handleDatoImages,
+  });
+
+  editor.ui.registry.addContextToolbar('imagealignment', {
+    predicate: (node) => node.nodeName.toLowerCase() === 'img',
+    items: 'replaceimage image',
+    position: 'node',
+    scope: 'node',
+  });
+}
+
+// Caution: The controlled component can have performance problems on large documents
+// as it requires converting the entire document to a string on each keystroke or modification.
+//
+// The `onEditorChange` prop is used to provide an event handler that will be run when any change
+// is made to the editor content. Changes to the editor must be applied to the `value` prop
+// **within 200 milliseconds** to prevent the changes being rolled back.
+
+export default function FieldExtension({ ctx }: Props) {
+  const externalValue =
+    (get(ctx.formValues, ctx.fieldPath) as string | null) || '';
+
+  const [value, setValue] = useState(externalValue || '');
+  const expectedValue = useRef<string | null>(null);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+  const isDarkMode = ctx.colorScheme === 'dark';
+  const [config, setConfig] = useState<EditorConfig | null>(null);
+  const [configError, setConfigError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadConfig().then(setConfig, (e) => setConfigError(String(e)));
+  }, []);
+
+  useEffect(() => {
+    log('BEFORE resetExpectedValue', {
+      expectedValue: expectedValue.current,
+      externalValue,
+    });
+
+    if (
+      expectedValue.current !== null &&
+      expectedValue.current === (externalValue || '')
+    ) {
+      log('resetExpectedValue');
+      expectedValue.current = null;
+    }
+  }, [externalValue]);
+
+  useEffect(() => {
+    log('BEFORE setValueToExternalValue', {
+      externalValue,
+      expectedValue: expectedValue.current,
+    });
+
+    if (externalValue === value) return;
+
+    if (expectedValue.current !== null) {
+      return;
+    }
+
+    log('setValueToExternalValue', {
+      value,
+      externalValue,
+      expectedValue: expectedValue.current,
+    });
+
+    setValue(externalValue || '');
+  }, [externalValue, value]);
+
+  const handleChange = (newValue: string) => {
+    log('handleChange setValue', {
+      newValue,
+      externalValue,
+      expectedValue: expectedValue.current,
+    });
+    setValue(newValue);
+
+    if (newValue !== externalValue) {
+      log('setExpectedValue', {
+        newValue,
+      });
+      expectedValue.current = newValue;
+      ctx.setFieldValue(ctx.fieldPath, newValue);
+    }
+  };
+
+  const initialize = (editor: Editor) => {
+    registerEditorImageButtons(editor, ctx);
+
+    const updateFrameHeight = () => {
+      requestAnimationFrame(() => {
+        const canvas = editorContainerRef.current?.parentElement;
+        if (!canvas) return;
+
+        ctx.updateHeight(Math.ceil(canvas.getBoundingClientRect().height));
+      });
+    };
+
+    editor.on('init ResizeEditor', updateFrameHeight);
+    editor.on('remove', () => {
+      editor.off('init ResizeEditor', updateFrameHeight);
+    });
+  };
+
+  if (!config) {
+    return (
+      <Canvas ctx={ctx}>
+        <p style={{ margin: 0, color: configError ? '#c00' : '#888' }}>
+          {configError ? `Editor could not load its font list (${configError}).` : 'Loading editor…'}
+        </p>
+      </Canvas>
+    );
+  }
+
+  return (
+    <Canvas ctx={ctx} noAutoResizer>
+      <div ref={editorContainerRef}>
+        <ReactEditor
+          key={ctx.colorScheme}
+          disabled={ctx.disabled}
+          licenseKey="gpl"
+          init={{
+            ...editorInit(config, isDarkMode),
+            setup: initialize,
+            async images_upload_handler(blobInfo, progress) {
+              try {
+                return await uploadBlobToClient(ctx, blobInfo, progress);
+              } catch {
+                throw new Error('Could not upload image');
+              }
+            },
+          }}
+          value={value}
+          onEditorChange={handleChange}
+        />
+      </div>
+    </Canvas>
+  );
+}

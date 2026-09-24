@@ -1,3 +1,6 @@
+packages:
+  - .
+  - datocms/editor-plugin
 onlyBuiltDependencies:
   - esbuild
   - unrs-resolver

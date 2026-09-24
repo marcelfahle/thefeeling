@@ -33,6 +33,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" data-palette="0" suppressHydrationWarning>
       <head>
+        {/* @font-face only: a font file downloads when text actually uses it (fonts picked in the editor) */}
+        {/* eslint-disable-next-line @next/next/no-css-tags -- same file the DatoCMS editor plugin loads */}
+        <link rel="stylesheet" href="/fonts/fonts.css" />
         <style dangerouslySetInnerHTML={{ __html: paletteCss }} />
         <script dangerouslySetInnerHTML={{ __html: paletteBootScript }} />
       </head>

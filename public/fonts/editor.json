@@ -1,0 +1,47 @@
+{
+  "fonts": [
+    {
+      "label": "Standard",
+      "stack": "inherit"
+    },
+    {
+      "label": "Inter",
+      "stack": "'Inter', Helvetica, Arial, sans-serif"
+    },
+    {
+      "label": "Tinos",
+      "stack": "'Tinos', Times, \"Times New Roman\", serif"
+    },
+    {
+      "label": "Archivo Black",
+      "stack": "'Archivo Black', Helvetica, Arial, sans-serif"
+    },
+    {
+      "label": "IBM Plex Mono",
+      "stack": "'IBM Plex Mono', Menlo, Consolas, monospace"
+    }
+  ],
+  "sizes": [
+    {
+      "label": "S",
+      "value": "0.75em"
+    },
+    {
+      "label": "M",
+      "value": "1em"
+    },
+    {
+      "label": "L",
+      "value": "1.5em"
+    },
+    {
+      "label": "XL",
+      "value": "2.25em"
+    },
+    {
+      "label": "XXL",
+      "value": "3.5em"
+    }
+  ],
+  "css": "/fonts/fonts.css"
+}

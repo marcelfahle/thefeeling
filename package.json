@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm --filter tf-datocms-editor build && next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -18,7 +18,9 @@
     "gql:schema": "gql.tada generate-schema https://graphql.datocms.com --header \"Authorization: Bearer $DATOCMS_PUBLISHED_CDA_TOKEN\" --output src/lib/datocms/schema.graphql",
     "format": "prettier --write .",
     "datocms:setup": "tsx scripts/setup-datocms.ts",
-    "datocms:export": "tsx scripts/export-datocms.ts"
+    "datocms:export": "tsx scripts/export-datocms.ts",
+    "fonts:fetch": "tsx scripts/fetch-fonts.ts",
+    "build:editor": "pnpm --filter tf-datocms-editor build"
   },
   "dependencies": {
     "@0no-co/graphql.web": "^1.3.4",

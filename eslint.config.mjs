@@ -13,6 +13,8 @@ const config = [
   {
     ignores: [
       '.next/**',
+      'datocms/editor-plugin/**',
+      'public/**',
       'node_modules/**',
       'src/lib/datocms/graphql-env.d.ts',
       'next-env.d.ts',
