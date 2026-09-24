@@ -138,6 +138,9 @@ async function tokens() {
     ...readAll,
     negative_item_type_permissions: [],
     positive_item_type_permissions: [{ action: 'read', environment: envRef, item_type: null, on_creator: 'anyone' }],
+    // with "Improved GraphQL security" on, the CDA hides assets a role can't read: every image would be null
+    negative_upload_permissions: [],
+    positive_upload_permissions: [{ action: 'read', environment: envRef, upload_collection: null, on_creator: 'anyone' }],
   })
   const writer = await role('Layout writer', {
     name: 'Layout writer',

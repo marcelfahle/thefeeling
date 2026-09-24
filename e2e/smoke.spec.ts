@@ -34,3 +34,15 @@ test('published HTML has no stega and no draft token', async ({ request }) => {
   expect(html).not.toContain('data-datocms-content-link-url')
   if (process.env.DATOCMS_DRAFT_CDA_TOKEN) expect(html).not.toContain(process.env.DATOCMS_DRAFT_CDA_TOKEN)
 })
+
+test('collage tiles and background images load', async ({ page }) => {
+  await page.goto('/oeuvre')
+  const imgs = page.locator('[data-tile-id] img')
+  await expect(imgs.first()).toBeVisible({ timeout: 15_000 })
+  expect(await imgs.count()).toBeGreaterThan(10)
+  await expect
+    .poll(() => imgs.evaluateAll((els) => els.filter((i) => (i as HTMLImageElement).naturalWidth > 0).length))
+    .toBeGreaterThan(10)
+  const bg = await page.evaluate(() => getComputedStyle(document.querySelector('[class*="page"]')!).backgroundImage)
+  expect(bg).toContain('datocms-assets.com')
+})

@@ -18,7 +18,9 @@ Everything below needs the **full-access CMA token** as `DATO_CMA_TOKEN` in `.en
 - **No sandbox environments** (`PLAN_UPGRADE_REQUIRED`), so every schema change happens on primary.
 - **Three API tokens:** the built-in "Full-access" and "Read-only" plus one more, now
   "Website (published)" (CDA only, role "Website (read)"). Tokens in use:
-  - `DATOCMS_PUBLISHED_CDA_TOKEN`: "Website (published)", read-only, no drafts, no CMA;
+  - `DATOCMS_PUBLISHED_CDA_TOKEN`: "Website (published)", read-only, no drafts, no CMA. Its role
+    must allow reading **uploads** as well as records: with "Improved GraphQL security" on, the CDA
+    returns `null` for every image the role can't read (this blanked all images on 2026-09-24);
   - `DATOCMS_DRAFT_CDA_TOKEN`: the built-in "Read-only API token" (the old `DATO_API`, which
     Gatsby also uses). Keep it after cutover; it's the preview token;
   - `DATOCMS_LAYOUT_CMA_TOKEN`: the built-in "Full-access API token", server-only, used only by
