@@ -2,13 +2,13 @@
 
 Current state (2026-09-23):
 
-| | |
-|---|---|
-| Vercel project | `marcelfahles-projects/the-feeling`, production branch **`v2`** (temporary) |
-| Production URL | https://the-feeling-omega.vercel.app |
-| Live site | https://thefeeling.de on Netlify (Gatsby, branch `master`) |
-| DatoCMS | project 5427, admin https://the-feeling.admin.datocms.com, only env `master` (primary) |
-| Deployment protection | preview deployments only (production + custom domains are public) |
+|                       |                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| Vercel project        | `marcelfahles-projects/the-feeling`, production branch **`v2`** (temporary)            |
+| Production URL        | https://the-feeling-omega.vercel.app                                                   |
+| Live site             | https://thefeeling.de on Netlify (Gatsby, branch `master`)                             |
+| DatoCMS               | project 5427, admin https://the-feeling.admin.datocms.com, only env `master` (primary) |
+| Deployment protection | preview deployments only (production + custom domains are public)                      |
 
 Everything below needs the **full-access CMA token** as `DATO_CMA_TOKEN` in `.env.local`
 (the setup script loads it).
@@ -26,8 +26,20 @@ Everything below needs the **full-access CMA token** as `DATO_CMA_TOKEN` in `.en
 - **No stega Visual Editing:** click-to-edit is record-level.
 - The old deploy hooks are **build triggers** "Production" and "Staging" (Netlify adapter), not
   webhooks.
-- Already done on primary: webhook "Invalidate website cache" → currently the Vercel URL
-  (re-run `--webhook --base-url=https://thefeeling.de` at cutover).
+- Already done on primary (2026-09-24):
+  - **drafts on** for `page_portfolio`, `page_archive`, `page_about`, `background`: Save now
+    creates a draft and only Publish goes live, on both the old and the new site;
+  - Web Previews plugin installed with the 4 viewport presets, pointing at the Vercel URL;
+  - webhook "Invalidate website cache" → the Vercel URL;
+  - the six "available updates" that don't touch the management API (validations on publish,
+    draft mode default, GraphQL security, 8-digit hex, multi-locale fields, milliseconds);
+  - layout save round trip + conflict detection verified on production with a throwaway draft
+    record (deleted afterwards).
+- Still off until after cutover (they change what Gatsby reads): improved items listing,
+  boolean fields, timezone management, non-localized focal points.
+
+At cutover, re-point the plugin and webhook to the real domain:
+`pnpm datocms:setup --plugin --webhook --base-url=https://thefeeling.de`.
 
 ## 0. Before cutover: rehearse on a sandbox (not possible on the legacy plan; kept for later)
 
@@ -48,9 +60,8 @@ throwaway `page_archive` record, as the plan describes.
 ## 1. Cutover (about 30 minutes, announce a content freeze)
 
 1. Tell the client: no edits in DatoCMS for 30 minutes.
-2. Drafts on primary: `pnpm datocms:setup --drafts`
-   (existing records stay published; from now on Save ≠ Publish).
-3. Plugin + webhook on primary:
+2. ~~Drafts on primary~~ (done).
+3. Plugin + webhook → real domain:
    `pnpm datocms:setup --plugin --webhook --base-url=https://thefeeling.de`
    Then in DatoCMS → Project settings → Build triggers, **disable** (don't delete) "Production" and
    "Staging" (Netlify). Re-enabling them is the rollback.
@@ -70,6 +81,9 @@ throwaway `page_archive` record, as the plan describes.
     https://search.google.com/test/rich-results and https://www.opengraph.xyz.
 
 ## 2. After cutover
+
+- Activate the remaining DatoCMS "available updates" (items listing, boolean fields, timezone
+  management, focal points). Only Gatsby cared about them.
 
 11. Rotate the Bold API key (the old one is public in the Gatsby bundle): create a new key in Bold,
     `vercel env add BOLD_API_KEY production --force`, redeploy, revoke the old key.

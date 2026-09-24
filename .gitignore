@@ -21,3 +21,6 @@ cmd.txt
 
 # parity baselines (large; recorded from the old site, kept locally)
 /e2e/__screenshots__
+
+# DatoCMS exports (large, contain all content)
+/backups

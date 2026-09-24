@@ -17,7 +17,8 @@
     "e2e": "playwright test",
     "gql:schema": "gql.tada generate-schema https://graphql.datocms.com --header \"Authorization: Bearer $DATOCMS_PUBLISHED_CDA_TOKEN\" --output src/lib/datocms/schema.graphql",
     "format": "prettier --write .",
-    "datocms:setup": "tsx scripts/setup-datocms.ts"
+    "datocms:setup": "tsx scripts/setup-datocms.ts",
+    "datocms:export": "tsx scripts/export-datocms.ts"
   },
   "dependencies": {
     "@0no-co/graphql.web": "^1.3.4",
