@@ -8,6 +8,7 @@ import { useIsDesktop } from '@/hooks/useMediaQuery'
 import type { Subscription } from '@/lib/datocms/subscription'
 import type { Role } from '@/lib/preview/session'
 import { usePreview } from './PreviewContext'
+import { setPagerMode, usePagerMode } from '@/lib/work/pagerMode'
 import styles from './PreviewToolbar.module.css'
 
 type Rec = { id: string; title?: string | null; _status: string; _editingUrl: string | null } | null
@@ -51,6 +52,7 @@ export default function PreviewToolbar({
   const pathname = usePathname()
   const preview = usePreview()
   const isDesktop = useIsDesktop()
+  const pagerMode = usePagerMode()
   const framed = useSyncExternalStore(noopSubscribe, inIframe, () => false)
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
@@ -93,6 +95,7 @@ export default function PreviewToolbar({
     )
 
   const editor = role === 'editor'
+  const onProject = /^\/(oeuvre|ye-olden-stuffe)\/[^/]+/.test(pathname)
   const canLayout = editor && preview.onCollage && isDesktop === true
 
   return (
@@ -137,6 +140,15 @@ export default function PreviewToolbar({
           onClick={() => preview.setMotion(!preview.motion)}
         >
           Motion {preview.motion ? 'on' : 'off'}
+        </button>
+      )}
+      {onProject && pagerMode && (
+        <button
+          className={styles.btn}
+          title="Try the vertical (swipe) pager instead of the horizontal one"
+          onClick={() => setPagerMode(pagerMode === 'vertical' ? 'horizontal' : 'vertical')}
+        >
+          Pager: {pagerMode === 'vertical' ? '↕ vertical' : '↔ horizontal'}
         </button>
       )}
       {canLayout && (

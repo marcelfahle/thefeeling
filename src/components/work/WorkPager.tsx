@@ -14,6 +14,8 @@ import { youtubeId } from '@/lib/work/youtube'
 import { usePreview } from '@/components/preview/PreviewContext'
 import fallbackBg from '@/assets/bg-home.jpg'
 import ContentBlock from './ContentBlock'
+import VerticalPager from './VerticalPager'
+import { usePagerMode } from '@/lib/work/pagerMode'
 import styles from './Work.module.css'
 import { editLink } from '@/lib/datocms/editLink'
 
@@ -39,6 +41,8 @@ function isSafariUA(ua: string) {
 /** Port of single-work.js (SingleWork) */
 export default function WorkPager({ work, archive, bg, boldVideos }: Props) {
   const isDesktop = useIsDesktop()
+  const mode = usePagerMode()
+  const vertical = mode === 'vertical'
   const preview = usePreview()
   const parallaxRef = useRef<IParallax>(null)
   const current = useRef(0)
@@ -139,9 +143,9 @@ export default function WorkPager({ work, archive, bg, boldVideos }: Props) {
   const bgUrl = bg || fallbackBg.src
   return (
     <div
-      className={clsx(styles.wrapper, styles[cursor])}
+      className={clsx(styles.wrapper, !vertical && styles[cursor])}
       style={{ '--bg': `url('${bgUrl}')` } as React.CSSProperties}
-      onMouseMove={onMouseMove}
+      onMouseMove={vertical ? undefined : onMouseMove}
     >
       <Header
         backto={archive ? `/ye-olden-stuffe${lastPos}` : `/oeuvre${lastPos}`}
@@ -150,8 +154,11 @@ export default function WorkPager({ work, archive, bg, boldVideos }: Props) {
         position="fixed"
         flipped
       />
-      {isDesktop === true && desktop}
-      {isDesktop === false && (
+      {mode === 'vertical' && (
+        <VerticalPager work={work} boldVideos={boldVideos} editingUrl={editingUrl} onStartVideo={startVideo} />
+      )}
+      {mode === 'horizontal' && isDesktop === true && desktop}
+      {mode === 'horizontal' && isDesktop === false && (
         <div className={styles.mobileContainer}>
           {subs.map((item) => (
             <div className={styles.contentWrapMobile} key={item.id} data-datocms-content-link-url={editingUrl}>
